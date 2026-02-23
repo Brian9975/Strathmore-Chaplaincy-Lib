@@ -29,14 +29,13 @@ export default function AuthContextProvider({
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState<UserRole>(null);
   const [user, setUser] = useState<User | null>(null);
-
+console.log(role)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
-
       if (firebaseUser) {
         const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
-
+        
         if (userDoc.exists()) {
           setRole(userDoc.data().role as UserRole);
         } else {

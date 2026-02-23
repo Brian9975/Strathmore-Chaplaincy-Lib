@@ -45,7 +45,7 @@ if (user) {
        
         <form onSubmit={logAdminIn} className="flex flex-col items-center gap-5">
            <div>
-          <h1 className="text-slate-100 text-3xl">Strath Logo</h1>
+          <h1 className="text-slate-100 text-3xl">Chaplaincy Library System</h1>
         </div> 
           <div>
             <input onChange={e => setEmail(e.target.value)} type="email" className="border outline-none h-10 w-75 pl-1 text-slate-100 text-lg border-slate-300 placeholder-slate-700 rounded" placeholder="email"/>
