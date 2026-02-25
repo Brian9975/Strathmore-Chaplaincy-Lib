@@ -8,9 +8,10 @@ import {
 } from "react";
 import { auth, db } from "../lib/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
+import type { UserRole } from "../types/userRole";
 
 
-type UserRole = "main_admin" | "admin" | null;
+
 
 interface AuthContextType {
   user: User | null;
@@ -29,7 +30,7 @@ export default function AuthContextProvider({
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState<UserRole>(null);
   const [user, setUser] = useState<User | null>(null);
-console.log(role)
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);

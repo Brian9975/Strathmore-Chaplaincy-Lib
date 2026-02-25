@@ -1,0 +1,1 @@
+export type UserRole = "main_admin" | "admin" | null;
