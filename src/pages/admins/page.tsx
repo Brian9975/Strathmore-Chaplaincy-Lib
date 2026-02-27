@@ -1,9 +1,26 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { collection, onSnapshot, Timestamp} from "firebase/firestore";
-import { db } from "../../lib/firebase-config";
-import type { UserRole } from "../../types/userRole";
+import { db } from "@/lib/firebase-config";
+import type { UserRole } from "@/types/userRole";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Field, FieldGroup } from "@/components/ui/field"
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Spinner } from "@/components/ui/spinner"
+import useAddAdmin from "@/hooks/useAddAdmin";
+
 
 
 interface UserInfo {
@@ -13,9 +30,11 @@ interface UserInfo {
   createdAt: Timestamp,
 }
 export default function Admins() {
+  const {addAdmin, adminName, adminEmail, adminPassword, setAdminEmail, setAdminName, setAdminPassword} = useAddAdmin()
   const { role, loading } = useAuth();
   const navigate = useNavigate();
   const [admins, setAdmins] = useState<UserInfo[]>([])
+
   
   useEffect(() => {
     const AdminCollectionRef = collection(db, "users")
@@ -36,7 +55,9 @@ export default function Admins() {
   }, [navigate, role]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="flex min-h-screen justify-center items-center bg-slate-900">
+      <Spinner className=" text-slate-50 text-3xl"/>
+    </div>;
   }
 
   if (role !== "main_admin") {
@@ -46,9 +67,46 @@ export default function Admins() {
   return (
     <div className="bg-slate-950 min-h-screen">
       <div className="text-right">
-        <button className="bg-sky-600 cursor-pointer font-bold text-lg mt-5 mr-5 rounded-lg h-10 w-40">
-          Add Admin
-        </button>
+     {/* Dialog */}
+      <div>
+       <Dialog>
+         
+           <DialogTrigger asChild>
+          <Button className="bg-slate-800 cursor-pointer duration-1000 mt-5 mr-5 hover:bg-slate-700" variant="default">Add Admins</Button>
+        </DialogTrigger>
+             <DialogContent className="sm:max-w-sm bg-slate-950 border-0">
+              <form onSubmit={addAdmin}>
+          <DialogHeader>
+            <DialogTitle className="text-slate-50">Fill Admin Details</DialogTitle>
+          </DialogHeader>
+          <DialogDescription>
+            Enter details for the new administrator
+          </DialogDescription>
+          <FieldGroup>
+            <Field>
+              <Label htmlFor="name" className="text-slate-50">Name</Label>
+              <Input id="name" type="text" value={adminName} onChange={e => setAdminName(e.target.value)} className="text-slate-50" name="name" placeholder="Admin's Name" />
+            </Field>
+            <Field>
+              <Label className="text-slate-50" htmlFor="email">Email</Label>
+              <Input id="email" className="text-slate-50" value={adminEmail} onChange={e => setAdminEmail(e.target.value)} type="email" name="email" placeholder="Admin's Email" />
+            </Field>
+            <Field>
+              <Label className="text-slate-50" htmlFor="password">Password</Label>
+              <Input id="password" className="text-slate-50" value={adminPassword} onChange={e => setAdminPassword(e.target.value)} type="password" name="password" placeholder="Admin's New Password"/>
+            </Field>
+          </FieldGroup>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button className="cursor-pointer mt-3" variant="default">Cancel</Button>
+            </DialogClose>
+            <Button className="cursor-pointer mt-3" type="submit">Add</Button>
+          </DialogFooter>
+             </form>
+       </DialogContent>
+         
+        </Dialog>
+      </div>
       </div>
       <div>{admins.map(user => {
          return <div><h1 className="text-white">{user.email}</h1>
@@ -59,6 +117,9 @@ export default function Admins() {
          </div>
       } 
       )}</div>
+
+
+
 
     </div>
   );

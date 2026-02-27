@@ -3,6 +3,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../lib/firebase-config";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { Spinner } from "@/components/ui/spinner"
 
 
 
@@ -33,7 +34,9 @@ if (user && loading) {
 }, [navigate, user, loading])
 
 if (loading) {
-  return <div>Loading...</div>
+  return <div className="flex min-h-screen justify-center items-center bg-slate-900">
+      <Spinner className="text-3xl text-slate-50"/>
+    </div>;
 }
 
 if (user) {
