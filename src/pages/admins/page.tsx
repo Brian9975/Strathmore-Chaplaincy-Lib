@@ -23,6 +23,8 @@ import useAddAdmin from "@/hooks/useAddAdmin";
 
 
 
+
+
 interface UserInfo {
   name: string,
   email: string,
@@ -30,11 +32,12 @@ interface UserInfo {
   createdAt: Timestamp,
 }
 export default function Admins() {
-  const {addAdmin, adminName, adminEmail, adminPassword, setAdminEmail, setAdminName, setAdminPassword} = useAddAdmin()
+  const {handleForm, adminName, adminEmail, adminPassword, setAdminName, setAdminEmail, setAdminPassword} = useAddAdmin()
+
   const { role, loading } = useAuth();
   const navigate = useNavigate();
   const [admins, setAdmins] = useState<UserInfo[]>([])
-
+  
   
   useEffect(() => {
     const AdminCollectionRef = collection(db, "users")
@@ -43,7 +46,6 @@ export default function Admins() {
    })
    return () => unsubscribe()
   }, []);
-
 
 
   useEffect(() => {
@@ -75,7 +77,7 @@ export default function Admins() {
           <Button className="bg-slate-800 cursor-pointer duration-1000 mt-5 mr-5 hover:bg-slate-700" variant="default">Add Admins</Button>
         </DialogTrigger>
              <DialogContent className="sm:max-w-sm bg-slate-950 border-0">
-              <form onSubmit={addAdmin}>
+              <form onSubmit={handleForm}>
           <DialogHeader>
             <DialogTitle className="text-slate-50">Fill Admin Details</DialogTitle>
           </DialogHeader>
@@ -112,7 +114,7 @@ export default function Admins() {
          return <div><h1 className="text-white">{user.email}</h1>
                    <h1 className="text-white">{user.role === "main_admin" ? "main admin" : "admin"}</h1>
                    <p className="text-white">{user.name}</p>
-                   <p className="text-white">{user.createdAt.toDate().toLocaleString("en-Us", { dateStyle: "medium", timeStyle: "short"})}</p>
+                   <p className="text-white">{}</p>
         
          </div>
       } 

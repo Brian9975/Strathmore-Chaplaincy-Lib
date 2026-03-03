@@ -5,9 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { Spinner } from "@/components/ui/spinner"
 
-
-
-
 export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")

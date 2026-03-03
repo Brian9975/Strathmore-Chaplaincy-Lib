@@ -1,22 +1,27 @@
-import React, { useState } from "react"
-import { auth } from "@/lib/firebase-config"
-import { createUserWithEmailAndPassword } from "firebase/auth"
+import React, {useState} from "react"
+import { addNewAdmin } from "@/lib/sec-firebase-config"
+
 
 export default function useAddAdmin() {
-  const [adminName, setAdminName] = useState("")
-  const [adminEmail, setAdminEmail] = useState("")
-  const [adminPassword, setAdminPassword] = useState("")
-
-    const addAdmin = async (e: React.FormEvent<HTMLFormElement>) => {
+      const [adminName, setAdminName] = useState("")
+      const [adminEmail, setAdminEmail] = useState("")
+      const [adminPassword, setAdminPassword] = useState("")
+    const handleForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
     try{
-        const { user } = await createUserWithEmailAndPassword(auth, adminEmail, adminPassword)
+        await addNewAdmin(adminEmail, adminPassword, adminName)
+        // await setDoc(doc(db, "users", user.uid), {
+        //   name: adminName,
+        //   email: adminEmail,
+        //   role: "admin",
+        //   createdAt: serverTimestamp(),
+        // })
 
-        console.log(user)
+      console.log("Success")  
     } catch (error) {
         console.log(error)
     }
-    
+  
     } 
-  return {addAdmin, adminName, adminEmail, adminPassword, setAdminEmail, setAdminName, setAdminPassword}
+  return {handleForm, adminName, adminEmail, adminPassword, setAdminName, setAdminEmail, setAdminPassword}
 }
