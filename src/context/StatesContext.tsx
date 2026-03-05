@@ -6,17 +6,18 @@ interface StatesContextType {
     open: boolean, 
     alert: boolean, 
     setAlert: React.Dispatch<React.SetStateAction<boolean>>,
-    confirmDel: boolean, 
-    setConfirmDel: React.Dispatch<React.SetStateAction<boolean>>,
+    adminToRemove: string | null ,
+    setAdminToRemove: React.Dispatch<React.SetStateAction<string | null>>
+,
 }
 export const StateContext = createContext< StatesContextType | undefined >(undefined)
 export default function StatesContextProvider({children}: {children: React.ReactNode}) {
  const [open, setOpen] = useState(false)
  const [ alert, setAlert] = useState(false)
- const [confirmDel, setConfirmDel] = useState(false)
+ const [adminToRemove, setAdminToRemove] = useState< string | null >(null)
 
 
-    const contextValue = {setOpen, open, alert, setAlert, confirmDel, setConfirmDel}
+    const contextValue = {setOpen, open, alert, setAlert, adminToRemove, setAdminToRemove}
   return (
  <StateContext value={contextValue}>{children}</StateContext>
   )

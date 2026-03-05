@@ -41,7 +41,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
+
 } from "@/components/ui/alert-dialog"
 
 
@@ -61,7 +61,7 @@ export default function Admins() {
   const { role, loading } = useAuth();
   const navigate = useNavigate();
   const [admins, setAdmins] = useState<UserInfo[]>([])
-  const { open, setOpen, alert, confirmDel, setConfirmDel} = useStates()
+  const { open, setOpen, alert, adminToRemove, setAdminToRemove} = useStates()
   
   useEffect(() => {
     const AdminCollectionRef = collection(db, "users")
@@ -140,10 +140,9 @@ export default function Admins() {
       <TableCaption>All Admins</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px] text-white">Name</TableHead>
+          <TableHead className="w-25 text-white">Name</TableHead>
           <TableHead className="text-white">Email</TableHead>
           <TableHead className="text-white">Role</TableHead>
-          <TableHead className="text-white">id</TableHead>
           <TableHead className="text-right text-white">Action</TableHead>
         </TableRow>
       </TableHeader>
@@ -153,13 +152,19 @@ export default function Admins() {
             <TableCell className="font-medium">{admin.name}</TableCell>
             <TableCell>{admin.email}</TableCell>
             <TableCell>{admin.role}</TableCell>
-            <TableCell>{admin.id}</TableCell>
             {admin.role === "admin" && <TableCell className="text-right">
               <div>
-                                  <AlertDialog open={confirmDel} onOpenChange={setConfirmDel}>
-  <AlertDialogTrigger asChild>
-    <Button variant="default" onClick={() => setConfirmDel(true)} className="cursor-pointer">Remove</Button>
-  </AlertDialogTrigger>
+                 <Button className="cursor-pointer" onClick={() => {setAdminToRemove(admin.id)}} variant="destructive">Remove</Button> 
+              </div>
+              </TableCell>}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+
+      </div>
+
+      <AlertDialog open={!!adminToRemove} onOpenChange={() => setAdminToRemove(null)}>
   <AlertDialogContent>
     <AlertDialogHeader>
       <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -170,20 +175,17 @@ export default function Admins() {
     </AlertDialogHeader>
     <AlertDialogFooter>
       <AlertDialogCancel>Cancel</AlertDialogCancel>
-      <AlertDialogAction onClick={() => {removeAdminAccount(admin.id)}}>
+      <AlertDialogAction onClick={() => {
+        if (adminToRemove !== null) {
+          removeAdminAccount(adminToRemove)
+          setAdminToRemove(null)
+        }
+      }}>
          Continue
       </AlertDialogAction>
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>
-              </div>
-              </TableCell>}
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-
-      </div>
 
 
       <div className="fixed right-4 bottom-4">
