@@ -17,6 +17,7 @@ interface AuthContextType {
   user: User | null;
   role: UserRole;
   loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   logout: () => Promise<void>;
 }
 
@@ -61,7 +62,7 @@ export default function AuthContextProvider({
     }
   };
 
-  const contextValues = { user, role, loading, logout };
+  const contextValues = { user, role, loading, setLoading, logout };
   return (
     <AuthContext.Provider value={contextValues}>
       {children}

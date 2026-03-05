@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { collection, onSnapshot, Timestamp} from "firebase/firestore";
 import { db } from "@/lib/firebase-config";
 import type { UserRole } from "@/types/userRole";
+import { CheckCircle2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import {
   Dialog,
   DialogClose,
@@ -15,34 +17,56 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 import { Field, FieldGroup } from "@/components/ui/field"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner"
 import useAddAdmin from "@/hooks/useAddAdmin";
+import StatesContextProvider, { useStates } from "@/context/StatesContext";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 
 
 
 
 interface UserInfo {
+  id: string,
   name: string,
   email: string,
   role: UserRole,
   createdAt: Timestamp,
 }
 export default function Admins() {
-  const {handleForm, adminName, adminEmail, adminPassword, setAdminName, setAdminEmail, setAdminPassword} = useAddAdmin()
+  const {handleForm, adminName, adminEmail, adminPassword, setAdminName, setAdminEmail, setAdminPassword, removeAdminAccount} = useAddAdmin()
 
   const { role, loading } = useAuth();
   const navigate = useNavigate();
   const [admins, setAdmins] = useState<UserInfo[]>([])
-  
+  const { open, setOpen, alert, confirmDel, setConfirmDel} = useStates()
   
   useEffect(() => {
     const AdminCollectionRef = collection(db, "users")
    const unsubscribe = onSnapshot(AdminCollectionRef, (snap) => {
-     setAdmins(snap.docs.map(doc => ({ id: doc.id, ...doc.data() as UserInfo})))
+     setAdmins(snap.docs.map(doc => ({...doc.data() as UserInfo, id: doc.id})))
    })
    return () => unsubscribe()
   }, []);
@@ -67,14 +91,15 @@ export default function Admins() {
   }
 
   return (
+    <StatesContextProvider>
     <div className="bg-slate-950 min-h-screen">
-      <div className="text-right">
+      <div className="fixed backdrop-blur-sm bg-slate/70 text-right p-2 z-50 w-full">
      {/* Dialog */}
-      <div>
-       <Dialog>
+   
+       <Dialog open={open} onOpenChange={setOpen}>
          
            <DialogTrigger asChild>
-          <Button className="bg-slate-800 cursor-pointer duration-1000 mt-5 mr-5 hover:bg-slate-700" variant="default">Add Admins</Button>
+          <Button className="bg-slate-800 cursor-pointer duration-1000 hover:bg-slate-700" variant={"default"}>Add Admins</Button>
         </DialogTrigger>
              <DialogContent className="sm:max-w-sm bg-slate-950 border-0">
               <form onSubmit={handleForm}>
@@ -109,20 +134,72 @@ export default function Admins() {
          
         </Dialog>
       </div>
+         
+      <div className="pt-20 text-white overflow-y-auto pb-10">
+    <Table>
+      <TableCaption>All Admins</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[100px] text-white">Name</TableHead>
+          <TableHead className="text-white">Email</TableHead>
+          <TableHead className="text-white">Role</TableHead>
+          <TableHead className="text-white">id</TableHead>
+          <TableHead className="text-right text-white">Action</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {admins.map((admin) => (
+          <TableRow key={admin.id}>
+            <TableCell className="font-medium">{admin.name}</TableCell>
+            <TableCell>{admin.email}</TableCell>
+            <TableCell>{admin.role}</TableCell>
+            <TableCell>{admin.id}</TableCell>
+            {admin.role === "admin" && <TableCell className="text-right">
+              <div>
+                                  <AlertDialog open={confirmDel} onOpenChange={setConfirmDel}>
+  <AlertDialogTrigger asChild>
+    <Button variant="default" onClick={() => setConfirmDel(true)} className="cursor-pointer">Remove</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete your account
+        from our servers.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction onClick={() => {removeAdminAccount(admin.id)}}>
+         Continue
+      </AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+              </div>
+              </TableCell>}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+
       </div>
-      <div>{admins.map(user => {
-         return <div><h1 className="text-white">{user.email}</h1>
-                   <h1 className="text-white">{user.role === "main_admin" ? "main admin" : "admin"}</h1>
-                   <p className="text-white">{user.name}</p>
-                   <p className="text-white">{}</p>
-        
-         </div>
-      } 
-      )}</div>
 
 
-
+      <div className="fixed right-4 bottom-4">
+      {
+         alert &&
+        <Alert className="max-w-md">
+      <CheckCircle2Icon/>
+      <AlertTitle className="text-md">New Admin Account Created Successfully</AlertTitle>
+      <AlertDescription>
+         
+      </AlertDescription>
+    </Alert>
+      }
+      </div>
 
     </div>
+    </StatesContextProvider>
   );
 }

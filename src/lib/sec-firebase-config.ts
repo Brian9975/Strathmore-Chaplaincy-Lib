@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, deleteApp } from "firebase/app";
-import { getFirestore, setDoc, doc } from "firebase/firestore";
+import { getFirestore, setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { getAuth, signOut, createUserWithEmailAndPassword } from "firebase/auth";
-import type React from "react";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,13 +18,12 @@ const firebaseConfig = {
 
 // Function to add new admins
 let secApp;
- export const addNewAdmin = async (email: string, pass:string, name: string) => {
-
+ export const addNewAdmin = async (email: string, pass:string, name: string, setOpen: React.Dispatch<React.SetStateAction<boolean>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>, setAlert: React.Dispatch<React.SetStateAction<boolean>>) => {
     secApp = initializeApp(firebaseConfig, "SecondaryAppInstance");
 
  const secDb = getFirestore(secApp);
  const secAuth = getAuth(secApp);
-  
+
   try {
 
     if (!email) {
@@ -33,14 +32,30 @@ let secApp;
     alert("Kindly Fill the Password")
    } else if (!name) {
     alert("Kindly Fill The Name Field")
-   } 
+   } else {
+   setLoading(true)
     const { user } = await createUserWithEmailAndPassword(secAuth, email, pass)
-     
-     
+    
+    await setDoc(doc(secDb, "users", user.uid), {
+      name: name,
+      email: email,
+      role: "admin",
+      createdAt: serverTimestamp()
+    })
+    
+    
     await signOut(secAuth)
     await deleteApp(secApp)
-    alert("Admin Created Successfully")
+    setAlert(true)
+    setTimeout(() => {
+      setAlert(false)
+    }, 6000)
+  }
+    
   } catch (error) {
  console.log(error)
+  } finally {
+    setLoading(false)
+    setOpen(false)
   }
 }
