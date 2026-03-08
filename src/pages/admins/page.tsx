@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { collection, onSnapshot, Timestamp} from "firebase/firestore";
+import type { UserInfo } from "@/types/userInfo";
+import { collection, onSnapshot} from "firebase/firestore";
 import { db } from "@/lib/firebase-config";
-import type { UserRole } from "@/types/userRole";
 import { CheckCircle2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -48,21 +48,23 @@ import {
 
 
 
-interface UserInfo {
-  id: string,
-  name: string,
-  email: string,
-  role: UserRole,
-  createdAt: Timestamp,
-}
+
 export default function Admins() {
-  const {handleForm, adminName, adminEmail, adminPassword, setAdminName, setAdminEmail, setAdminPassword, removeAdminAccount} = useAddAdmin()
+  const {handleForm, adminName, adminEmail, adminPassword, setAdminName, setAdminEmail, setAdminPassword, removeAccess, restoreAccess} = useAddAdmin()
 
   const { role, loading } = useAuth();
   const navigate = useNavigate();
-  const [admins, setAdmins] = useState<UserInfo[]>([])
-  const { open, setOpen, alert, adminToRemove, setAdminToRemove} = useStates()
+  const { open, setOpen, alert, adminToRemove, setAdminToRemove, accessOff, accessOn, adminToRestore, setAdminToRestore, admins, setAdmins} = useStates()
   
+
+
+
+ const adminToDelInfo = admins.find((admin) => admin.id === adminToRemove)
+ const adminToResInfo = admins.find(admin => admin.id === adminToRestore)
+
+
+
+
   useEffect(() => {
     const AdminCollectionRef = collection(db, "users")
    const unsubscribe = onSnapshot(AdminCollectionRef, (snap) => {
@@ -151,12 +153,16 @@ export default function Admins() {
           <TableRow key={admin.id}>
             <TableCell className="font-medium">{admin.name}</TableCell>
             <TableCell>{admin.email}</TableCell>
-            <TableCell>{admin.role}</TableCell>
-            {admin.role === "admin" && <TableCell className="text-right">
-              <div>
-                 <Button className="cursor-pointer" onClick={() => {setAdminToRemove(admin.id)}} variant="destructive">Remove</Button> 
-              </div>
-              </TableCell>}
+            <TableCell className={`${admin.role === "main_admin" ? "text-amber-500" : admin.role === "admin" ? "text-emerald-400" : "text-gray-400"}`}>{admin.role?.toUpperCase()}</TableCell>
+            <TableCell className="text-right">
+              {
+            
+              admin.role === "admin" ? (<Button className="cursor-pointer bg-slate-800" onClick={() => {setAdminToRemove(admin.id)}} variant="destructive">Remove</Button>) : admin.role === "inactive" ? (<Button variant="outline" onClick={() => setAdminToRestore(admin.id)}  className="text-slate-950 cursor-pointer">Restore</Button>) : null
+              
+              }
+           
+                
+              </TableCell>
           </TableRow>
         ))}
       </TableBody>
@@ -169,16 +175,39 @@ export default function Admins() {
     <AlertDialogHeader>
       <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
       <AlertDialogDescription>
-        This action cannot be undone. This will permanently delete your account
-        from our servers.
+This will immediately remove access of logging in from {adminToDelInfo?.email} but you can restore their permission later
       </AlertDialogDescription>
     </AlertDialogHeader>
     <AlertDialogFooter>
-      <AlertDialogCancel>Cancel</AlertDialogCancel>
-      <AlertDialogAction onClick={() => {
+      <AlertDialogCancel className="cursor-pointer">Cancel</AlertDialogCancel>
+      <AlertDialogAction className="cursor-pointer" onClick={() => {
         if (adminToRemove !== null) {
-          removeAdminAccount(adminToRemove)
+          removeAccess(adminToRemove)
           setAdminToRemove(null)
+        }
+      }}>
+         Continue
+      </AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+
+
+{/* Alert Dialog for confirming restore of admins */}
+      <AlertDialog open={!!adminToRestore} onOpenChange={() => setAdminToRestore(null)}>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+This will immediately restore permission of logging in with {adminToResInfo?.email} 
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel className="cursor-pointer">Cancel</AlertDialogCancel>
+      <AlertDialogAction className="cursor-pointer" onClick={() => {
+        if (adminToRestore !== null) {
+          restoreAccess(adminToRestore)
+          setAdminToRestore(null)
         }
       }}>
          Continue
@@ -194,6 +223,35 @@ export default function Admins() {
         <Alert className="max-w-md">
       <CheckCircle2Icon/>
       <AlertTitle className="text-md">New Admin Account Created Successfully</AlertTitle>
+      <AlertDescription>
+         
+      </AlertDescription>
+    </Alert>
+      }
+      </div>
+
+
+
+
+      <div className="fixed right-4 bottom-4">
+      {
+        accessOff &&
+        <Alert className="max-w-md">
+      <CheckCircle2Icon/>
+      <AlertTitle className="text-md">Admin Access Revoked Successfully</AlertTitle>
+      <AlertDescription>
+         
+      </AlertDescription>
+    </Alert>
+      }
+      </div>
+
+        <div className="fixed right-4 bottom-4">
+      {
+        accessOn &&
+        <Alert className="max-w-md">
+      <CheckCircle2Icon/>
+      <AlertTitle className="text-md"> Admin Access Restored Successfully</AlertTitle>
       <AlertDescription>
          
       </AlertDescription>

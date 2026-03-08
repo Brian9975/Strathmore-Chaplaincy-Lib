@@ -33,6 +33,7 @@ let secApp;
    } else if (!name) {
     alert("Kindly Fill The Name Field")
    } else {
+    
    setLoading(true)
     const { user } = await createUserWithEmailAndPassword(secAuth, email, pass)
     

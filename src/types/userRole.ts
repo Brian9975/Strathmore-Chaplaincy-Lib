@@ -1,1 +1,1 @@
-export type UserRole = "main_admin" | "admin" | null;
+export type UserRole = "main_admin" | "admin" | "inactive" | null;

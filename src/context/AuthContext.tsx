@@ -40,8 +40,14 @@ export default function AuthContextProvider({
         
         if (userDoc.exists()) {
           setRole(userDoc.data().role as UserRole);
-        } else {
-          setRole(null);
+          if (userDoc.data().role as UserRole === "inactive") {
+            await signOut(auth)
+          }
+        } 
+        
+    
+        else {
+           setRole(null);    
         }
       }
       setLoading(false);
