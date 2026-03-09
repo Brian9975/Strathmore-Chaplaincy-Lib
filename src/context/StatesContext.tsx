@@ -1,6 +1,4 @@
-import type { Timestamp } from 'firebase/firestore'
 import React, { createContext, useContext, useState } from 'react'
-import type { UserRole } from '@/types/userRole'
 import type { UserInfo } from '@/types/userInfo'
 
 interface StatesContextType {
