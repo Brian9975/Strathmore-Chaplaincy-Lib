@@ -94,15 +94,15 @@ export default function Admins() {
 
   return (
     <StatesContextProvider>
-    <div className="bg-slate-950 min-h-screen">
-      <div className="fixed backdrop-blur-sm bg-slate/70 text-right p-2 z-50 w-full">
+    <div className="bg-slate-950 min-w-screen min-h-screen">
+      <div className="fixed backdrop-blur-sm bg-slate/70 z-50 min-w-max p-2 ">
+              <Button onClick={() => setOpen(true)} className="bg-slate-800 z-50 cursor-pointer duration-1000 hover:bg-slate-700" variant={"default"}>Add Admins</Button>
+      </div>
+
+      <div>
      {/* Dialog */}
-   
-       <Dialog open={open} onOpenChange={setOpen}>
          
-           <DialogTrigger asChild>
-          <Button className="bg-slate-800 cursor-pointer duration-1000 hover:bg-slate-700" variant={"default"}>Add Admins</Button>
-        </DialogTrigger>
+       <Dialog open={open} onOpenChange={setOpen}>
              <DialogContent className="sm:max-w-sm bg-slate-950 border-0">
               <form onSubmit={handleForm}>
           <DialogHeader>
@@ -137,7 +137,7 @@ export default function Admins() {
         </Dialog>
       </div>
          
-      <div className="pt-20 text-white overflow-y-auto pb-10">
+      <div className="pt-15 text-white overflow-y-auto pb-10">
     <Table>
       <TableCaption>All Admins</TableCaption>
       <TableHeader>

@@ -2,6 +2,8 @@ import React, {useEffect} from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { Spinner } from "@/components/ui/spinner"
+import { SidebarProvider, SidebarTrigger } from '../ui/sidebar'
+import {AppSidebar} from '../sidebar'
 
 export default function ProtectedRoute({children}: {children: React.ReactNode}) {
     const { user, loading} = useAuth()
@@ -28,7 +30,14 @@ export default function ProtectedRoute({children}: {children: React.ReactNode}) 
     }
   return (
   <>
-      {children}
+  <SidebarProvider>
+    <AppSidebar/>
+    <main>
+    <SidebarTrigger/>
+     {children}
+     </main>
+  </SidebarProvider>
+     
   </>
 
   )
