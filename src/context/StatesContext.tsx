@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react'
 import type { UserInfo } from '@/types/userInfo'
+import type { Book } from '@/types/book'
 
 interface StatesContextType {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>,
@@ -16,21 +17,27 @@ interface StatesContextType {
     setAccessOn: React.Dispatch<React.SetStateAction<boolean>>,
     admins: UserInfo[],
     setAdmins: React.Dispatch<React.SetStateAction<UserInfo[]>>,
+    openBookForm: boolean,
+    setOpenBookForm: React.Dispatch<React.SetStateAction<boolean>>,
+    books: Book[],
+    setBooks: React.Dispatch<React.SetStateAction<Book[]>>,
 
 }
 
 
 export const StateContext = createContext< StatesContextType | undefined >(undefined)
 export default function StatesContextProvider({children}: {children: React.ReactNode}) {
- const [admins, setAdmins] = useState<UserInfo[]>([])      
+ const [admins, setAdmins] = useState<UserInfo[]>([])    
+ const [books, setBooks] = useState<Book[]>([])  
  const [open, setOpen] = useState(false)
+ const [openBookForm, setOpenBookForm] = useState(false)
  const [ alert, setAlert] = useState(false)
  const [adminToRemove, setAdminToRemove] = useState< string | null >(null)
  const [accessOff, setAccessOff] = useState(false)
  const [adminToRestore, setAdminToRestore] = useState<string | null>(null)
  const [accessOn, setAccessOn] = useState(false)
 
-    const contextValue = {setOpen, open, alert, setAlert, adminToRemove, setAdminToRemove, accessOff, setAccessOff, adminToRestore, setAdminToRestore, accessOn, setAccessOn, admins, setAdmins}
+    const contextValue = {books, setBooks, setOpen, open, alert, setAlert, adminToRemove, setAdminToRemove, accessOff, setAccessOff, adminToRestore, setAdminToRestore, accessOn, setAccessOn, admins, setAdmins, openBookForm, setOpenBookForm}
   return (
  <StateContext value={contextValue}>{children}</StateContext>
   )
