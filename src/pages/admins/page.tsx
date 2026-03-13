@@ -94,10 +94,12 @@ export default function Admins() {
 
   return (
     <StatesContextProvider>
-    <div className="bg-slate-950 min-w-screen min-h-screen">
-      <div className="fixed backdrop-blur-sm bg-slate/70 z-50 min-w-max p-2 ">
+    <div className="bg-slate-950 min-h-screen">
+      <div className="text-right backdrop-blur-sm bg-slate/70 z-10 w-full px-2 pt-6 ">
               <Button onClick={() => setOpen(true)} className="bg-slate-800 z-50 cursor-pointer duration-1000 hover:bg-slate-700" variant={"default"}>Add Admins</Button>
+             
       </div>
+
 
       <div>
      {/* Dialog */}
@@ -137,7 +139,7 @@ export default function Admins() {
         </Dialog>
       </div>
          
-      <div className="pt-15 text-white overflow-y-auto pb-10">
+      <div className="pt-5 text-white overflow-y-auto pb-10">
     <Table>
       <TableCaption>All Admins</TableCaption>
       <TableHeader>

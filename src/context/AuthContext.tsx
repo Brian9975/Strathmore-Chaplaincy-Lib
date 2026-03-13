@@ -56,7 +56,6 @@ export default function AuthContextProvider({
     return () => unsubscribe();
   }, []);
 
-  console.log(role)
 
   const logout = async () => {
     try {

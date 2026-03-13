@@ -8,6 +8,7 @@ import { Field, FieldGroup } from "@/components/ui/field"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import StrathLogo1 from "@/img/StrathLogo.png"
 export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -60,9 +61,13 @@ if (user) {
         <form onSubmit={logAdminIn} className="flex flex-col items-center gap-5">
 
 
-           <div>
-          <h1 className="text-slate-100 text-3xl">Chaplaincy Library System</h1>
-        </div>
+           <div className="flex items-center flex-col justify-center">
+            <img width={200} src={StrathLogo1} alt="" />
+            <div>
+             <h1 className="text-slate-100 text-2xl">Chaplaincy Library System</h1>
+            </div>
+            
+           </div>
 
                    <FieldGroup>
                        <Field>
