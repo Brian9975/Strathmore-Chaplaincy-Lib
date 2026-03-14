@@ -21,12 +21,12 @@ export default function useAddNewBook() {
         alert("please fill the title field")
     } else if (!author) {
         alert("please fill the author field")
-    } else if (!totalCopies) {
-       alert("please include the total number of copies") 
-    } else if (!availableCopies) {
-        alert("please include the available number of copies")
-    }
-
+    } 
+         else if (totalCopies < availableCopies) {
+        alert(`Total copies ${totalCopies} cannot be less than available copies ${availableCopies}`)
+      } else if (totalCopies <= 0) {
+        alert(`Total copies ${totalCopies} cannot be less than or equal to 0`)
+      }
 
     else {
      setLoading(true)

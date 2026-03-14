@@ -7,21 +7,36 @@ import { Dialog, DialogContent, DialogHeader, DialogDescription, DialogClose, Di
  import { Input } from "@/components/ui/input"
  import { useStates } from "@/context/StatesContext"
 import useAddNewBook from "@/hooks/useAddNewBook"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { collection, onSnapshot } from "firebase/firestore"
 import { db } from "@/lib/firebase-config"
 import type { Book } from "@/types/book"
 import { Table, TableCaption, TableHeader, TableRow, TableHead, TableCell, TableBody } from "@/components/ui/table"
 import { useAuth } from "@/context/AuthContext"
+import useEditBook from "@/hooks/useEditBook"
 
 
 export default function Books() {
-  const {openBookForm, setOpenBookForm, books, setBooks} = useStates()
+  const {openBookForm, setOpenBookForm, books, setBooks, bookToEdit, setBookToEdit} = useStates()
   const {handleAddBook, title, setTitle, author, setAuthor, totalCopies, setTotalCopies, availableCopies, setAvailableCopies} = useAddNewBook()
   const {role} = useAuth()
+  const {handleEditForm, editTitle, setEditTitle, editAuthor, setEditAuthor, editTotalCopies, setEditTotalCopies, editAvailableCopies, setEditAvailableCopies} = useEditBook()
 
+    const bookToEditInfo = books.find(book => book.id === bookToEdit)
 
+   
 
+  
+
+  useEffect(() => {
+     if (bookToEditInfo) {
+      setEditAuthor(bookToEditInfo.author)
+      setEditTitle(bookToEditInfo.title)
+      setEditTotalCopies(bookToEditInfo.totalCopies)
+      setEditAvailableCopies(bookToEditInfo.availableCopies)
+     }
+  }, [bookToEditInfo])
+  
   useEffect(() => {
     const booksCollectionRef = collection(db, "books")
   const unsubscribe = onSnapshot(booksCollectionRef, (snap) =>  {
@@ -30,8 +45,8 @@ export default function Books() {
       id: doc.id
 
      })))
-    return () => unsubscribe()
   })
+   return () => unsubscribe()
   }, [])
   return (
      <div className="min-h-screen ">
@@ -104,7 +119,7 @@ export default function Books() {
                         <TableCell>{book.totalCopies}</TableCell>
                         <TableCell>{book.availableCopies}</TableCell>
                         <TableCell className="text-right">
-                          <Button className="cursor-pointer text-slate-950" variant="outline">Edit Book</Button>
+                          <Button className="cursor-pointer text-slate-950" onClick={() => setBookToEdit(book.id)} variant="outline">Edit Book</Button>
                          {role === "main_admin" && <Button className="ml-4 cursor-pointer">Delete Book</Button>} 
                         </TableCell>
                       </TableRow>
@@ -113,6 +128,55 @@ export default function Books() {
                 </Table>
             
                   </div>
+
+                  {/* Edit Book Dialog */}
+                              <div>
+           {/* Dialog */}
+               
+             <Dialog open={!!bookToEdit} onOpenChange={() => setBookToEdit(null)}>
+                   <DialogContent className="sm:max-w-sm bg-slate-950 border-0">
+                    <form onSubmit={(e) => {
+                      if (bookToEdit !== null) {
+                      handleEditForm(e, bookToEdit)
+                      
+                      }
+                      }}>
+                <DialogHeader>
+                  <DialogTitle className="text-slate-50">Edit Book Details</DialogTitle>
+                </DialogHeader>
+                <DialogDescription>
+                  Enter details you want to edit the book to.
+                </DialogDescription>
+                <FieldGroup>
+                  <Field>
+                    <Label htmlFor="title" className="text-slate-50">Book Title</Label>
+                    <Input id="title" value={editTitle} onChange={e => setEditTitle(e.target.value)} type="text" className="text-slate-50" name="title" placeholder="Enter book title..." />
+                  </Field>
+                  <Field>
+                    <Label className="text-slate-50" htmlFor="author">Author</Label>
+                    <Input id="author" value={editAuthor} onChange={e => setEditAuthor(e.target.value)} className="text-slate-50"  type="text" name="author" placeholder="Enter book author..." />
+                  </Field>
+                  <Field>
+                    <Label className="text-slate-50" htmlFor="total-copies">Total Copies</Label>
+                    <Input id="total-copies" value={editTotalCopies} onChange={(e) => setEditTotalCopies(Number(e.target.value))} className="text-slate-50" type="number"  placeholder="Total copies..."/>
+                  </Field>
+                   <Field>
+                    <Label className="text-slate-50" htmlFor="available-copies">Available Copies</Label>
+                    <Input id="available-copies"  value={editAvailableCopies}  onChange={e => setEditAvailableCopies(Number(e.target.value))}  className="text-slate-50" type="number" name="available-copies" placeholder="Available copies..."/>
+                  </Field>
+                </FieldGroup>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button className="cursor-pointer mt-3" variant="default">Cancel</Button>
+                  </DialogClose>
+                  <Button className="cursor-pointer mt-3" type="submit">Save</Button>
+                </DialogFooter>
+                   </form>
+             </DialogContent>
+               
+              </Dialog>
+            </div>
+
             
 
      </div>

@@ -21,7 +21,8 @@ interface StatesContextType {
     setOpenBookForm: React.Dispatch<React.SetStateAction<boolean>>,
     books: Book[],
     setBooks: React.Dispatch<React.SetStateAction<Book[]>>,
-
+    bookToEdit: string | null,
+    setBookToEdit: React.Dispatch<React.SetStateAction<string | null>>,
 }
 
 
@@ -36,8 +37,9 @@ export default function StatesContextProvider({children}: {children: React.React
  const [accessOff, setAccessOff] = useState(false)
  const [adminToRestore, setAdminToRestore] = useState<string | null>(null)
  const [accessOn, setAccessOn] = useState(false)
+ const [bookToEdit, setBookToEdit] = useState<string | null>(null)
 
-    const contextValue = {books, setBooks, setOpen, open, alert, setAlert, adminToRemove, setAdminToRemove, accessOff, setAccessOff, adminToRestore, setAdminToRestore, accessOn, setAccessOn, admins, setAdmins, openBookForm, setOpenBookForm}
+    const contextValue = {books, setBooks, bookToEdit, setBookToEdit, setOpen, open, alert, setAlert, adminToRemove, setAdminToRemove, accessOff, setAccessOff, adminToRestore, setAdminToRestore, accessOn, setAccessOn, admins, setAdmins, openBookForm, setOpenBookForm}
   return (
  <StateContext value={contextValue}>{children}</StateContext>
   )
