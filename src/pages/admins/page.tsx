@@ -98,7 +98,43 @@ export default function Admins() {
               <Button onClick={() => setOpen(true)} className="bg-slate-800 z-50 cursor-pointer duration-1000 hover:bg-slate-700" variant={"default"}>Add Admins</Button>
              
       </div>
-
+           <div>
+     {/* Dialog */}
+         
+       <Dialog open={open} onOpenChange={setOpen}>
+             <DialogContent className="sm:max-w-sm bg-slate-950 border-0">
+              <form onSubmit={handleForm}>
+          <DialogHeader>
+            <DialogTitle className="text-slate-50">Fill Admin Details</DialogTitle>
+          </DialogHeader>
+          <DialogDescription>
+            Enter details for the new administrator
+          </DialogDescription>
+          <FieldGroup>
+            <Field>
+              <Label htmlFor="name" className="text-slate-50">Name</Label>
+              <Input id="name" type="text" value={adminName} onChange={e => setAdminName(e.target.value)} className="text-slate-50" name="name" placeholder="Admin's Name" />
+            </Field>
+            <Field>
+              <Label className="text-slate-50" htmlFor="email">Email</Label>
+              <Input id="email" className="text-slate-50" value={adminEmail} onChange={e => setAdminEmail(e.target.value)} type="email" name="email" placeholder="Admin's Email" />
+            </Field>
+            <Field>
+              <Label className="text-slate-50" htmlFor="password">Password</Label>
+              <Input id="password" className="text-slate-50" value={adminPassword} onChange={e => setAdminPassword(e.target.value)} type="password" name="password" placeholder="Admin's New Password"/>
+            </Field>
+          </FieldGroup>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button className="cursor-pointer mt-3" variant="default">Cancel</Button>
+            </DialogClose>
+            <Button className="cursor-pointer mt-3" type="submit">Add</Button>
+          </DialogFooter>
+             </form>
+       </DialogContent>
+         
+        </Dialog>
+      </div>
 
          
       <div className="pt-5 text-white overflow-y-auto pb-10">

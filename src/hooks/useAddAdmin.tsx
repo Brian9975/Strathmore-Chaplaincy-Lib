@@ -34,6 +34,13 @@ export default function useAddAdmin() {
     }
    
     return
+  } else if (existingAdmin && existingAdmin.role === "admin") {
+    alert("This Admin Already Exist and Have Permision To Log In To The System")
+    setOpen(false)
+    setAdminEmail("")
+    setAdminName("")
+    setAdminPassword("")
+   return
   }
     try{
         await addNewAdmin(adminEmail, adminPassword, adminName, setOpen, setLoading, setAlert, admins)
