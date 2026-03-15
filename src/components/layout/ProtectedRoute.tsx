@@ -22,7 +22,7 @@ export default function ProtectedRoute({
   const { user, loading, role, logout } = useAuth();
   const navigate = useNavigate();
 
-  console.log(user?.photoURL);
+  
 
   useEffect(() => {
     if (!user && !loading) {
@@ -47,12 +47,12 @@ export default function ProtectedRoute({
       <div className="flex bg-slate-950 text-slate-50 flex-1 flex-col min-w-0">
         <div className="bg-slate-900 flex justify-between p-4">
           <SidebarTrigger size="lg" className="cursor-pointer" />
-          <DropdownMenu >
+          <DropdownMenu>
   <DropdownMenuTrigger asChild>
      <Avatar className="w-9 h-9 cursor-pointer">
             <AvatarImage />
             <AvatarFallback className={`text-slate-950 ${role === "main_admin" ? "bg-amber-500" : role === "admin" ? "bg-emerald-400" : null}`}>
-              {user.email !== null && user?.email[0].toUpperCase()}
+              {user.email !== null && user.email[0].toUpperCase()}
             </AvatarFallback>
        </Avatar>
   </DropdownMenuTrigger>

@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogDescription, DialogClose, Di
  import { Input } from "@/components/ui/input"
  import { useStates } from "@/context/StatesContext"
 import useAddNewBook from "@/hooks/useAddNewBook"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { collection, onSnapshot } from "firebase/firestore"
 import { db } from "@/lib/firebase-config"
 import type { Book } from "@/types/book"
@@ -21,6 +21,7 @@ import useDeleteBook from "@/hooks/useDeleteBook"
 
 
 export default function Books() {
+  const [searchTerm, setSearchTerm] = useState("")
   const {openBookForm, setOpenBookForm, books, setBooks, bookToEdit, setBookToEdit, alertEdit, alertAdd, bookToDelete, setBookToDelete, alertDel} = useStates()
   const {handleAddBook, title, setTitle, author, setAuthor, setTotalCopies, setAvailableCopies} = useAddNewBook()
   const {role} = useAuth()
@@ -29,7 +30,7 @@ export default function Books() {
     const bookToEditInfo = books.find(book => book.id === bookToEdit)
     const bookToDelInfo = books.find(book => book.id === bookToDelete)
 
-  
+const filteredBooks = books.filter(book => book.title.toLowerCase().includes(searchTerm.toLowerCase()) || book.author.toLowerCase().includes(searchTerm.toLowerCase()))
 
   useEffect(() => {
      if (bookToEditInfo) {
@@ -53,11 +54,15 @@ export default function Books() {
   }, [])
   return (
      <div className="min-h-screen ">
-      <div className="text-right px-2 pt-6">
+      <div className="text-right px-2 pt-6 mb-7">
         <Button onClick={() => setOpenBookForm(true)} className="bg-slate-800 cursor-pointer duration-1000 hover:bg-slate-700" variant={"default"}>Add Book</Button>
       </div>
 
-
+    
+    {/* Search Filter For Books */}
+    <div className="flex mb-4 justify-center">
+      <Input type="text" value={searchTerm} className="w-xl" onChange={e => setSearchTerm(e.target.value)} placeholder="Search book by title/author..."/>
+    </div>
             <div>
            {/* Dialog */}
                
@@ -115,7 +120,7 @@ export default function Books() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {books.map((book) => (
+                    {filteredBooks.map((book) => (
                       <TableRow key={book.id}>
                         <TableCell >{book.title}</TableCell>
                         <TableCell>{book.author}</TableCell>
