@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogDescription, DialogClose, Di
  import { Input } from "@/components/ui/input"
  import { useStates } from "@/context/StatesContext"
 import useAddNewBook from "@/hooks/useAddNewBook"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { collection, onSnapshot } from "firebase/firestore"
 import { db } from "@/lib/firebase-config"
 import type { Book } from "@/types/book"
@@ -16,17 +16,18 @@ import { useAuth } from "@/context/AuthContext"
 import useEditBook from "@/hooks/useEditBook"
 import { Alert, AlertTitle } from "@/components/ui/alert"
 import { Edit, CheckCircleIcon } from "lucide-react"
+import { AlertDialog, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogCancel, AlertDialogDescription, AlertDialogContent, AlertDialogAction  } from "@/components/ui/alert-dialog"
+import useDeleteBook from "@/hooks/useDeleteBook"
 
 
 export default function Books() {
-  const {openBookForm, setOpenBookForm, books, setBooks, bookToEdit, setBookToEdit, alertEdit, alertAdd} = useStates()
+  const {openBookForm, setOpenBookForm, books, setBooks, bookToEdit, setBookToEdit, alertEdit, alertAdd, bookToDelete, setBookToDelete, alertDel} = useStates()
   const {handleAddBook, title, setTitle, author, setAuthor, totalCopies, setTotalCopies, availableCopies, setAvailableCopies} = useAddNewBook()
   const {role} = useAuth()
   const {handleEditForm, editTitle, setEditTitle, editAuthor, setEditAuthor, editTotalCopies, setEditTotalCopies, editAvailableCopies, setEditAvailableCopies} = useEditBook()
-
+  const {handleDeleteBook} = useDeleteBook()
     const bookToEditInfo = books.find(book => book.id === bookToEdit)
-
-   
+    const bookToDelInfo = books.find(book => book.id === bookToDelete)
 
   
 
@@ -122,7 +123,7 @@ export default function Books() {
                         <TableCell>{book.availableCopies}</TableCell>
                         <TableCell className="text-right">
                           <Button className="cursor-pointer text-slate-950" onClick={() => setBookToEdit(book.id)} variant="outline">Edit Book</Button>
-                         {role === "main_admin" && <Button className="ml-4 cursor-pointer">Delete Book</Button>} 
+                         {role === "main_admin" && <Button onClick={() => setBookToDelete(book.id)} className="ml-4 cursor-pointer">Delete Book</Button>} 
                         </TableCell>
                       </TableRow>
                     ))}
@@ -196,6 +197,40 @@ export default function Books() {
         <Alert className="max-w-md">
       <CheckCircleIcon/>
       <AlertTitle className="text-md">New Book Added Successfully</AlertTitle>
+  
+    </Alert>
+      }
+      </div>
+
+            <AlertDialog open={!!bookToDelete} onOpenChange={() => setBookToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+      This will immediately delete the book "{bookToDelInfo?.title}"
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="cursor-pointer">Cancel</AlertDialogCancel>
+            <AlertDialogAction className="cursor-pointer" onClick={() => {
+              if (bookToDelete !== null) {
+                handleDeleteBook(bookToDelete)
+                setBookToDelete(null)
+              }
+            }}>
+               Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+
+                  <div className="fixed right-4 bottom-4">
+      {
+       alertDel &&
+        <Alert className="max-w-md">
+      <CheckCircleIcon/>
+      <AlertTitle className="text-md">Book Deletion Completed</AlertTitle>
   
     </Alert>
       }
