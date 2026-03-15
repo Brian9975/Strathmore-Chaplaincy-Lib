@@ -22,7 +22,7 @@ import useDeleteBook from "@/hooks/useDeleteBook"
 
 export default function Books() {
   const {openBookForm, setOpenBookForm, books, setBooks, bookToEdit, setBookToEdit, alertEdit, alertAdd, bookToDelete, setBookToDelete, alertDel} = useStates()
-  const {handleAddBook, title, setTitle, author, setAuthor, totalCopies, setTotalCopies, availableCopies, setAvailableCopies} = useAddNewBook()
+  const {handleAddBook, title, setTitle, author, setAuthor, setTotalCopies, setAvailableCopies} = useAddNewBook()
   const {role} = useAuth()
   const {handleEditForm, editTitle, setEditTitle, editAuthor, setEditAuthor, editTotalCopies, setEditTotalCopies, editAvailableCopies, setEditAvailableCopies} = useEditBook()
   const {handleDeleteBook} = useDeleteBook()
