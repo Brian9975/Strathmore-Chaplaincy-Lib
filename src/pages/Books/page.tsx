@@ -14,10 +14,12 @@ import type { Book } from "@/types/book"
 import { Table, TableCaption, TableHeader, TableRow, TableHead, TableCell, TableBody } from "@/components/ui/table"
 import { useAuth } from "@/context/AuthContext"
 import useEditBook from "@/hooks/useEditBook"
+import { Alert, AlertTitle } from "@/components/ui/alert"
+import { Edit, CheckCircleIcon } from "lucide-react"
 
 
 export default function Books() {
-  const {openBookForm, setOpenBookForm, books, setBooks, bookToEdit, setBookToEdit} = useStates()
+  const {openBookForm, setOpenBookForm, books, setBooks, bookToEdit, setBookToEdit, alertEdit, alertAdd} = useStates()
   const {handleAddBook, title, setTitle, author, setAuthor, totalCopies, setTotalCopies, availableCopies, setAvailableCopies} = useAddNewBook()
   const {role} = useAuth()
   const {handleEditForm, editTitle, setEditTitle, editAuthor, setEditAuthor, editTotalCopies, setEditTotalCopies, editAvailableCopies, setEditAvailableCopies} = useEditBook()
@@ -177,7 +179,27 @@ export default function Books() {
               </Dialog>
             </div>
 
-            
+                  <div className="fixed right-4 bottom-4">
+      {
+        alertEdit &&
+        <Alert className="max-w-md">
+      <Edit/>
+      <AlertTitle className="text-md">Book Edited Successfully</AlertTitle>
+  
+    </Alert>
+      }
+      </div>
+
+                  <div className="fixed right-4 bottom-4">
+      {
+       alertAdd &&
+        <Alert className="max-w-md">
+      <CheckCircleIcon/>
+      <AlertTitle className="text-md">New Book Added Successfully</AlertTitle>
+  
+    </Alert>
+      }
+      </div>
 
      </div>
   )

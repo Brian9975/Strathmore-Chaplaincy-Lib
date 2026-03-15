@@ -11,22 +11,35 @@ export default function useAddNewBook() {
  const [totalCopies, setTotalCopies] = useState(1)
  const [availableCopies, setAvailableCopies] = useState(0)
  const {setLoading} = useAuth()
- const {setOpenBookForm} = useStates()
+ const {setOpenBookForm, books, setAlertAdd} = useStates()
 
  const handleAddBook = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-   
+             
+ const existingBook = books.find(book => 
+    book.title.toLowerCase() === title.toLowerCase()
+ )
+ if (existingBook) {
+   alert(`Book with title "${existingBook.title}" already exists`)
+return
+ }
+
 
     if (!title) {
         alert("please fill the title field")
+        return
     } else if (!author) {
         alert("please fill the author field")
+        return
     } 
          else if (totalCopies < availableCopies) {
         alert(`Total copies ${totalCopies} cannot be less than available copies ${availableCopies}`)
+        return
       } else if (totalCopies <= 0) {
         alert(`Total copies ${totalCopies} cannot be less than or equal to 0`)
-      }
+      } else if (availableCopies < 0) {
+        alert(`Available copies ${availableCopies} cannot be less than 0`)
+      }   
 
     else {
      setLoading(true)
@@ -37,6 +50,10 @@ export default function useAddNewBook() {
             totalCopies: totalCopies,
             availableCopies: availableCopies,
         })
+        setAlertAdd(true)
+        setTimeout(() => {
+            setAlertAdd(false)
+        }, 6000)
     } catch (error) {
       console.log(error)  
     } finally {

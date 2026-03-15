@@ -23,6 +23,10 @@ interface StatesContextType {
     setBooks: React.Dispatch<React.SetStateAction<Book[]>>,
     bookToEdit: string | null,
     setBookToEdit: React.Dispatch<React.SetStateAction<string | null>>,
+    alertEdit: boolean,
+    setAlertEdit: React.Dispatch<React.SetStateAction<boolean>>,
+    alertAdd: boolean,
+    setAlertAdd: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 
@@ -38,8 +42,10 @@ export default function StatesContextProvider({children}: {children: React.React
  const [adminToRestore, setAdminToRestore] = useState<string | null>(null)
  const [accessOn, setAccessOn] = useState(false)
  const [bookToEdit, setBookToEdit] = useState<string | null>(null)
+ const [alertEdit, setAlertEdit] = useState(false)
+ const [alertAdd, setAlertAdd] = useState(false)
 
-    const contextValue = {books, setBooks, bookToEdit, setBookToEdit, setOpen, open, alert, setAlert, adminToRemove, setAdminToRemove, accessOff, setAccessOff, adminToRestore, setAdminToRestore, accessOn, setAccessOn, admins, setAdmins, openBookForm, setOpenBookForm}
+    const contextValue = {books, alertAdd, setAlertAdd, setBooks, bookToEdit, setBookToEdit, setOpen, open, alert, setAlert, adminToRemove, setAdminToRemove, accessOff, setAccessOff, adminToRestore, setAdminToRestore, accessOn, setAccessOn, admins, setAdmins, openBookForm, setOpenBookForm, alertEdit, setAlertEdit}
   return (
  <StateContext value={contextValue}>{children}</StateContext>
   )
