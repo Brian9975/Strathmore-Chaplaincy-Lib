@@ -8,7 +8,7 @@ import { useState } from "react"
 export default function useAddNewBook() {
  const [title, setTitle] = useState("")
  const [author, setAuthor] = useState("")
- const [totalCopies, setTotalCopies] = useState(1)
+ const [totalCopies, setTotalCopies] = useState(0)
  const [availableCopies, setAvailableCopies] = useState(0)
  const {setLoading} = useAuth()
  const {setOpenBookForm, books, setAlertAdd} = useStates()
@@ -26,19 +26,30 @@ return
 
 
     if (!title) {
-        alert("please fill the title field")
+        // alert("please fill the title field")
         return
     } else if (!author) {
-        alert("please fill the author field")
+        // alert("please fill the author field")
         return
     } 
+
+    else if (!totalCopies) {
+      // alert("Please include the total number of copies")
+      return
+    }
+      else if (!availableCopies) {
+      // alert("Please include the available number of copies")
+      return
+    }
          else if (totalCopies < availableCopies) {
-        alert(`Total copies ${totalCopies} cannot be less than available copies ${availableCopies}`)
+        // alert(`Total copies ${totalCopies} cannot be less than available copies ${availableCopies}`)
         return
       } else if (totalCopies <= 0) {
-        alert(`Total copies ${totalCopies} cannot be less than or equal to 0`)
+        // alert(`Total copies ${totalCopies} cannot be less than or equal to 0`)
+        return
       } else if (availableCopies < 0) {
-        alert(`Available copies ${availableCopies} cannot be less than 0`)
+        // alert(`Available copies ${availableCopies} cannot be less than 0`)
+        return
       }   
 
     else {

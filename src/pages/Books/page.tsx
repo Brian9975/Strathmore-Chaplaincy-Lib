@@ -18,13 +18,14 @@ import { Alert, AlertTitle } from "@/components/ui/alert"
 import { Edit, CheckCircleIcon } from "lucide-react"
 import { AlertDialog, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogCancel, AlertDialogDescription, AlertDialogContent, AlertDialogAction  } from "@/components/ui/alert-dialog"
 import useDeleteBook from "@/hooks/useDeleteBook"
+import { Spinner } from "@/components/ui/spinner"
 
 
 export default function Books() {
   const [searchTerm, setSearchTerm] = useState("")
   const {openBookForm, setOpenBookForm, books, setBooks, bookToEdit, setBookToEdit, alertEdit, alertAdd, bookToDelete, setBookToDelete, alertDel} = useStates()
   const {handleAddBook, title, setTitle, author, setAuthor, availableCopies, totalCopies, setTotalCopies, setAvailableCopies} = useAddNewBook()
-  const {role} = useAuth()
+  const {role, loading} = useAuth()
   const {handleEditForm, editTitle, setEditTitle, editAuthor, setEditAuthor, editTotalCopies, setEditTotalCopies, editAvailableCopies, setEditAvailableCopies} = useEditBook()
   const {handleDeleteBook} = useDeleteBook()
     const bookToEditInfo = books.find(book => book.id === bookToEdit)
@@ -38,6 +39,19 @@ const totalLessEqualZero = totalCopies <= 0
 const editAvailGreatTotal = editAvailableCopies > editTotalCopies
 const editAvailLessZero = editAvailableCopies < 0
 const editTotalLessEqualZero = editTotalCopies <= 0
+
+const noTitle = !title
+const noAuthor = !author
+const noTotalCopies = !totalCopies
+const noAvailableCopies = !availableCopies
+
+const noEditTitle = !editTitle
+const noEditAuthor = !editAuthor
+
+
+const existingBook = books.find(book => 
+    book.title.toLowerCase() === title.toLowerCase()
+ )
 
 
 
@@ -97,22 +111,27 @@ const editTotalLessEqualZero = editTotalCopies <= 0
                 <FieldGroup>
                   <Field>
                     <Label htmlFor="title" className="text-slate-50">Book Title</Label>
-                    <Input id="title" value={title} onChange={e => setTitle(e.target.value)} type="text" className="text-slate-50" name="title" placeholder="Enter book title..." />
+                    <Input id="title" value={title} onChange={e => setTitle(e.target.value)} type="text" className={`text-slate-50 ${noTitle ? "border-red-500 focus-visible:ring-red-500 text-red-500 " : ""}`} name="title" placeholder="Enter book title..." />
+                    {noTitle && <p className="text-xs text-red-500">Required! Please fill the title field</p>}
+                    {existingBook && <p className="text-xs text-red-500">Book with title "{existingBook.title}" already exists!!</p>}
                   </Field>
                   <Field>
                     <Label className="text-slate-50" htmlFor="author">Author</Label>
-                    <Input id="author" value={author} onChange={e => setAuthor(e.target.value)} className="text-slate-50"  type="text" name="author" placeholder="Enter book author..." />
+                    <Input id="author" value={author} onChange={e => setAuthor(e.target.value)} className={`text-slate-50 ${noAuthor ? "border-red-500 focus-visible:ring-red-500 text-red-500 " : ""}`}  type="text" name="author" placeholder="Enter book author..." />
+                    {noAuthor && <p className="text-red-500 text-xs">Required! Please fill the author field</p>}
                   </Field>
                   <Field>
                     <Label className="text-slate-50" htmlFor="total-copies">Total Copies</Label>
-                    <Input id="total-copies" onChange={(e) => setTotalCopies(Number(e.target.value))} className="text-slate-50" type="number"  placeholder="Total copies..."/>
+                    <Input id="total-copies" onChange={(e) => setTotalCopies(Number(e.target.value))} className={`text-slate-50 ${totalLessEqualZero || noTotalCopies ? "border-red-500 focus-visible:ring-red-500 text-red-500 " : ""}`} type="number"  placeholder="Total copies..."/>
                     {totalLessEqualZero && <p className="text-red-500 text-xs">Total copies can't be less or equal to 0</p>}
+                    {noTotalCopies && <p className="text-red-500 text-xs">Required! Please include the total number of copies</p>}
                   </Field>
                    <Field>
                     <Label className="text-slate-50" htmlFor="available-copies">Available Copies</Label>
-                    <Input id="available-copies"  onChange={e => setAvailableCopies(Number(e.target.value))}  className={`text-slate-50 ${availGreatTotal ? "border-red-500 focus:ring-red-500" : ""}`} type="number" name="available-copies" placeholder="Available copies..."/>
+                    <Input id="available-copies"  onChange={e => setAvailableCopies(Number(e.target.value))}  className={`text-slate-50 ${availGreatTotal || availLessZero || noAvailableCopies ? "border-red-500 text-red-500 focus-visible:ring-red-500" : ""}`} type="number" name="available-copies" placeholder="Available copies..."/>
                     {availGreatTotal && <p className="text-red-500 text-xs">Available copies can't be greater than total copies</p>}
-                    {availLessZero && <p className="text-red-500 text-xs">Available copies can't be less than 0</p>}
+                    {availLessZero && <p className="text-red-500 text-xs">Available copies can't be less than 0</p>} 
+                     {noAvailableCopies && <p className="text-red-500 text-xs">Required! Please include the available number of copies</p>}
                   </Field>
                 </FieldGroup>
                 <DialogFooter>
@@ -130,6 +149,10 @@ const editTotalLessEqualZero = editTotalCopies <= 0
 
             {/* List of Books */}
               <div className="pt-5 text-white overflow-y-auto pb-10">
+                {
+
+                  books.length === 0 ? <div className="flex flex-col justify-center gap-5 items-center"><Button onClick={() => setOpenBookForm(true)} className="bg-slate-800 cursor-pointer w-70 h-20 duration-1000 hover:bg-slate-700" variant={"default"}>Add Book</Button><div><p className="text-slate-50 text-2xl">There are no books currently!! Please click the "Add Book" button </p></div></div> :
+                
                 <Table>
                   <TableCaption>List Of All Books</TableCaption>
                   <TableHeader>
@@ -142,21 +165,27 @@ const editTotalLessEqualZero = editTotalCopies <= 0
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredBooks.map((book) => (
+                    {
+
+                    filteredBooks.map((book) => (
                       <TableRow key={book.id}>
                         <TableCell >{book.title}</TableCell>
                         <TableCell>{book.author}</TableCell>
                         <TableCell>{book.totalCopies}</TableCell>
                         <TableCell>{book.availableCopies}</TableCell>
                         <TableCell className="text-right">
+                          
+                         
                           <Button className="cursor-pointer text-slate-950" onClick={() => setBookToEdit(book.id)} variant="outline">Edit Book</Button>
-                         {role === "main_admin" && <Button onClick={() => setBookToDelete(book.id)} className="ml-4 cursor-pointer">Delete Book</Button>} 
+                        { role === "main_admin" && <Button onClick={() => setBookToDelete(book.id)} className="ml-4 cursor-pointer">Delete Book</Button>}
+
                         </TableCell>
+                         
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
-            
+}
                   </div>
 
                   {/* Edit Book Dialog */}
@@ -180,20 +209,22 @@ const editTotalLessEqualZero = editTotalCopies <= 0
                 <FieldGroup>
                   <Field>
                     <Label htmlFor="title" className="text-slate-50">Book Title</Label>
-                    <Input id="title" value={editTitle} onChange={e => setEditTitle(e.target.value)} type="text" className="text-slate-50" name="title" placeholder="Enter book title..." />
+                    <Input id="title" value={editTitle} onChange={e => setEditTitle(e.target.value)} type="text" className={`text-slate-50 ${noEditTitle ? "border-red-500 focus-visible:ring-red-500 text-red-500 " : ""}`} name="title" placeholder="Enter book title..." />
+                     {noEditTitle && <p className="text-xs text-red-500">Required! Please fill the title field</p>}
                   </Field>
                   <Field>
                     <Label className="text-slate-50" htmlFor="author">Author</Label>
-                    <Input id="author" value={editAuthor} onChange={e => setEditAuthor(e.target.value)} className="text-slate-50"  type="text" name="author" placeholder="Enter book author..." />
+                    <Input id="author" value={editAuthor} onChange={e => setEditAuthor(e.target.value)} className={`text-slate-50 ${noEditAuthor ? "border-red-500 focus-visible:ring-red-500 text-red-500 " : ""}`}  type="text" name="author" placeholder="Enter book author..." />
+                      {noEditAuthor && <p className="text-red-500 text-xs">Required! Please fill the author field</p>}
                   </Field>
                   <Field>
                     <Label className="text-slate-50" htmlFor="total-copies">Total Copies</Label>
-                    <Input id="total-copies" value={editTotalCopies} onChange={(e) => setEditTotalCopies(Number(e.target.value))} className="text-slate-50" type="number"  placeholder="Total copies..."/>
+                    <Input id="total-copies" value={editTotalCopies} onChange={(e) => setEditTotalCopies(Number(e.target.value))} className={`text-slate-50 ${editTotalLessEqualZero ? "focus-visible:ring-red-500 text-red-500 border-red-500" : ""}`} type="number"  placeholder="Total copies..."/>
                        {editTotalLessEqualZero && <p className="text-red-500 text-xs">Total copies can't be less or equal to 0</p>}
                   </Field>
                    <Field>
                     <Label className="text-slate-50" htmlFor="available-copies">Available Copies</Label>
-                    <Input id="available-copies" className={`text-slate-50 ${editAvailGreatTotal ? "border-red-500 focus:ring-red-500" : ""}`}  value={editAvailableCopies}  onChange={e => setEditAvailableCopies(Number(e.target.value))}   type="number" name="available-copies" placeholder="Available copies..."/>
+                    <Input id="available-copies" className={`text-slate-50 ${editAvailGreatTotal ? "border-red-500 focus-visible:ring-red-500 text-red-500" : ""}`}  value={editAvailableCopies}  onChange={e => setEditAvailableCopies(Number(e.target.value))}   type="number" name="available-copies" placeholder="Available copies..."/>
                         {editAvailGreatTotal && <p className="text-red-500 text-xs">Available copies can't be greater than total copies</p>}
                         {editAvailLessZero && <p className="text-red-500 text-xs">Available copies can't be less than 0</p>}
                   </Field>

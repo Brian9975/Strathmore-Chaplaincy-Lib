@@ -18,19 +18,22 @@ export default function useEditBook() {
 
 
       if (!editTitle) {
-        alert("Fill the title field")
+        // alert("Fill the title field")
         return
       } else if (!editAuthor) {
-        alert("Fill the author field")
+        // alert("Fill the author field")
         return
       } else if (editTotalCopies < editAvailableCopies) {
-        alert(`Total copies ${editTotalCopies} cannot be less than available copies ${editAvailableCopies}`)
+        // alert(`Total copies ${editTotalCopies} cannot be less than available copies ${editAvailableCopies}`)
+        return
       } else if (editTotalCopies <= 0) {
-        alert(`Total copies ${editTotalCopies} cannot be less than or equal to 0`)
+        // alert(`Total copies ${editTotalCopies} cannot be less than or equal to 0`)
+        return
       }
       else if (editAvailableCopies < 0) {
 
-        alert(`Available copies ${editAvailableCopies} cannot be less than 0`)
+        // alert(`Available copies ${editAvailableCopies} cannot be less than 0`)
+        return
       }
       else{
       setLoading(true)
