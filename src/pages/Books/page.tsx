@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogDescription, DialogClose, Di
  import { useStates } from "@/context/StatesContext"
 import useAddNewBook from "@/hooks/useAddNewBook"
 import { useEffect, useState } from "react"
-import { collection, onSnapshot } from "firebase/firestore"
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore"
 import { db } from "@/lib/firebase-config"
 import type { Book } from "@/types/book"
 import { Table, TableCaption, TableHeader, TableRow, TableHead, TableCell, TableBody } from "@/components/ui/table"
@@ -23,7 +23,7 @@ import useDeleteBook from "@/hooks/useDeleteBook"
 export default function Books() {
   const [searchTerm, setSearchTerm] = useState("")
   const {openBookForm, setOpenBookForm, books, setBooks, bookToEdit, setBookToEdit, alertEdit, alertAdd, bookToDelete, setBookToDelete, alertDel} = useStates()
-  const {handleAddBook, title, setTitle, author, setAuthor, setTotalCopies, setAvailableCopies} = useAddNewBook()
+  const {handleAddBook, title, setTitle, author, setAuthor, availableCopies, totalCopies, setTotalCopies, setAvailableCopies} = useAddNewBook()
   const {role} = useAuth()
   const {handleEditForm, editTitle, setEditTitle, editAuthor, setEditAuthor, editTotalCopies, setEditTotalCopies, editAvailableCopies, setEditAvailableCopies} = useEditBook()
   const {handleDeleteBook} = useDeleteBook()
@@ -31,6 +31,18 @@ export default function Books() {
     const bookToDelInfo = books.find(book => book.id === bookToDelete)
 
 const filteredBooks = books.filter(book => book.title.toLowerCase().includes(searchTerm.toLowerCase()) || book.author.toLowerCase().includes(searchTerm.toLowerCase()))
+const availGreatTotal = (availableCopies > totalCopies)
+const availLessZero = availableCopies < 0
+const totalLessEqualZero = totalCopies <= 0
+
+const editAvailGreatTotal = editAvailableCopies > editTotalCopies
+const editAvailLessZero = editAvailableCopies < 0
+const editTotalLessEqualZero = editTotalCopies <= 0
+
+
+
+
+
 
   useEffect(() => {
      if (bookToEditInfo) {
@@ -43,7 +55,14 @@ const filteredBooks = books.filter(book => book.title.toLowerCase().includes(sea
   
   useEffect(() => {
     const booksCollectionRef = collection(db, "books")
-  const unsubscribe = onSnapshot(booksCollectionRef, (snap) =>  {
+
+
+    const q = query(
+      booksCollectionRef,
+      orderBy("title", "asc")
+    )
+
+  const unsubscribe = onSnapshot(q , (snap) =>  {
      setBooks(snap.docs.map(doc => ({
       ...doc.data() as Book,
       id: doc.id
@@ -87,10 +106,13 @@ const filteredBooks = books.filter(book => book.title.toLowerCase().includes(sea
                   <Field>
                     <Label className="text-slate-50" htmlFor="total-copies">Total Copies</Label>
                     <Input id="total-copies" onChange={(e) => setTotalCopies(Number(e.target.value))} className="text-slate-50" type="number"  placeholder="Total copies..."/>
+                    {totalLessEqualZero && <p className="text-red-500 text-xs">Total copies can't be less or equal to 0</p>}
                   </Field>
                    <Field>
                     <Label className="text-slate-50" htmlFor="available-copies">Available Copies</Label>
-                    <Input id="available-copies"  onChange={e => setAvailableCopies(Number(e.target.value))}  className="text-slate-50" type="number" name="available-copies" placeholder="Available copies..."/>
+                    <Input id="available-copies"  onChange={e => setAvailableCopies(Number(e.target.value))}  className={`text-slate-50 ${availGreatTotal ? "border-red-500 focus:ring-red-500" : ""}`} type="number" name="available-copies" placeholder="Available copies..."/>
+                    {availGreatTotal && <p className="text-red-500 text-xs">Available copies can't be greater than total copies</p>}
+                    {availLessZero && <p className="text-red-500 text-xs">Available copies can't be less than 0</p>}
                   </Field>
                 </FieldGroup>
                 <DialogFooter>
@@ -167,10 +189,13 @@ const filteredBooks = books.filter(book => book.title.toLowerCase().includes(sea
                   <Field>
                     <Label className="text-slate-50" htmlFor="total-copies">Total Copies</Label>
                     <Input id="total-copies" value={editTotalCopies} onChange={(e) => setEditTotalCopies(Number(e.target.value))} className="text-slate-50" type="number"  placeholder="Total copies..."/>
+                       {editTotalLessEqualZero && <p className="text-red-500 text-xs">Total copies can't be less or equal to 0</p>}
                   </Field>
                    <Field>
                     <Label className="text-slate-50" htmlFor="available-copies">Available Copies</Label>
-                    <Input id="available-copies"  value={editAvailableCopies}  onChange={e => setEditAvailableCopies(Number(e.target.value))}  className="text-slate-50" type="number" name="available-copies" placeholder="Available copies..."/>
+                    <Input id="available-copies" className={`text-slate-50 ${editAvailGreatTotal ? "border-red-500 focus:ring-red-500" : ""}`}  value={editAvailableCopies}  onChange={e => setEditAvailableCopies(Number(e.target.value))}   type="number" name="available-copies" placeholder="Available copies..."/>
+                        {editAvailGreatTotal && <p className="text-red-500 text-xs">Available copies can't be greater than total copies</p>}
+                        {editAvailLessZero && <p className="text-red-500 text-xs">Available copies can't be less than 0</p>}
                   </Field>
                 </FieldGroup>
                 <DialogFooter>
@@ -200,7 +225,7 @@ const filteredBooks = books.filter(book => book.title.toLowerCase().includes(sea
       {
        alertAdd &&
         <Alert className="max-w-md">
-      <CheckCircleIcon/>
+      <CheckCircleIcon color="green"/>
       <AlertTitle className="text-md">New Book Added Successfully</AlertTitle>
   
     </Alert>
@@ -234,7 +259,7 @@ const filteredBooks = books.filter(book => book.title.toLowerCase().includes(sea
       {
        alertDel &&
         <Alert className="max-w-md">
-      <CheckCircleIcon/>
+      <CheckCircleIcon color="red"/>
       <AlertTitle className="text-md">Book Deletion Completed</AlertTitle>
   
     </Alert>
