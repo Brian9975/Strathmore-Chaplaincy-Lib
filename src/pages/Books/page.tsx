@@ -18,14 +18,15 @@ import { Alert, AlertTitle } from "@/components/ui/alert"
 import { Edit, CheckCircleIcon } from "lucide-react"
 import { AlertDialog, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogCancel, AlertDialogDescription, AlertDialogContent, AlertDialogAction  } from "@/components/ui/alert-dialog"
 import useDeleteBook from "@/hooks/useDeleteBook"
-import { Spinner } from "@/components/ui/spinner"
+import { Skeleton } from "@/components/ui/skeleton"
 
 
 export default function Books() {
   const [searchTerm, setSearchTerm] = useState("")
   const {openBookForm, setOpenBookForm, books, setBooks, bookToEdit, setBookToEdit, alertEdit, alertAdd, bookToDelete, setBookToDelete, alertDel} = useStates()
   const {handleAddBook, title, setTitle, author, setAuthor, availableCopies, totalCopies, setTotalCopies, setAvailableCopies} = useAddNewBook()
-  const {role, loading} = useAuth()
+  const {role} = useAuth()
+  const [booksLoad, setBooksLoad] = useState(true)
   const {handleEditForm, editTitle, setEditTitle, editAuthor, setEditAuthor, editTotalCopies, setEditTotalCopies, editAvailableCopies, setEditAvailableCopies} = useEditBook()
   const {handleDeleteBook} = useDeleteBook()
     const bookToEditInfo = books.find(book => book.id === bookToEdit)
@@ -68,6 +69,7 @@ const existingBook = books.find(book =>
   }, [bookToEditInfo])
   
   useEffect(() => {
+
     const booksCollectionRef = collection(db, "books")
 
 
@@ -80,9 +82,10 @@ const existingBook = books.find(book =>
      setBooks(snap.docs.map(doc => ({
       ...doc.data() as Book,
       id: doc.id
-
      })))
+    setBooksLoad(false)
   })
+  
    return () => unsubscribe()
   }, [])
   return (
@@ -151,8 +154,17 @@ const existingBook = books.find(book =>
               <div className="pt-5 text-white overflow-y-auto pb-10">
                 {
 
-                  books.length === 0 ? <div className="flex flex-col justify-center gap-5 items-center"><Button onClick={() => setOpenBookForm(true)} className="bg-slate-800 cursor-pointer w-70 h-20 duration-1000 hover:bg-slate-700" variant={"default"}>Add Book</Button><div><p className="text-slate-50 text-2xl">There are no books currently!! Please click the "Add Book" button </p></div></div> :
                 
+                booksLoad ? <div className="flex w-full p-4 flex-col gap-2">
+      {Array.from({ length: 100 }).map((_, index) => (
+        <div className="flex gap-4" key={index}>
+          <Skeleton className="h-9 flex-1" />
+          <Skeleton className="h-9 w-24" />
+          <Skeleton className="h-9 w-10" />
+          <Skeleton className="h-9 w-20"/>
+        </div>
+      ))}
+    </div> :  books.length === 0 ? <div className="flex flex-col justify-center gap-5 items-center"><Button onClick={() => setOpenBookForm(true)} className="bg-slate-800 cursor-pointer w-70 h-20 duration-1000 hover:bg-slate-700" variant={"default"}>Add Book</Button><div><p className="text-slate-50 text-2xl">There are no books currently!! Please click the "Add Book" button </p></div></div> :
                 <Table>
                   <TableCaption>List Of All Books</TableCaption>
                   <TableHeader>

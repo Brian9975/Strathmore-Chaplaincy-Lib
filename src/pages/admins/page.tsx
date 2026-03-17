@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import type { UserInfo } from "@/types/userInfo";
@@ -42,6 +42,7 @@ import {
   AlertDialogTitle,
 
 } from "@/components/ui/alert-dialog"
+import { Skeleton } from "@/components/ui/skeleton";
 
 
 
@@ -54,8 +55,7 @@ export default function Admins() {
   const { role, loading } = useAuth();
   const navigate = useNavigate();
   const { open, setOpen, alert, adminToRemove, setAdminToRemove, accessOff, accessOn, adminToRestore, setAdminToRestore, admins, setAdmins} = useStates()
-  
-
+  const [adminsLoad, setAdminsLoad] = useState(true)
 
 
  const adminToDelInfo = admins.find((admin) => admin.id === adminToRemove)
@@ -68,6 +68,7 @@ export default function Admins() {
     const AdminCollectionRef = collection(db, "users")
    const unsubscribe = onSnapshot(AdminCollectionRef, (snap) => {
      setAdmins(snap.docs.map(doc => ({...doc.data() as UserInfo, id: doc.id})))
+     setAdminsLoad(false)
    })
    return () => unsubscribe()
   }, []);
@@ -138,6 +139,18 @@ export default function Admins() {
 
          
       <div className="pt-5 text-white overflow-y-auto pb-10">
+        {
+
+          adminsLoad ? <div className="flex w-full p-4 flex-col gap-2">
+                {Array.from({ length: 100 }).map((_, index) => (
+                  <div className="flex gap-4" key={index}>
+                    <Skeleton className="h-9 flex-1" />
+                    <Skeleton className="h-9 w-24" />
+                    <Skeleton className="h-9 w-10" />
+                    <Skeleton className="h-9 w-20"/>
+                  </div>
+                ))}
+              </div> :
     <Table>
       <TableCaption>All Admins</TableCaption>
       <TableHeader>
@@ -167,7 +180,7 @@ export default function Admins() {
         ))}
       </TableBody>
     </Table>
-
+}
       </div>
 
       <AlertDialog open={!!adminToRemove} onOpenChange={() => setAdminToRemove(null)}>
