@@ -19,11 +19,12 @@ import { Edit, CheckCircleIcon } from "lucide-react"
 import { AlertDialog, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogCancel, AlertDialogDescription, AlertDialogContent, AlertDialogAction  } from "@/components/ui/alert-dialog"
 import useDeleteBook from "@/hooks/useDeleteBook"
 import { Skeleton } from "@/components/ui/skeleton"
+import useIssueBook from "@/hooks/useIssueBook"
 
 
 export default function Books() {
   const [searchTerm, setSearchTerm] = useState("")
-  const {openBookForm, setOpenBookForm, books, setBooks, bookToEdit, setBookToEdit, alertEdit, alertAdd, bookToDelete, setBookToDelete, alertDel} = useStates()
+  const {openBookForm, bookToIssue, setBookToIssue, setOpenBookForm, books, setBooks, bookToEdit, setBookToEdit, alertEdit, alertAdd, bookToDelete, setBookToDelete, alertDel} = useStates()
   const {handleAddBook, title, setTitle, author, setAuthor, availableCopies, totalCopies, setTotalCopies, setAvailableCopies} = useAddNewBook()
   const {role} = useAuth()
   const [booksLoad, setBooksLoad] = useState(true)
@@ -31,6 +32,11 @@ export default function Books() {
   const {handleDeleteBook} = useDeleteBook()
     const bookToEditInfo = books.find(book => book.id === bookToEdit)
     const bookToDelInfo = books.find(book => book.id === bookToDelete)
+ 
+ const {handleBookIssuance, borrowerName, borrowerContact, borrowerEmail, stuOrStaffNo, dueDate, 
+    setBorrowerContact, setStuOrStaffNo, setBorrowerName, setBorrowerEmail, setDueDate} = useIssueBook()
+
+
 
 const filteredBooks = books.filter(book => book.title.toLowerCase().includes(searchTerm.toLowerCase()) || book.author.toLowerCase().includes(searchTerm.toLowerCase()))
 const availGreatTotal = (availableCopies > totalCopies)
@@ -173,7 +179,10 @@ const existingBook = books.find(book =>
                       <TableHead className="text-white">Book Author</TableHead>
                       <TableHead className="text-white">Total Copies</TableHead>
                       <TableHead className=" text-white">Available Copies</TableHead>
-                      <TableHead className="text-white text-right">Action</TableHead>
+                      
+                      <TableHead className="text-white text-left">Action</TableHead>
+
+                      <TableHead className="text-white text-right">Issue</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -185,13 +194,15 @@ const existingBook = books.find(book =>
                         <TableCell>{book.author}</TableCell>
                         <TableCell>{book.totalCopies}</TableCell>
                         <TableCell>{book.availableCopies}</TableCell>
-                        <TableCell className="text-right">
+                       
+                        <TableCell className="">
                           
                          
-                          <Button className="cursor-pointer text-slate-950" onClick={() => setBookToEdit(book.id)} variant="outline">Edit Book</Button>
-                        { role === "main_admin" && <Button onClick={() => setBookToDelete(book.id)} className="ml-4 cursor-pointer">Delete Book</Button>}
+                          <Button className="cursor-pointer text-slate-950" onClick={() => setBookToEdit(book.id)} variant="outline">Edit</Button>
+                        { role === "main_admin" && <Button onClick={() => setBookToDelete(book.id)} className="ml-4 cursor-pointer">Delete</Button>}
 
                         </TableCell>
+                         <TableCell className="text-right"><Button onClick={() => setBookToIssue(book.id)} className="text-slate-950 cursor-pointer border-none hover:bg-amber-500 bg-amber-600" variant="outline">Issue Book</Button></TableCell>
                          
                       </TableRow>
                     ))}
@@ -308,6 +319,65 @@ const existingBook = books.find(book =>
     </Alert>
       }
       </div>
+
+
+
+      {/* Issue Book Dialog */}
+
+       <div>
+           {/* Dialog */}
+               
+             <Dialog open={!!bookToIssue} onOpenChange={() => setBookToIssue(null)}>
+                   <DialogContent className="sm:max-w-sm bg-slate-950 border-0">
+                    <form onSubmit={(e) => {
+                      if (bookToIssue !== null) {
+                   handleBookIssuance(e, bookToIssue)
+                      }
+                      }}>
+                <DialogHeader>
+                  <DialogTitle className="text-slate-50">Edit Book Details</DialogTitle>
+                </DialogHeader>
+                <DialogDescription>
+                  Fill The Following Fields To Issue Book
+                </DialogDescription>
+                <FieldGroup>
+                  <Field>
+                    <Label htmlFor="borrower-name" className="text-slate-50">Borower's Name</Label>
+                    <Input id="borrower-name" value={borrowerName} onChange={e => setBorrowerName(e.target.value)} type="text" className={`text-slate-50`} name="name" placeholder="eg.John Doe ...." />
+                     
+                  </Field>
+                  <Field>
+                    <Label className="text-slate-50" htmlFor="email">Borrower's Email</Label>
+                    <Input id="email" value={borrowerEmail} onChange={e => setBorrowerEmail(e.target.value)} className={`text-slate-50`}  type="text" name="email" placeholder="eg.johndoe@gmail.com...." />
+                     
+                  </Field>
+                  <Field>
+                    <Label className="text-slate-50" htmlFor="s-no">Student/Staff No.</Label>
+                    <Input id="s-no" value={stuOrStaffNo} onChange={(e) => setStuOrStaffNo(e.target.value)} className={`text-slate-50`} type="text"  placeholder="eg.123456..."/>
+                       
+                  </Field>
+                   <Field>
+                    <Label className="text-slate-50" htmlFor="contact">Borrower's Contact</Label>
+                    <Input id="contact" className={`text-slate-50`}  value={borrowerContact}  onChange={e => setBorrowerContact(e.target.value)}   type="text" name="available-copies" placeholder="eg.0712345678..."/>
+
+                  </Field>
+
+                  <Field>
+                    <Label className="text-slate-50" htmlFor="date-due">Date Due</Label>
+                    
+                  </Field>
+                </FieldGroup>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button className="cursor-pointer mt-3" variant="default">Cancel</Button>
+                  </DialogClose>
+                  <Button className="cursor-pointer mt-3" type="submit">Save</Button>
+                </DialogFooter>
+                   </form>
+             </DialogContent>
+               
+              </Dialog>
+            </div>
 
      </div>
   )
