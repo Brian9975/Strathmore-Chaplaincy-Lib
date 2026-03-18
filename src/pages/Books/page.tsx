@@ -15,11 +15,14 @@ import { Table, TableCaption, TableHeader, TableRow, TableHead, TableCell, Table
 import { useAuth } from "@/context/AuthContext"
 import useEditBook from "@/hooks/useEditBook"
 import { Alert, AlertTitle } from "@/components/ui/alert"
-import { Edit, CheckCircleIcon } from "lucide-react"
+import { Edit, CheckCircleIcon, CalendarIcon } from "lucide-react"
 import { AlertDialog, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogCancel, AlertDialogDescription, AlertDialogContent, AlertDialogAction  } from "@/components/ui/alert-dialog"
 import useDeleteBook from "@/hooks/useDeleteBook"
 import { Skeleton } from "@/components/ui/skeleton"
 import useIssueBook from "@/hooks/useIssueBook"
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
+import { Calendar } from "@/components/ui/calendar"
+import { format } from "date-fns"
 
 
 export default function Books() {
@@ -33,8 +36,8 @@ export default function Books() {
     const bookToEditInfo = books.find(book => book.id === bookToEdit)
     const bookToDelInfo = books.find(book => book.id === bookToDelete)
  
- const {handleBookIssuance, borrowerName, borrowerContact, borrowerEmail, stuOrStaffNo, dueDate, 
-    setBorrowerContact, setStuOrStaffNo, setBorrowerName, setBorrowerEmail, setDueDate} = useIssueBook()
+ const {handleBookIssuance, borrowerName, borrowerContact, stuOrStaffNo, dueDate, 
+    setBorrowerContact, setStuOrStaffNo, setBorrowerName, setDueDate} = useIssueBook()
 
 
 
@@ -346,24 +349,35 @@ const existingBook = books.find(book =>
                     <Input id="borrower-name" value={borrowerName} onChange={e => setBorrowerName(e.target.value)} type="text" className={`text-slate-50`} name="name" placeholder="eg.John Doe ...." />
                      
                   </Field>
-                  <Field>
-                    <Label className="text-slate-50" htmlFor="email">Borrower's Email</Label>
-                    <Input id="email" value={borrowerEmail} onChange={e => setBorrowerEmail(e.target.value)} className={`text-slate-50`}  type="text" name="email" placeholder="eg.johndoe@gmail.com...." />
-                     
-                  </Field>
+                
                   <Field>
                     <Label className="text-slate-50" htmlFor="s-no">Student/Staff No.</Label>
-                    <Input id="s-no" value={stuOrStaffNo} onChange={(e) => setStuOrStaffNo(e.target.value)} className={`text-slate-50`} type="text"  placeholder="eg.123456..."/>
+                    <Input id="s-no"  onChange={(e) => setStuOrStaffNo(Number(e.target.value))} className={`text-slate-50`} type="number"  placeholder="eg.123456..."/>
                        
                   </Field>
                    <Field>
                     <Label className="text-slate-50" htmlFor="contact">Borrower's Contact</Label>
-                    <Input id="contact" className={`text-slate-50`}  value={borrowerContact}  onChange={e => setBorrowerContact(e.target.value)}   type="text" name="available-copies" placeholder="eg.0712345678..."/>
+                    <Input id="contact" className={`text-slate-50`}  onChange={e => setBorrowerContact(Number(e.target.value))}   type="number" name="available-copies" placeholder="eg.712345678..."/>
 
                   </Field>
 
                   <Field>
                     <Label className="text-slate-50" htmlFor="date-due">Date Due</Label>
+                        <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          data-empty={!dueDate}
+          className="w-[280px] justify-start text-left font-normal data-[empty=true]:text-muted-foreground"
+        >
+          <CalendarIcon />
+          {dueDate ? format(dueDate, "PPP") : <span>Pick a date</span>}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0">
+        <Calendar className="bg-slate-900" mode="single" selected={dueDate} onSelect={setDueDate} required/>
+      </PopoverContent>
+    </Popover>
                     
                   </Field>
                 </FieldGroup>
