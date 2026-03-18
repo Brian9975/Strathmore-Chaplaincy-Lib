@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from 'react'
 import type { UserInfo } from '@/types/userInfo'
 import type { Book } from '@/types/book'
+import type { Transaction } from '@/types/transaction'
 
 interface StatesContextType {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>,
@@ -33,6 +34,10 @@ interface StatesContextType {
     setAlertDel: React.Dispatch<React.SetStateAction<boolean>>,
     bookToIssue: string | null,
     setBookToIssue: React.Dispatch<React.SetStateAction<string | null>>,
+    transactions: Transaction[],
+    setTransactions: React.Dispatch<React.SetStateAction<Transaction[]>>,
+    bookToReturn: string | null,
+    setBookToReturn: React.Dispatch<React.SetStateAction<string | null>>,
 }
 
 
@@ -53,8 +58,11 @@ export default function StatesContextProvider({children}: {children: React.React
  const [bookToDelete, setBookToDelete] = useState<string | null>(null)
  const [alertDel, setAlertDel] = useState(false)
  const [bookToIssue, setBookToIssue] = useState<string | null>(null)
+ const [transactions, setTransactions] = useState<Transaction[]>([])
+ const [bookToReturn, setBookToReturn] = useState<string | null>(null)
 
-    const contextValue = {books, bookToIssue, setBookToIssue, alertDel, setAlertDel, alertAdd, setAlertAdd, setBooks, bookToEdit, setBookToEdit, setOpen, open, alert, setAlert, adminToRemove, setAdminToRemove, accessOff, setAccessOff, adminToRestore, setAdminToRestore, accessOn, setAccessOn, admins, setAdmins, openBookForm, setOpenBookForm, alertEdit, setAlertEdit, bookToDelete, setBookToDelete}
+
+    const contextValue = {books, bookToReturn, setBookToReturn, transactions, setTransactions, bookToIssue, setBookToIssue, alertDel, setAlertDel, alertAdd, setAlertAdd, setBooks, bookToEdit, setBookToEdit, setOpen, open, alert, setAlert, adminToRemove, setAdminToRemove, accessOff, setAccessOff, adminToRestore, setAdminToRestore, accessOn, setAccessOn, admins, setAdmins, openBookForm, setOpenBookForm, alertEdit, setAlertEdit, bookToDelete, setBookToDelete}
   return (
  <StateContext value={contextValue}>{children}</StateContext>
   )

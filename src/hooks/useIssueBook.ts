@@ -7,7 +7,7 @@ export default function useIssueBook() {
     const {setBookToIssue} = useStates()
     const [borrowerName, setBorrowerName] = useState("")
     const [stuOrStaffNo, setStuOrStaffNo] = useState(301603)
-    const [borrowerContact, setBorrowerContact] = useState(712345678)
+    const [borrowerContact, setBorrowerContact] = useState(0)
     const [dueDate, setDueDate] = useState<Date>(() => { 
        const date = new Date()
        date.setDate(date.getDate() + 7)
@@ -17,7 +17,19 @@ export default function useIssueBook() {
     const handleBookIssuance = async (e: React.FormEvent<HTMLFormElement>, bookId: string) => {
       e.preventDefault()
 
+   if (!borrowerName) {
+    alert("Required!! Please include the borrowers name")
+    return
+   }
+   else if  (!stuOrStaffNo) {
 
+    alert("Required!! Please include a student or staff number")
+    return
+   }
+   else if (!borrowerContact) {
+    alert("Required!! Please include the borrower's contact")
+    return
+   }
    
    const  borrowCollectionRef = collection(db, "borrowings")
 
@@ -53,11 +65,11 @@ export default function useIssueBook() {
     dueDate: dueDate,
     status: "issued",
     dateBorrowed: serverTimestamp()
-  })
-
+  })   
      })
+     setBorrowerName("")
    } catch (error) {
-
+     alert(error)
    } finally {
     setBookToIssue(null)
 

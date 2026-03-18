@@ -98,7 +98,7 @@ const existingBook = books.find(book =>
    return () => unsubscribe()
   }, [])
   return (
-     <div className="min-h-screen ">
+     <div className="min-h-screen">
       <div className="text-right px-2 pt-6 mb-7">
         <Button onClick={() => setOpenBookForm(true)} className="bg-slate-800 cursor-pointer duration-1000 hover:bg-slate-700" variant={"default"}>Add Book</Button>
       </div>

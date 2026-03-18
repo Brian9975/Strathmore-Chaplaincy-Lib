@@ -56,13 +56,13 @@ const {role} = useAuth()
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
 
-              <Link to="/borrow"><BookUp/>Borrow</Link>
+              <Link to="/borrow"><BookUp/>Active Transactions</Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
 
-              <Link to="/returns"><BookDown/>Returns</Link>
+              <Link to="/returns"><BookDown/>Transaction History</Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
           {
