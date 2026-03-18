@@ -36,8 +36,8 @@ interface StatesContextType {
     setBookToIssue: React.Dispatch<React.SetStateAction<string | null>>,
     transactions: Transaction[],
     setTransactions: React.Dispatch<React.SetStateAction<Transaction[]>>,
-    bookToReturn: string | null,
-    setBookToReturn: React.Dispatch<React.SetStateAction<string | null>>,
+    loanToUpdate: string | null,
+    setLoanToUpdate: React.Dispatch<React.SetStateAction<string | null>>,
 }
 
 
@@ -59,10 +59,10 @@ export default function StatesContextProvider({children}: {children: React.React
  const [alertDel, setAlertDel] = useState(false)
  const [bookToIssue, setBookToIssue] = useState<string | null>(null)
  const [transactions, setTransactions] = useState<Transaction[]>([])
- const [bookToReturn, setBookToReturn] = useState<string | null>(null)
+ const [loanToUpdate, setLoanToUpdate] = useState<string | null>(null)
 
 
-    const contextValue = {books, bookToReturn, setBookToReturn, transactions, setTransactions, bookToIssue, setBookToIssue, alertDel, setAlertDel, alertAdd, setAlertAdd, setBooks, bookToEdit, setBookToEdit, setOpen, open, alert, setAlert, adminToRemove, setAdminToRemove, accessOff, setAccessOff, adminToRestore, setAdminToRestore, accessOn, setAccessOn, admins, setAdmins, openBookForm, setOpenBookForm, alertEdit, setAlertEdit, bookToDelete, setBookToDelete}
+    const contextValue = {books, loanToUpdate, setLoanToUpdate, transactions, setTransactions, bookToIssue, setBookToIssue, alertDel, setAlertDel, alertAdd, setAlertAdd, setBooks, bookToEdit, setBookToEdit, setOpen, open, alert, setAlert, adminToRemove, setAdminToRemove, accessOff, setAccessOff, adminToRestore, setAdminToRestore, accessOn, setAccessOn, admins, setAdmins, openBookForm, setOpenBookForm, alertEdit, setAlertEdit, bookToDelete, setBookToDelete}
   return (
  <StateContext value={contextValue}>{children}</StateContext>
   )

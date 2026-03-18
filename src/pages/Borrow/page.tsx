@@ -5,14 +5,17 @@ import { collection, onSnapshot, query, where } from "firebase/firestore"
 import { db } from "@/lib/firebase-config"
 import { useStates } from "@/context/StatesContext"
 import type { Transaction } from "@/types/transaction"
-import { format } from "date-fns"
+import { CheckCircle2 } from "lucide-react"
 import useDateFormatter from "@/hooks/useDateFormatter"
-
-
+import { AlertDialog, AlertDialogCancel, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogFooter } from "@/components/ui/alert-dialog"
+import useReturnBook from "@/hooks/useReturnBook"
+import { Alert, AlertTitle } from "@/components/ui/alert"
 export default function Borrow() {
-const {transactions, setTransactions, bookToReturn, setBookToReturn} = useStates()
+const {transactions, setTransactions, loanToUpdate, setLoanToUpdate} = useStates()
 const {formatAnyDate} = useDateFormatter()
+const {handleReturn} = useReturnBook()
 
+const loanToUpdateInfo = transactions.find(transaction => transaction.transactionId === loanToUpdate)
 
 
 
@@ -30,8 +33,9 @@ useEffect(() => {
     transactionId: doc.id,
   })))
  })
+ return () => unsubscribe()
 }, [])
-  return (
+  return (    <div>
                     <Table>
                   <TableCaption>List Of All Books</TableCaption>
                   <TableHeader>
@@ -64,12 +68,42 @@ useEffect(() => {
                           <TableCell>{formatAnyDate(transaction.dateBorrowed)}</TableCell>
                          <TableCell>{formatAnyDate(transaction.dueDate)}</TableCell>
                         
-                         <TableCell onClick={() => setBookToReturn(transaction.transactionId)} className="text-right"><Button className="bg-amber-600 cursor-pointer text-slate-950 hover:bg-amber-500" variant={"default"}>Return</Button></TableCell>
+                         <TableCell onClick={() => setLoanToUpdate(transaction.transactionId)} className="text-right"><Button className="bg-amber-600 cursor-pointer text-slate-950 hover:bg-amber-500" variant={"default"}>Return</Button></TableCell>
 
                          
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
+
+                {/* Alert Dialog For Handling Return */}
+                          <AlertDialog open={!!loanToUpdate} onOpenChange={() => setLoanToUpdate(null)}>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                      This will immediately return book with title "{loanToUpdateInfo?.bookTitle}", update the status of this transaction and clear {loanToUpdateInfo?.name}'s loan
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel className="cursor-pointer">Cancel</AlertDialogCancel>
+                            <AlertDialogAction className="cursor-pointer" onClick={() => {
+                              if (loanToUpdate !== null) {
+                               handleReturn(loanToUpdate)
+                              }
+                            }}>
+                               Continue
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                <div className="fixed right-4 bottom-4 ">
+                  <Alert className="max-w-md">
+                      <CheckCircle2 color="green"/>
+                      <AlertTitle className="text-md">Book Returned And Updated Successfully</AlertTitle>
+                  
+                    </Alert>
+                    </div>
+                </div>
   )
 }
