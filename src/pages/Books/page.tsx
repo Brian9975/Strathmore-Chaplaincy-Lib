@@ -385,7 +385,7 @@ const existingBook = books.find(book =>
                   <DialogClose asChild>
                     <Button className="cursor-pointer mt-3" variant="default">Cancel</Button>
                   </DialogClose>
-                  <Button className="cursor-pointer mt-3" type="submit">Save</Button>
+                  <Button className="cursor-pointer mt-3" type="submit">Issue Book</Button>
                 </DialogFooter>
                    </form>
              </DialogContent>
