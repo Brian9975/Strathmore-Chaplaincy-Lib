@@ -1,9 +1,8 @@
-import type { Timestamp } from "firebase/firestore"
+import type { Status } from "./transaction"
+import { Timestamp } from "firebase/firestore"
 
-
-export type Status = "issued" | "overdue" | "returned"
-export interface Transaction {
-    transactionId: string,
+export interface LoanHistory {
+    id: string,
     bookId: string,
     bookTitle: string,
     bookAuthor: string,
@@ -13,4 +12,5 @@ export interface Transaction {
     dueDate: Date,
     status: Status
     dateBorrowed: Timestamp,
+    dateReturned: Timestamp,
 }

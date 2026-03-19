@@ -2,11 +2,12 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Dashboard from "./pages/Dashboard/page";
 import Admins from "./pages/admins/page";
 import Books from "./pages/Books/page";
-import Borrow from "./pages/Borrow/page";
+import Borrow from "./pages/activeTransactions/page";
 import Login from "./pages/Auth/login";
-import Returns from "./pages/returns/page";
+import TransactionsHistory from "./pages/transactionsHistory/page";
 import BookInfo from "./pages/BookInfo/page";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
+import ActiveTransactions from "./pages/activeTransactions/page";
 
 function App() {
   return (
@@ -21,8 +22,8 @@ function App() {
         <Route path="/admins" element={<ProtectedRoute><Admins /></ProtectedRoute>} />
         <Route path="/books" element={<ProtectedRoute><Books/></ProtectedRoute>} />
         <Route path="/books/:id" element={<ProtectedRoute><BookInfo /></ProtectedRoute>} />
-        <Route path="/borrow" element={<ProtectedRoute><Borrow /></ProtectedRoute>} />
-        <Route path="/returns" element={<ProtectedRoute><Returns /></ProtectedRoute>} />
+        <Route path="/activeTransactions" element={<ProtectedRoute><ActiveTransactions /></ProtectedRoute>} />
+        <Route path="/transactionsHistory" element={<ProtectedRoute><TransactionsHistory /></ProtectedRoute>} />
         <Route path="/" element={<Navigate to="/dashboard" replace/>} />
 
         {/* Redirect unknown paths to login */}

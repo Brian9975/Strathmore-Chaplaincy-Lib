@@ -40,7 +40,7 @@ export default function useReturnBook() {
        setAlertReturn(false)
       }, 6000)
     } catch (error) {
-      console.log(error)
+      alert(error)
     } finally {
      setLoading(false)
      setLoanToUpdate(null)

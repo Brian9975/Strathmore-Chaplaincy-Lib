@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Table, TableCaption, TableRow, TableHead, TableHeader, TableBody, TableCell } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { collection, onSnapshot, query, where } from "firebase/firestore"
@@ -10,13 +10,15 @@ import useDateFormatter from "@/hooks/useDateFormatter"
 import { AlertDialog, AlertDialogCancel, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogFooter } from "@/components/ui/alert-dialog"
 import useReturnBook from "@/hooks/useReturnBook"
 import { Alert, AlertTitle } from "@/components/ui/alert"
-export default function Borrow() {
+import { Input } from "@/components/ui/input"
+export default function ActiveTransactions() {
 const {transactions, setTransactions, loanToUpdate, setLoanToUpdate, alertReturn} = useStates()
 const {formatAnyDate} = useDateFormatter()
 const {handleReturn} = useReturnBook()
-
+const [searchTerm, setSearchTerm] = useState("")
 const loanToUpdateInfo = transactions.find(transaction => transaction.transactionId === loanToUpdate)
 
+const filteredTransactions = transactions.filter(transaction => transaction.name.toLowerCase().includes(searchTerm.toLowerCase()) || transaction.bookTitle.toLowerCase().includes(searchTerm.toLowerCase()))
 
 
 
@@ -35,7 +37,20 @@ useEffect(() => {
  })
  return () => unsubscribe()
 }, [])
-  return (    <div>
+  return (    <div >
+          
+
+               {/* Search Filter For Transactions */}
+                <div className="flex mb-5 mt-8 justify-center">
+                  <Input
+                    type="text"
+                    value={searchTerm}
+                    className="w-xl"
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Search transaction by book title or borrower's name... "
+                  />
+                </div>
+                <div></div>
                     <Table>
                   <TableCaption>List Of All Books</TableCaption>
                   <TableHeader>
@@ -57,7 +72,7 @@ useEffect(() => {
                   <TableBody>
                     {
 
-                    transactions.map((transaction) => (
+                    filteredTransactions.map((transaction) => (
                       <TableRow key={transaction.transactionId}>
                         <TableCell>{transaction.bookTitle}</TableCell>
                         <TableCell>{transaction.bookAuthor}</TableCell>

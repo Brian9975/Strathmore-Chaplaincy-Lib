@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import type { UserInfo } from "@/types/userInfo";
-import { collection, onSnapshot} from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query, where} from "firebase/firestore";
 import { db } from "@/lib/firebase-config";
 import { CheckCircle2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -66,7 +66,10 @@ export default function Admins() {
 
   useEffect(() => {
     const AdminCollectionRef = collection(db, "users")
-   const unsubscribe = onSnapshot(AdminCollectionRef, (snap) => {
+    const q = query(collection(db, "users"), orderBy(
+      "createdAt", "asc"
+    ))
+   const unsubscribe = onSnapshot(q, (snap) => {
      setAdmins(snap.docs.map(doc => ({...doc.data() as UserInfo, id: doc.id})))
      setAdminsLoad(false)
    })

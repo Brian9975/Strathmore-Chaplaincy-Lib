@@ -34,10 +34,9 @@ export default function useIssueBook() {
    }
    
 
-else {
+
    setLoading(true)
    const  borrowCollectionRef = collection(db, "borrowings")
-
    try {
      await runTransaction(db, async (transaction) => {
     
@@ -45,10 +44,9 @@ else {
    const copiesAvailable = bookDoc.data()?.availableCopies
    
    if (copiesAvailable <= 0) {
-    alert("No copies Available")
-    return
+   throw new Error("No copies available")
    }
-
+  
   //  Decrease The Number Of Available copies by 1
 
   transaction.update(doc(db, "books", bookId), {
@@ -86,7 +84,6 @@ else {
   }
 
 
-    }
   return {handleBookIssuance, borrowerName, borrowerContact, stuOrStaffNo, dueDate, 
     setBorrowerContact, setStuOrStaffNo, setBorrowerName, setDueDate
   }

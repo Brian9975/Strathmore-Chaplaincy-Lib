@@ -96,7 +96,6 @@ export default function Books() {
   const { handleDeleteBook } = useDeleteBook();
   const bookToEditInfo = books.find((book) => book.id === bookToEdit);
   const bookToDelInfo = books.find((book) => book.id === bookToDelete);
-  const bookToIssueInfo = books.find(book => book.id === bookToIssue)
 
   const {
     handleBookIssuance,
@@ -674,7 +673,7 @@ export default function Books() {
                     Cancel
                   </Button>
                 </DialogClose>
-                <Button className="cursor-pointer mt-3" type="submit">
+                <Button variant={"default"} className="cursor-pointer mt-3" type="submit">
                   Issue Book
                 </Button>
               </DialogFooter>
@@ -689,7 +688,7 @@ export default function Books() {
           <Alert className="max-w-md">
             <CheckCircle2 color="green" />
             <AlertTitle className="text-md">
-              Book with title "{bookToIssueInfo?.title}" issued successfully
+              Book issued successfully
             </AlertTitle>
           </Alert>
         )}
