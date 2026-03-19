@@ -11,7 +11,7 @@ import { AlertDialog, AlertDialogCancel, AlertDialogAction, AlertDialogContent, 
 import useReturnBook from "@/hooks/useReturnBook"
 import { Alert, AlertTitle } from "@/components/ui/alert"
 export default function Borrow() {
-const {transactions, setTransactions, loanToUpdate, setLoanToUpdate} = useStates()
+const {transactions, setTransactions, loanToUpdate, setLoanToUpdate, alertReturn} = useStates()
 const {formatAnyDate} = useDateFormatter()
 const {handleReturn} = useReturnBook()
 
@@ -98,11 +98,14 @@ useEffect(() => {
                         </AlertDialogContent>
                       </AlertDialog>
                 <div className="fixed right-4 bottom-4 ">
+                  {
+               alertReturn &&
                   <Alert className="max-w-md">
                       <CheckCircle2 color="green"/>
                       <AlertTitle className="text-md">Book Returned And Updated Successfully</AlertTitle>
                   
                     </Alert>
+}
                     </div>
                 </div>
   )

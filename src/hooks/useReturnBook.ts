@@ -1,13 +1,19 @@
+import { useAuth } from "@/context/AuthContext"
+import { useStates } from "@/context/StatesContext"
 import { db } from "@/lib/firebase-config"
 import { doc, runTransaction, serverTimestamp } from "firebase/firestore"
 
 export default function useReturnBook() {
+ const {setAlertReturn, setLoanToUpdate} = useStates()
+ const {setLoading} = useAuth()
+
     const handleReturn = async (loanId: string) => {
     
-    const loanRef = doc(db, "borrowings", loanId)
+    
 
     
-    
+    setLoading(true)
+    const loanRef = doc(db, "borrowings", loanId)
       try {
      await runTransaction(db, async (transaction) => {
       const borrowingDoc = await transaction.get(loanRef)
@@ -28,10 +34,16 @@ export default function useReturnBook() {
       dateReturned: serverTimestamp()
     })
       })
+
+      setAlertReturn(true)
+      setTimeout(() => {
+       setAlertReturn(false)
+      }, 6000)
     } catch (error) {
       console.log(error)
     } finally {
-
+     setLoading(false)
+     setLoanToUpdate(null)
     }
         
     }

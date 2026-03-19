@@ -1,10 +1,12 @@
+import { useAuth } from '@/context/AuthContext'
 import { useStates } from '@/context/StatesContext'
 import { db } from '@/lib/firebase-config'
 import { collection, doc, runTransaction, serverTimestamp } from 'firebase/firestore'
 import  {useState} from 'react'
 
 export default function useIssueBook() {
-    const {setBookToIssue} = useStates()
+    const {setBookToIssue, setAlertIssue} = useStates()
+    const {setLoading} = useAuth()
     const [borrowerName, setBorrowerName] = useState("")
     const [stuOrStaffNo, setStuOrStaffNo] = useState(301603)
     const [borrowerContact, setBorrowerContact] = useState(0)
@@ -31,6 +33,9 @@ export default function useIssueBook() {
     return
    }
    
+
+else {
+   setLoading(true)
    const  borrowCollectionRef = collection(db, "borrowings")
 
    try {
@@ -68,13 +73,17 @@ export default function useIssueBook() {
   })   
      })
      setBorrowerName("")
+     setAlertIssue(true)
+     setTimeout(() => {
+      setAlertIssue(false)
+     }, 6000)
    } catch (error) {
      alert(error)
    } finally {
     setBookToIssue(null)
-
+    setLoading(false)
    }
-    
+  }
 
 
     }
