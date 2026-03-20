@@ -9,9 +9,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem, 
+  DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import { LogOut } from "lucide-react";
 
 export default function ProtectedRoute({
@@ -21,8 +21,6 @@ export default function ProtectedRoute({
 }) {
   const { user, loading, role, logout } = useAuth();
   const navigate = useNavigate();
-
-  
 
   useEffect(() => {
     if (!user && !loading) {
@@ -48,26 +46,30 @@ export default function ProtectedRoute({
         <div className="bg-slate-900 flex justify-between p-4">
           <SidebarTrigger size="lg" className="cursor-pointer" />
           <DropdownMenu>
-  <DropdownMenuTrigger asChild>
-     <Avatar className="w-9 h-9 cursor-pointer">
-            <AvatarImage />
-            <AvatarFallback className={`text-slate-950 ${role === "main_admin" ? "bg-amber-500" : role === "admin" ? "bg-emerald-400" : null}`}>
-              {user.email !== null && user.email[0].toUpperCase()}
-            </AvatarFallback>
-       </Avatar>
-  </DropdownMenuTrigger>
-  <DropdownMenuContent className=" border-0 text-slate-950">  
-      <DropdownMenuItem onClick={logout} className="cursor-pointer text-md">
-   <LogOut/>Logout
-      </DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu>
-         
+            <DropdownMenuTrigger asChild>
+              <Avatar className="w-9 h-9 cursor-pointer">
+                <AvatarImage />
+                <AvatarFallback
+                  className={`text-slate-950 ${role === "main_admin" ? "bg-amber-500" : role === "admin" ? "bg-emerald-400" : null}`}
+                >
+                  {user.email !== null && user.email[0].toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className=" border-0 text-slate-950">
+              <DropdownMenuItem
+                onClick={logout}
+                className="cursor-pointer text-md"
+              >
+                <LogOut />
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
-        <main>{children}</main>
+        <main className="p-2">{children}</main>
       </div>
-
     </SidebarProvider>
   );
 }

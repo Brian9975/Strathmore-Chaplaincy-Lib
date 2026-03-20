@@ -657,10 +657,15 @@ export default function Books() {
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
                       <Calendar
-                        className="bg-slate-900"
                         mode="single"
                         selected={dueDate}
                         onSelect={(date) => setDueDate(date as Date)}
+                        disabled={(date) => { 
+                          let today = new Date()
+                          today.setHours(0, 0, 0, 0)
+                          return date < today
+                        }
+                        }
                         required
                       />
                     </PopoverContent>

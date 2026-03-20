@@ -69,7 +69,7 @@ return () => unsubscribe()
                    {loan.contact}
                   </TableCell>
                   <TableCell className="text-emerald-500">
-                    {loan.status}
+                    {loan.status.toUpperCase()}
                   </TableCell>
                   <TableCell>{formatAnyDate(loan.dateReturned)}</TableCell>
                 </TableRow>
