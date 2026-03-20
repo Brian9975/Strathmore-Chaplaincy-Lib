@@ -660,7 +660,7 @@ export default function Books() {
                         className="bg-slate-900"
                         mode="single"
                         selected={dueDate}
-                        onSelect={setDueDate}
+                        onSelect={(date) => setDueDate(date as Date)}
                         required
                       />
                     </PopoverContent>

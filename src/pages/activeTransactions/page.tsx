@@ -11,11 +11,13 @@ import { AlertDialog, AlertDialogCancel, AlertDialogAction, AlertDialogContent, 
 import useReturnBook from "@/hooks/useReturnBook"
 import { Alert, AlertTitle } from "@/components/ui/alert"
 import { Input } from "@/components/ui/input"
+import useLoanOverdue from "@/hooks/useLoanOverdue"
 export default function ActiveTransactions() {
 const {transactions, setTransactions, loanToUpdate, setLoanToUpdate, alertReturn} = useStates()
 const {formatAnyDate} = useDateFormatter()
 const {handleReturn} = useReturnBook()
 const [searchTerm, setSearchTerm] = useState("")
+const {loanIsOverdue} = useLoanOverdue()
 const loanToUpdateInfo = transactions.find(transaction => transaction.transactionId === loanToUpdate)
 
 const filteredTransactions = transactions.filter(transaction => transaction.name.toLowerCase().includes(searchTerm.toLowerCase()) || transaction.bookTitle.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -23,6 +25,8 @@ const filteredTransactions = transactions.filter(transaction => transaction.name
 
 
 
+
+    
 
 
 
@@ -62,7 +66,7 @@ useEffect(() => {
                       
                       <TableHead className="text-amber-600 text-left">Contact</TableHead>
 
-                      <TableHead className="text-amber-600">Status</TableHead>
+                      <TableHead className="text-amber-600  text-center">Status</TableHead>
                       <TableHead className="text-amber-600">Date Borrowed</TableHead>
                       <TableHead className="text-amber-600">Date due</TableHead>
                       
@@ -79,11 +83,10 @@ useEffect(() => {
                         <TableCell>{transaction.name}</TableCell>
                         <TableCell>{transaction.stuOrStaffNo}</TableCell>
                         <TableCell>{transaction.contact}</TableCell>
-                         <TableCell className="text-emerald-500">{transaction.status}</TableCell>
-                          <TableCell>{formatAnyDate(transaction.dateBorrowed)}</TableCell>
-                         <TableCell>{formatAnyDate(transaction.dueDate)}</TableCell>
-                        
-                         <TableCell onClick={() => setLoanToUpdate(transaction.transactionId)} className="text-right"><Button className="bg-amber-600 cursor-pointer text-slate-950 hover:bg-amber-500" variant={"default"}>Return</Button></TableCell>
+                        <TableCell ><p className={`${loanIsOverdue(transaction.dueDate) ? "text-slate-50 bg-red-500" : "text-emerald-500" } text-center p-3`}>{loanIsOverdue(transaction.dueDate) ? "OVERDUE" : "ACTIVE"}</p></TableCell>
+                        <TableCell>{formatAnyDate(transaction.dateBorrowed)}</TableCell>
+                        <TableCell>{formatAnyDate(transaction.dueDate)}</TableCell>
+                        <TableCell onClick={() => setLoanToUpdate(transaction.transactionId)} className="text-right"><Button className="bg-amber-600 cursor-pointer text-slate-950 hover:bg-amber-500" variant={"default"}>Return</Button></TableCell>
 
                          
                       </TableRow>
