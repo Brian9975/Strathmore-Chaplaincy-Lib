@@ -31,7 +31,7 @@ return () => unsubscribe()
   }, [])
   return (
   <div>
-
+    <h1 className="font-bold text-3xl">Transactions History</h1>
                    {/* Search Filter For  Loans Handled*/}
                     <div className="flex mb-5 mt-8 justify-center">
                       <Input

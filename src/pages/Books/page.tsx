@@ -162,6 +162,7 @@ export default function Books() {
   }, []);
   return (
     <div className="min-h-screen">
+      <h1 className="font-bold text-3xl">Books</h1>
       <div className="text-right px-2 pt-6 mb-7">
         <Button
           onClick={() => setOpenBookForm(true)}
