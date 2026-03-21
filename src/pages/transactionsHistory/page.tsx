@@ -6,6 +6,7 @@ import { useStates } from "@/context/StatesContext"
 import type { LoanHistory } from "@/types/loanHistory"
 import useDateFormatter from "@/hooks/useDateFormatter"
 import { Input } from "@/components/ui/input"
+import { Skeleton } from "@/components/ui/skeleton"
 
 
 
@@ -14,6 +15,7 @@ export default function TransactionsHistory() {
 const [searchTerm, setSearchTerm] = useState("")
 const {loansHandled, setLoansHandled} = useStates()
 const {formatAnyDate} = useDateFormatter()
+const [loadHistory, setLoadHistory] = useState(false)
 
 const filteredLoansHandled = loansHandled.filter(loan => loan.name.toLowerCase().includes(searchTerm.toLowerCase()) || loan.bookTitle.toLowerCase().includes(searchTerm.toLowerCase())) 
 
@@ -31,9 +33,9 @@ return () => unsubscribe()
   }, [])
   return (
   <div>
-    <h1 className="font-bold text-3xl">Transactions History</h1>
+    <h1 className="font-bold p-4 text-2xl">Transactions History</h1>
                    {/* Search Filter For  Loans Handled*/}
-                    <div className="flex mb-5 mt-8 justify-center">
+                 { loansHandled.length !== 0 &&   <div className="flex mb-5 mt-8 justify-center">
                       <Input
                         type="text"
                         value={searchTerm}
@@ -42,7 +44,27 @@ return () => unsubscribe()
                         placeholder="Search transaction history by book title or borrower's name... "
                       />
                     </div>
-             <Table>
+}
+           { loadHistory ? (
+                     <div className="flex w-full p-4 flex-col gap-2">
+                       {Array.from({ length: 100 }).map((_, index) => (
+                         <div className="flex gap-4" key={index}>
+                           <Skeleton className="h-9 flex-1" />
+                           <Skeleton className="h-9 w-24" />
+                           <Skeleton className="h-9 w-10" />
+                           <Skeleton className="h-9 w-20" />
+                         </div>
+                       ))}
+                     </div>
+                   ) : loansHandled.length === 0 ? <div className="flex flex-col justify-center gap-5 items-center">
+            <div>
+              <p className="text-slate-50 text-center pt-20 text-2xl">
+               Loans history will appear here.
+              </p>
+            
+            </div>
+
+          </div> :  <Table>
             <TableCaption>Transactions History</TableCaption>
             <TableHeader>
               <TableRow>
@@ -76,6 +98,8 @@ return () => unsubscribe()
               ))}
             </TableBody>
           </Table>
+
+            }
   </div>
   )
 }

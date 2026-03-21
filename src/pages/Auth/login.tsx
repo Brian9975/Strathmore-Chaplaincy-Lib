@@ -62,7 +62,7 @@ if (user) {
 
 
            <div className="flex items-center flex-col justify-center">
-            <img width={200} src={StrathLogo1} alt="" />
+            <img width={200} className="text-slate-50" src={StrathLogo1} alt="strathmore logo" />
             <div>
              <h1 className="text-slate-100 text-2xl">Chaplaincy Library System</h1>
             </div>

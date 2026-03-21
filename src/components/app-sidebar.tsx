@@ -56,7 +56,7 @@ const {role} = useAuth()
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
 
-              <Link to="/activeTransactions"><BookUp/>Active Transactions</Link>
+              <Link to="/activeTransactions"><BookUp/>Active & Overdue Transactions</Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>

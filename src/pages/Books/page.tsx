@@ -162,7 +162,7 @@ export default function Books() {
   }, []);
   return (
     <div className="min-h-screen">
-      <h1 className="font-bold text-3xl">Books</h1>
+      <h1 className="font-bold p-4 text-2xl">Books</h1>
       <div className="text-right px-2 pt-6 mb-7">
         <Button
           onClick={() => setOpenBookForm(true)}
@@ -174,7 +174,7 @@ export default function Books() {
       </div>
 
       {/* Search Filter For Books */}
-      <div className="flex mb-4 justify-center">
+     { books.length !== 0 && <div className="flex mb-4 justify-center">
         <Input
           type="text"
           value={searchTerm}
@@ -182,7 +182,7 @@ export default function Books() {
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search book by title/author..."
         />
-      </div>
+      </div>}
       <div>
         {/* Dialog */}
 
@@ -332,7 +332,7 @@ export default function Books() {
             <div>
               <p className="text-slate-50 text-2xl">
                 There are no books currently!! Please click the "Add Book"
-                button{" "}
+                button
               </p>
             </div>
           </div>

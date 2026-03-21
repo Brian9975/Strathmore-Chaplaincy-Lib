@@ -1,17 +1,16 @@
 import { db } from "@/lib/firebase-config";
-import { collection, getDocs, query, Timestamp, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import { Spinner } from "@/components/ui/spinner";
-import useDateFormatter from "@/hooks/useDateFormatter";
+import { BookCheck, BookUp, ClockAlert, Library } from "lucide-react";
+
 
 
 
@@ -71,46 +70,49 @@ const [stats, setStats] = useState({
 showStats()
   }, [])
   return <div >
-    <h1 className="font-bold  text-3xl">Dashboard</h1>
+    <h1 className="font-bold p-4 text-2xl">Dashboard</h1>
    <div className="flex gap-4 flex-col items-center md:grid m-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-4 md:justify-items-center">
-     <Card className="w-80 md:w-50 bg-slate-900 border-0 text-slate-50">
+     <Card className="w-80 shadow-lg shadow-slate-700 md:w-50 bg-slate-900 border-0 text-slate-50">
   <CardHeader>
     <CardTitle className="text-xl">Total Books</CardTitle>
-   
   </CardHeader>
   <CardContent>
+    <div className="flex justify-end mb-6"><div><Library size={30}/></div></div>
     <p className="text-3xl font-bold">{loadStats ? <Spinner className="size-8"/> : stats.totalBooks}</p>
   </CardContent>
 
 </Card>
-     <Card className="w-80 md:w-50 bg-slate-900 border-0 text-slate-50">
+     <Card className="w-80 shadow-lg shadow-slate-700 md:w-50 bg-slate-900 border-0 text-slate-50">
   <CardHeader>
-    <CardTitle className="text-xl">Available Copies</CardTitle>
+    <CardTitle className="text-xl">Avail. Copies</CardTitle>
    
   </CardHeader>
   <CardContent>
+      <div className="flex justify-end mb-6"><div><BookCheck size={30}/></div></div>
     <p className="text-3xl font-bold">{loadStats ? <Spinner className="size-8"/> : stats.availableCopies}</p>
   </CardContent>
 
 </Card>
 
-     <Card className="w-80 md:w-50 bg-slate-900 border-0 text-slate-50">
+     <Card className="w-80 shadow-lg shadow-slate-700 md:w-50 bg-slate-900 border-0 text-slate-50">
   <CardHeader>
     <CardTitle className="text-xl">Active Loans</CardTitle>
    
   </CardHeader>
   <CardContent>
+      <div className="flex justify-end mb-6"><div><BookUp size={30}/></div></div>
     <p className="text-3xl font-bold">{loadStats ? <Spinner className="size-8"/> : stats.activeTransactions}</p>
   </CardContent>
 
 </Card>
 
-    <Card className="w-80 md:w-50 bg-slate-900 border-0 text-slate-50">
+    <Card className="w-80 shadow-lg shadow-slate-700 md:w-50 bg-slate-900 border-0 text-slate-50">
   <CardHeader>
     <CardTitle className="text-xl">Overdue Loans</CardTitle>
    
   </CardHeader>
   <CardContent>
+      <div className="flex justify-end mb-6"><div><ClockAlert size={30}/></div></div>
     <p className="text-3xl font-bold">{loadStats ? <Spinner className="size-8"/> : stats.overdueTransactions}</p>
   </CardContent>
 
@@ -118,5 +120,7 @@ showStats()
 
 
    </div>
+
+   <p className="p-4 text-2xl">Welcome Admin,</p>
   </div>;
 }

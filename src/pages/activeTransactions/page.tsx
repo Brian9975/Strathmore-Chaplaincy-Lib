@@ -25,9 +25,11 @@ import {
   AlertDialogTitle,
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
+import { Skeleton } from "@/components/ui/skeleton";
 import useReturnBook from "@/hooks/useReturnBook";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
 import useLoanOverdue from "@/hooks/useLoanOverdue";
 export default function ActiveTransactions() {
   const {
@@ -39,11 +41,14 @@ export default function ActiveTransactions() {
   } = useStates();
   const { formatAnyDate } = useDateFormatter();
   const { handleReturn } = useReturnBook();
+  const navigate = useNavigate();
+  const [loadLoan, setLoadLoan] = useState(true)
   const [searchTerm, setSearchTerm] = useState("");
   const { loanIsOverdue } = useLoanOverdue();
   const loanToUpdateInfo = transactions.find(
     (transaction) => transaction.transactionId === loanToUpdate,
   );
+
 
   const filteredTransactions = transactions.filter(
     (transaction) =>
@@ -63,15 +68,16 @@ export default function ActiveTransactions() {
           transactionId: doc.id,
         })),
       );
+      setLoadLoan(false)
     });
     return () => unsubscribe();
   }, []);
   return (
     <div>
-      <h1 className="font-bold text-3xl">Active Transactions</h1>
+      <h1 className="font-bold p-4 text-2xl">Active & Overdue Transactions</h1>
 
       {/* Search Filter For Transactions */}
-      <div className="flex mb-5 mt-8 justify-center">
+     { transactions.length !== 0 && <div className="flex mb-5 mt-8 justify-center">
         <Input
           type="text"
           value={searchTerm}
@@ -80,8 +86,26 @@ export default function ActiveTransactions() {
           placeholder="Search transaction by book title or borrower's name... "
         />
       </div>
-      <div></div>
-      <Table>
+}
+     {  loadLoan ?  <div className="flex w-full p-4 flex-col gap-2">
+            {Array.from({ length: 100 }).map((_, index) => (
+              <div className="flex gap-4" key={index}>
+                <Skeleton className="h-9 flex-1" />
+                <Skeleton className="h-9 w-24" />
+                <Skeleton className="h-9 w-10" />
+                <Skeleton className="h-9 w-20" />
+              </div>
+            ))}
+          </div>  : transactions.length === 0 ? 
+          (<div className="flex flex-col justify-center gap-5 items-center">
+            <div>
+              <p className="text-slate-50 text-center pt-20 text-2xl">
+                There are no transactions currently!! Active and Overdue Transactions will appear here.
+              </p>
+            
+            </div>
+            <Button onClick={() => navigate("/books")} className="cursor-pointer hover:bg-slate-900 bg-slate-800" variant={"default"}>Go To Books</Button>
+          </div> )  :  <Table>
         <TableCaption>List Of All Active And Overdue Loans</TableCaption>
         <TableHeader>
           <TableRow>
@@ -133,7 +157,7 @@ export default function ActiveTransactions() {
           ))}
         </TableBody>
       </Table>
-
+}
       {/* Alert Dialog For Handling Return */}
       <AlertDialog
         open={!!loanToUpdate}

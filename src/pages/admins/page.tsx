@@ -98,7 +98,7 @@ export default function Admins() {
   return (
     <StatesContextProvider>
     <div className="bg-slate-950 min-h-screen">
-      <h1 className="font-bold text-3xl">Admins</h1>
+      <h1 className="font-bold p-4 text-2xl">Admins</h1>
       <div className="text-right backdrop-blur-sm bg-slate/70 z-10 w-full px-2 pt-6 ">
               <Button onClick={() => setOpen(true)} className="bg-slate-800 z-50 cursor-pointer duration-1000 hover:bg-slate-700" variant={"default"}>Add Admins</Button>
              
