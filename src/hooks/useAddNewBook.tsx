@@ -3,6 +3,7 @@ import { useStates } from "@/context/StatesContext"
 import { db } from "@/lib/firebase-config"
 import { addDoc, collection } from "firebase/firestore"
 import { useState } from "react"
+import { toast } from "sonner"
 
 
 export default function useAddNewBook() {
@@ -26,29 +27,29 @@ return
 
 
     if (!title) {
-        // alert("please fill the title field")
+        toast.warning("Please fill the title field", {position: "top-center"})
         return
     } else if (!author) {
-        // alert("please fill the author field")
+        toast.warning("Please fill the author field", {position: "top-center"})
         return
     } 
 
     else if (!totalCopies) {
-      // alert("Please include the total number of copies")
+      toast.warning("Please include the total number of copies", {position: "top-center"})
       return
     }
       else if (!availableCopies) {
-      // alert("Please include the available number of copies")
+      toast.warning("Please include the available number of copies", {position: "top-center"})
       return
     }
          else if (totalCopies < availableCopies) {
-        // alert(`Total copies ${totalCopies} cannot be less than available copies ${availableCopies}`)
+        toast.warning(`Total copies ${totalCopies} cannot be less than available copies ${availableCopies}`, {position: "top-center"})
         return
       } else if (totalCopies <= 0) {
-        // alert(`Total copies ${totalCopies} cannot be less than or equal to 0`)
+        toast.warning(`Total copies ${totalCopies} cannot be less than or equal to 0`, {position: "top-center"})
         return
       } else if (availableCopies < 0) {
-        // alert(`Available copies ${availableCopies} cannot be less than 0`)
+        toast.warning(`Available copies ${availableCopies} cannot be less than 0`, {position: "top-center"})
         return
       }   
 
@@ -66,7 +67,7 @@ return
             setAlertAdd(false)
         }, 6000)
     } catch (error) {
-      console.log(error)  
+      toast.error(`Error while adding book ${error}`, {position: "top-center"})
     } finally {
         setLoading(false)
         setOpenBookForm(false)

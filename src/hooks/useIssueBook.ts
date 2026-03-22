@@ -3,6 +3,7 @@ import { useStates } from '@/context/StatesContext'
 import { db } from '@/lib/firebase-config'
 import { collection, doc, runTransaction, serverTimestamp } from 'firebase/firestore'
 import  {useState} from 'react'
+import { toast } from 'sonner'
 
 export default function useIssueBook() {
     const {setBookToIssue, setAlertIssue} = useStates()
@@ -20,16 +21,16 @@ export default function useIssueBook() {
       e.preventDefault()
 
    if (!borrowerName) {
-    alert("Required!! Please include the borrowers name")
+    toast.warning("Required!! Please include the borrowers name", {position: "top-center"})
     return
    }
    else if  (!stuOrStaffNo) {
 
-    alert("Required!! Please include a student or staff number")
+    toast.warning("Required!! Please include a student or staff number", {position: "top-center"})
     return
    }
    else if (!borrowerContact) {
-    alert("Required!! Please include the borrower's contact")
+    toast.warning("Required!! Please include the borrower's contact", {position: "top-center"})
     return
    }
    
@@ -76,7 +77,7 @@ export default function useIssueBook() {
       setAlertIssue(false)
      }, 6000)
    } catch (error) {
-     alert(error)
+     toast.warning(`${error}`)
    } finally {
     setBookToIssue(null)
     setLoading(false)

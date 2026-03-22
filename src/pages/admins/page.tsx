@@ -61,7 +61,12 @@ export default function Admins() {
  const adminToDelInfo = admins.find((admin) => admin.id === adminToRemove)
  const adminToResInfo = admins.find(admin => admin.id === adminToRestore)
 
+ const noEmail = !adminEmail
+ const noName = !adminName
+ const noPassword = !adminPassword
 
+ const passRequirement = adminPassword.length < 6
+ const existingAdmin = admins.find((admin) => admin.email === adminEmail);
 
 
   useEffect(() => {
@@ -118,15 +123,19 @@ export default function Admins() {
           <FieldGroup>
             <Field>
               <Label htmlFor="name" className="text-slate-50">Name</Label>
-              <Input id="name" type="text" value={adminName} onChange={e => setAdminName(e.target.value)} className="text-slate-50" name="name" placeholder="Admin's Name" />
+              <Input id="name" type="text" value={adminName} onChange={e => setAdminName(e.target.value)} className={`text-slate-50`} name="name" placeholder="Admin's Name" />
+              {noName && <p className="text-red-500 text-xs">Required! Please Fill This Field</p>}
             </Field>
             <Field>
               <Label className="text-slate-50" htmlFor="email">Email</Label>
               <Input id="email" className="text-slate-50" value={adminEmail} onChange={e => setAdminEmail(e.target.value)} type="email" name="email" placeholder="Admin's Email" />
+              {noEmail && <p className="text-red-500 text-xs">Required! Please Fill This Field</p>}
+              {existingAdmin && <p className="text-red-500 text-xs">This Admin Already exists check the list</p>}
             </Field>
             <Field>
               <Label className="text-slate-50" htmlFor="password">Password</Label>
               <Input id="password" className="text-slate-50" value={adminPassword} onChange={e => setAdminPassword(e.target.value)} type="password" name="password" placeholder="Admin's New Password"/>
+              {passRequirement && <p className="text-red-500 text-xs">Required! Password length should be at least six characters</p>}
             </Field>
           </FieldGroup>
           <DialogFooter>

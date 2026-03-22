@@ -3,6 +3,7 @@ import { doc, updateDoc } from 'firebase/firestore'
 import React, {useState} from 'react'
 import { db } from '@/lib/firebase-config'
 import { useAuth } from '@/context/AuthContext'
+import { toast } from 'sonner'
 export default function useEditBook() {
   
       const [editAuthor, setEditAuthor] = useState("")
@@ -18,21 +19,21 @@ export default function useEditBook() {
 
 
       if (!editTitle) {
-        // alert("Fill the title field")
+        toast.warning("Fill the title field", {position: "top-center"})
         return
       } else if (!editAuthor) {
-        // alert("Fill the author field")
+        toast.warning("Fill the author field", {position: "top-center"})
         return
       } else if (editTotalCopies < editAvailableCopies) {
-        // alert(`Total copies ${editTotalCopies} cannot be less than available copies ${editAvailableCopies}`)
+        toast.warning(`Total copies ${editTotalCopies} cannot be less than available copies ${editAvailableCopies}`, {position: "top-center"})
         return
       } else if (editTotalCopies <= 0) {
-        // alert(`Total copies ${editTotalCopies} cannot be less than or equal to 0`)
+        toast.warning(`Total copies ${editTotalCopies} cannot be less than or equal to 0`, {position: "top-center"})
         return
       }
       else if (editAvailableCopies < 0) {
 
-        // alert(`Available copies ${editAvailableCopies} cannot be less than 0`)
+         toast.warning(`Available copies ${editAvailableCopies} cannot be less than 0`, {position: "top-center"})
         return
       }
       else{
@@ -50,7 +51,7 @@ export default function useEditBook() {
           setAlertEdit(false)
         }, 6000)
       } catch (error) {
-        console.log(error)
+       toast.error("An error occured while editing book", {position: "top-center"})
       } finally {
         setLoading(false)
         setBookToEdit(null)

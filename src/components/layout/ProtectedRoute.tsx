@@ -5,7 +5,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
 import { AppSidebar } from "../app-sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-
+import { Toaster } from "../ui/sonner";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -69,6 +69,7 @@ export default function ProtectedRoute({
         </div>
 
         <main className="p-2">{children}</main>
+        <Toaster/>
       </div>
     </SidebarProvider>
   );
