@@ -9,6 +9,7 @@ import {
 import { auth, db } from "../lib/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import type { UserRole } from "../types/userRole";
+import { toast } from "sonner";
 
 
 
@@ -63,7 +64,7 @@ export default function AuthContextProvider({
       
 
     } catch (error) {
-      console.log(error);
+      toast.error(`An error ocurred while logging out! ${error}`, {position: "top-center"});
     }
   };
 

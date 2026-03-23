@@ -36,7 +36,7 @@ export default function useIssueBook() {
    
 
 
-   setLoading(true)
+   
    const  borrowCollectionRef = collection(db, "borrowings")
    try {
      await runTransaction(db, async (transaction) => {
@@ -54,7 +54,7 @@ export default function useIssueBook() {
     availableCopies: copiesAvailable - 1
   })
 
-
+   setLoading(true) 
   // Creating a borrowing Record
   const newBorrowRef = doc(borrowCollectionRef)
 
@@ -77,7 +77,7 @@ export default function useIssueBook() {
       setAlertIssue(false)
      }, 6000)
    } catch (error) {
-     toast.warning(`${error}`)
+     toast(`${error}`, {position: "top-center"})
    } finally {
     setBookToIssue(null)
     setLoading(false)

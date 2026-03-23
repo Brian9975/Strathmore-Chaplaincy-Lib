@@ -15,7 +15,7 @@ export default function TransactionsHistory() {
 const [searchTerm, setSearchTerm] = useState("")
 const {loansHandled, setLoansHandled} = useStates()
 const {formatAnyDate} = useDateFormatter()
-const [loadHistory, setLoadHistory] = useState(false)
+const [loadHistory, setLoadHistory] = useState(true)
 
 const filteredLoansHandled = loansHandled.filter(loan => loan.name.toLowerCase().includes(searchTerm.toLowerCase()) || loan.bookTitle.toLowerCase().includes(searchTerm.toLowerCase())) 
 
@@ -28,6 +28,7 @@ const unsubscribe = onSnapshot(q, (snap) => {
     ...doc.data() as LoanHistory,
     id: doc.id
   })))
+  setLoadHistory(false)
 })
 return () => unsubscribe()
   }, [])

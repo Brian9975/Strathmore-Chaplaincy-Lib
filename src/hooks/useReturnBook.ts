@@ -2,6 +2,7 @@ import { useAuth } from "@/context/AuthContext"
 import { useStates } from "@/context/StatesContext"
 import { db } from "@/lib/firebase-config"
 import { doc, runTransaction, serverTimestamp } from "firebase/firestore"
+import { toast } from "sonner"
 
 export default function useReturnBook() {
  const {setAlertReturn, setLoanToUpdate} = useStates()
@@ -40,7 +41,7 @@ export default function useReturnBook() {
        setAlertReturn(false)
       }, 6000)
     } catch (error) {
-      alert(error)
+      toast.error(`An error occured while returning book! ${error}`)
     } finally {
      setLoading(false)
      setLoanToUpdate(null)

@@ -9,18 +9,36 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import StrathLogo1 from "@/img/StrathLogo.png"
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { CircleX } from "lucide-react";
 export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [alertError, setAlertError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
   const navigate = useNavigate()
   const { loading, user, setLoading } = useAuth()
   
   const logAdminIn = async (e: any) => {
     e.preventDefault()
+    
+    
+    const handleLoginError = (message: string) => {
+        setAlertError(true)
+      setTimeout(() => {
+       setAlertError(false)
+      }, 6000)
+      setErrorMessage(message)
+
+  }
+
+
     if (!email) {
-      alert("Please Fill The Email Field")
+      toast.warning("Please Fill The Email Field", {position: "top-center"})
     }  else if (!password) {
-      alert("Please Include The Password")
+      toast.warning("Please Include The Password", {position: "top-center"})
     }
 
     else{
@@ -29,15 +47,18 @@ export default function Login() {
      
         await signInWithEmailAndPassword(auth, email, password)
         navigate("/dashboard")
-
     } catch (error: any) {
-      alert(error.code)
+      console.log(error.code)
+     handleLoginError(error.code)
+     
     } finally{
       setLoading(false)
     }
   }
    
   }
+
+
 
 useEffect(() => {
 if (user && loading) {
@@ -82,6 +103,22 @@ if (user) {
          <Button type="submit" variant="default" className="bg-slate-700 h-10 rounded-lg cursor-pointer font-semibold w-30 text-slate-50">Login</Button>
         </form>
       </div>
+
+            <div className="fixed -translate-x-1/2 left-1/2 top-2">
+              
+              { alertError && (
+                <Alert className="max-w-md">
+                  <CircleX size={5} color="red"/> 
+                  <AlertTitle
+                   className="text-md text-red-700">
+                   An error occured while logging in! 
+                  </AlertTitle>
+                  <AlertDescription>{errorMessage}</AlertDescription>
+                </Alert>
+              )}
+             
+            </div>
+      <Toaster/>
     </>
   );
 }

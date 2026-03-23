@@ -71,8 +71,8 @@ showStats()
   }, [])
   return <div >
     <h1 className="font-bold p-4 text-2xl">Dashboard</h1>
-   <div className="flex gap-4 flex-col items-center md:grid m-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-4 md:justify-items-center">
-     <Card className="w-80 shadow-lg shadow-slate-700 md:w-50 bg-slate-900 border-0 text-slate-50">
+   <div className="p-4 flex md:grid md:grid-cols-2 lg:grid-cols-4 md:place-items-center flex-col items-center gap-6 ">
+     <Card className="w-80 lg:w-50 sm:w-100  shadow-lg shadow-slate-700 md:w-50 bg-slate-900 border-0 text-slate-50">
   <CardHeader>
     <CardTitle className="text-xl">Total Books</CardTitle>
   </CardHeader>
@@ -82,7 +82,7 @@ showStats()
   </CardContent>
 
 </Card>
-     <Card className="w-80 shadow-lg shadow-slate-700 md:w-50 bg-slate-900 border-0 text-slate-50">
+     <Card className="w-80 lg:w-50 sm:w-100  shadow-lg shadow-slate-700 md:w-50 bg-slate-900 border-0 text-slate-50">
   <CardHeader>
     <CardTitle className="text-xl">Avail. Copies</CardTitle>
    
@@ -94,7 +94,7 @@ showStats()
 
 </Card>
 
-     <Card className="w-80 shadow-lg shadow-slate-700 md:w-50 bg-slate-900 border-0 text-slate-50">
+     <Card className="w-80 lg:w-50 sm:w-100 shadow-lg shadow-slate-700 md:w-50 bg-slate-900 border-0 text-slate-50">
   <CardHeader>
     <CardTitle className="text-xl">Active Loans</CardTitle>
    
@@ -106,7 +106,7 @@ showStats()
 
 </Card>
 
-    <Card className="w-80 shadow-lg shadow-slate-700 md:w-50 bg-slate-900 border-0 text-slate-50">
+    <Card className="w-80 lg:w-50 sm:w-100 shadow-lg shadow-slate-700 md:w-50 bg-slate-900 border-0 text-slate-50">
   <CardHeader>
     <CardTitle className="text-xl">Overdue Loans</CardTitle>
    
