@@ -49,12 +49,12 @@ export default function useIssueBook() {
    }
   
   //  Decrease The Number Of Available copies by 1
-
+ setLoading(true) 
   transaction.update(doc(db, "books", bookId), {
     availableCopies: copiesAvailable - 1
   })
 
-   setLoading(true) 
+  
   // Creating a borrowing Record
   const newBorrowRef = doc(borrowCollectionRef)
 

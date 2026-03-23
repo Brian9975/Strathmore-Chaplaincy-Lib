@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogOut } from "lucide-react";
+import { ModeToggle } from "../themeToggle";
 
 export default function ProtectedRoute({
   children,
@@ -42,9 +43,11 @@ export default function ProtectedRoute({
   return (
     <SidebarProvider className="">
       <AppSidebar />
-      <div className="flex bg-slate-950 text-slate-50 flex-1 flex-col min-w-0">
+      <div className="flex dark:bg-[#2D2926] text-slate-50 flex-1 flex-col min-w-0">
         <div className="bg-slate-900 flex justify-between p-4">
           <SidebarTrigger size="lg" className="cursor-pointer" />
+          <div className="flex gap-7">
+            <ModeToggle/>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar className="w-9 h-9 cursor-pointer">
@@ -66,6 +69,7 @@ export default function ProtectedRoute({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          </div>
         </div>
 
         <main className="p-2">{children}</main>
