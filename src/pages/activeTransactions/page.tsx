@@ -99,7 +99,7 @@ export default function ActiveTransactions() {
           </div>  : transactions.length === 0 ? 
           (<div className="flex flex-col justify-center gap-5 items-center">
             <div>
-              <p className="text-slate-50 text-center pt-20 text-2xl">
+              <p className="dark:text-[#FAF8F0] text-[#1C1A17] text-center pt-20 text-2xl">
                 There are no transactions currently!! Active and Overdue Transactions will appear here.
               </p>
             
@@ -109,20 +109,20 @@ export default function ActiveTransactions() {
         <TableCaption>List Of All Active And Overdue Loans</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="text-amber-600">Book Title</TableHead>
-            <TableHead className="text-amber-600">Book Author</TableHead>
-            <TableHead className="text-amber-600">Name</TableHead>
-            <TableHead className="text-amber-600">Stu/Staff No</TableHead>
+            <TableHead className="text-button-1 font-bold md:text-lg">Book Title</TableHead>
+            <TableHead className="text-button-1 font-bold md:text-lg">Book Author</TableHead>
+            <TableHead className="text-button-1 font-bold md:text-lg">Name</TableHead>
+            <TableHead className="text-button-1 font-bold md:text-lg">Stu/Staff No</TableHead>
 
-            <TableHead className="text-amber-600 text-left">Contact</TableHead>
+            <TableHead className="text-button-1 font-bold md:text-lg text-left">Contact</TableHead>
 
-            <TableHead className="text-amber-600  text-center">
+            <TableHead className="text-button-1 font-bold md:text-lg  text-center">
               Status
             </TableHead>
-            <TableHead className="text-amber-600">Date Borrowed</TableHead>
-            <TableHead className="text-amber-600">Date due</TableHead>
+            <TableHead className="text-button-1 font-bold md:text-lg">Date Borrowed</TableHead>
+            <TableHead className="text-button-1 font-bold md:text-lg">Date due</TableHead>
 
-            <TableHead className="text-amber-600 text-right">Action</TableHead>
+            <TableHead className="text-button-1 font-bold md:text-lg text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -147,7 +147,7 @@ export default function ActiveTransactions() {
                 className="text-right"
               >
                 <Button
-                  className="bg-amber-600 cursor-pointer text-slate-950 hover:bg-amber-500"
+                  className="bg-highlights cursor-pointer text-[#1C1A17]"
                   variant={"default"}
                 >
                   Return

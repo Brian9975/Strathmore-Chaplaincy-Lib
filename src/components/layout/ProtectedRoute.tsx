@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut } from "lucide-react";
 import { ModeToggle } from "../themeToggle";
+import useBrandTheme from "@/hooks/useBrandTheme";
 
 export default function ProtectedRoute({
   children,
@@ -22,7 +23,7 @@ export default function ProtectedRoute({
 }) {
   const { user, loading, role, logout } = useAuth();
   const navigate = useNavigate();
-
+  const {brandThemes} = useBrandTheme()
   useEffect(() => {
     if (!user && !loading) {
       navigate("/login", { replace: true });
@@ -31,8 +32,8 @@ export default function ProtectedRoute({
 
   if (loading) {
     return (
-      <div className="flex min-h-screen justify-center items-center bg-slate-900">
-        <Spinner className="text-3xl text-slate-50" />
+      <div className={`flex min-h-screen bg-[${brandThemes["primary-light"]}] dark:bg-primary-background justify-center items-center`} >
+        <Spinner className={`text-3xl text-[${brandThemes["sec-light"]}] dark:text-secondary-text`} />
       </div>
     );
   }
@@ -43,9 +44,9 @@ export default function ProtectedRoute({
   return (
     <SidebarProvider className="">
       <AppSidebar />
-      <div className="flex dark:bg-[#2D2926] text-slate-50 flex-1 flex-col min-w-0">
-        <div className="bg-slate-900 flex justify-between p-4">
-          <SidebarTrigger size="lg" className="cursor-pointer" />
+      <div className={`flex text-[${brandThemes["sec-light"]}] dark:text-secondary-text dark:bg-primary-background bg-[${brandThemes["primary-light"]}]  flex-1 flex-col min-w-0`}>
+        <div className={`flex bg-[${brandThemes["surface-light"]}] dark:bg-surface justify-between p-4`}>
+          <SidebarTrigger size="lg" className={`cursor-pointer`} />
           <div className="flex gap-7">
             <ModeToggle/>
           <DropdownMenu>
@@ -53,13 +54,13 @@ export default function ProtectedRoute({
               <Avatar className="w-9 h-9 cursor-pointer">
                 <AvatarImage />
                 <AvatarFallback
-                  className={`text-slate-950 ${role === "main_admin" ? "bg-amber-500" : role === "admin" ? "bg-emerald-400" : null}`}
+                  className={`dark:text-primary-background font-bold text-md  ${role === "main_admin" ? "bg-highlights text-secondary-text" : role === "admin" ? "bg-button-2 text-secondary-text" : null}`}
                 >
                   {user.email !== null && user.email[0].toUpperCase()}
                 </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className=" border-0 text-slate-950">
+            <DropdownMenuContent className=" border-0">
               <DropdownMenuItem
                 onClick={logout}
                 className="cursor-pointer text-md"

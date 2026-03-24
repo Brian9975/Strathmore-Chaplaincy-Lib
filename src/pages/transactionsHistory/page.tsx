@@ -59,7 +59,7 @@ return () => unsubscribe()
                      </div>
                    ) : loansHandled.length === 0 ? <div className="flex flex-col justify-center gap-5 items-center">
             <div>
-              <p className="text-slate-50 text-center pt-20 text-2xl">
+              <p className="dark:text-[#FAF8F0] text-[#1C1A17] text-center pt-20 text-2xl">
                Loans history will appear here.
               </p>
             
@@ -69,15 +69,15 @@ return () => unsubscribe()
             <TableCaption>Transactions History</TableCaption>
             <TableHeader>
               <TableRow>
-                      <TableHead className="text-amber-600">Book Title</TableHead>
-                      <TableHead className="text-amber-600">Book Author</TableHead>
-                      <TableHead className="text-amber-600">Name</TableHead>
-                      <TableHead className="text-amber-600">Stu/Staff No</TableHead>
+                      <TableHead className="text-button-2 font-bold md:text-lg">Book Title</TableHead>
+                      <TableHead className="text-button-2 font-bold md:text-lg">Book Author</TableHead>
+                      <TableHead className="text-button-2 font-bold md:text-lg">Name</TableHead>
+                      <TableHead className="text-button-2 font-bold md:text-lg">Stu/Staff No</TableHead>
                       
-                      <TableHead className="text-amber-600 text-left">Contact</TableHead>
+                      <TableHead className="text-button-2 font-bold md:text-lg text-left">Contact</TableHead>
 
-                      <TableHead className="text-amber-600">Status</TableHead>
-                      <TableHead className="text-amber-600">Date Returned</TableHead>
+                      <TableHead className="text-button-2 font-bold md:text-lg">Status</TableHead>
+                      <TableHead className="text-button-2 font-bold md:text-lg">Date Returned</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

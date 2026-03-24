@@ -43,7 +43,7 @@ import {
 
 } from "@/components/ui/alert-dialog"
 import { Skeleton } from "@/components/ui/skeleton";
-
+import useBrandTheme from "@/hooks/useBrandTheme";
 
 
 
@@ -56,7 +56,7 @@ export default function Admins() {
   const navigate = useNavigate();
   const { open, setOpen, alert, adminToRemove, setAdminToRemove, accessOff, accessOn, adminToRestore, setAdminToRestore, admins, setAdmins} = useStates()
   const [adminsLoad, setAdminsLoad] = useState(true)
-
+  const {brandThemes} = useBrandTheme()
 
  const adminToDelInfo = admins.find((admin) => admin.id === adminToRemove)
  const adminToResInfo = admins.find(admin => admin.id === adminToRestore)
@@ -90,11 +90,15 @@ export default function Admins() {
     }
   }, [navigate, role]);
 
-  if (loading) {
-    return <div className="flex min-h-screen justify-center items-center bg-slate-900">
-      <Spinner className=" text-slate-50 text-3xl"/>
-    </div>;
-  }
+ 
+   if (loading) {
+     return (
+       <div className={`flex min-h-screen bg-[${brandThemes["primary-light"]}] dark:bg-primary-background justify-center items-center`} >
+         <Spinner className={`text-3xl text-[${brandThemes["sec-light"]}] dark:text-secondary-text`} />
+       </div>
+     );
+   }
+ 
 
   if (role !== "main_admin") {
     return null;
@@ -102,45 +106,45 @@ export default function Admins() {
 
   return (
     <StatesContextProvider>
-    <div className="bg-slate-950 min-h-screen">
+    <div className=" min-h-screen">
       <h1 className="font-bold p-4 text-2xl">Admins</h1>
-      <div className="text-right backdrop-blur-sm bg-slate/70 z-10 w-full px-2 pt-6 ">
-              <Button onClick={() => setOpen(true)} className="bg-slate-800 z-50 cursor-pointer duration-1000 hover:bg-slate-700" variant={"default"}>Add Admins</Button>
+      <div className="text-right backdrop-blur-sm  z-10 w-full px-2 pt-6 ">
+              <Button onClick={() => setOpen(true)} className="z-50 cursor-pointer bg-button-2 text-[#FAF8F0] hover:bg-button-1 duration-1000" variant={"default"}>Add Admins</Button>
              
       </div>
            <div>
      {/* Dialog */}
          
        <Dialog open={open} onOpenChange={setOpen}>
-             <DialogContent className="sm:max-w-sm bg-slate-950 border-0">
+             <DialogContent className="sm:max-w-sm  border-0">
               <form onSubmit={handleForm}>
           <DialogHeader>
-            <DialogTitle className="text-slate-50">Fill Admin Details</DialogTitle>
+            <DialogTitle className="">Fill Admin Details</DialogTitle>
           </DialogHeader>
           <DialogDescription>
             Enter details for the new administrator
           </DialogDescription>
           <FieldGroup>
             <Field>
-              <Label htmlFor="name" className="text-slate-50">Name</Label>
+              <Label htmlFor="name" className="pt-2">Name</Label>
               <Input id="name" type="text" value={adminName} onChange={e => setAdminName(e.target.value)} className={`text-slate-50`} name="name" placeholder="Admin's Name" />
-              {noName && <p className="text-red-500 text-xs">Required! Please Fill This Field</p>}
+              {noName && <p className="text-error text-xs">Required! Please Fill This Field</p>}
             </Field>
             <Field>
-              <Label className="text-slate-50" htmlFor="email">Email</Label>
-              <Input id="email" className="text-slate-50" value={adminEmail} onChange={e => setAdminEmail(e.target.value)} type="email" name="email" placeholder="Admin's Email" />
-              {noEmail && <p className="text-red-500 text-xs">Required! Please Fill This Field</p>}
-              {existingAdmin && <p className="text-red-500 text-xs">This Admin Already exists check the list</p>}
+              <Label className="" htmlFor="email">Email</Label>
+              <Input id="email" className="" value={adminEmail} onChange={e => setAdminEmail(e.target.value)} type="email" name="email" placeholder="Admin's Email" />
+              {noEmail && <p className="text-error text-xs">Required! Please Fill This Field</p>}
+              {existingAdmin && <p className="text-error text-xs">This Admin Already exists check the list</p>}
             </Field>
             <Field>
-              <Label className="text-slate-50" htmlFor="password">Password</Label>
-              <Input id="password" className="text-slate-50" value={adminPassword} onChange={e => setAdminPassword(e.target.value)} type="password" name="password" placeholder="Admin's New Password"/>
-              {passRequirement && <p className="text-red-500 text-xs">Required! Password length should be at least six characters</p>}
+              <Label className="" htmlFor="password">Password</Label>
+              <Input id="password" className="" value={adminPassword} onChange={e => setAdminPassword(e.target.value)} type="password" name="password" placeholder="Admin's New Password"/>
+              {passRequirement && <p className="text-error text-xs">Required! Password length should be at least six characters</p>}
             </Field>
           </FieldGroup>
           <DialogFooter>
             <DialogClose asChild>
-              <Button className="cursor-pointer mt-3" variant="default">Cancel</Button>
+              <Button className="cursor-pointer border-2 border-[#1C1A17] mt-3" variant="outline">Cancel</Button>
             </DialogClose>
             <Button className="cursor-pointer mt-3" type="submit">Add</Button>
           </DialogFooter>
@@ -168,22 +172,22 @@ export default function Admins() {
       <TableCaption>All Admins</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-25 text-white">Name</TableHead>
-          <TableHead className="text-white">Email</TableHead>
-          <TableHead className="text-white">Role</TableHead>
-          <TableHead className="text-right text-white">Action</TableHead>
+          <TableHead className="w-25 text-button-1 font-bold md:text-lg">Name</TableHead>
+          <TableHead className="text-button-1 font-bold md:text-lg">Email</TableHead>
+          <TableHead className="text-button-1 font-bold md:text-lg">Role</TableHead>
+          <TableHead className="text-right text-button-1 font-bold md:text-lg">Action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {admins.map((admin) => (
           <TableRow key={admin.id}>
-            <TableCell className="font-medium">{admin.name}</TableCell>
-            <TableCell>{admin.email}</TableCell>
-            <TableCell className={`${admin.role === "main_admin" ? "text-amber-500" : admin.role === "admin" ? "text-emerald-400" : "text-gray-400"}`}>{admin.role?.toUpperCase()}</TableCell>
+            <TableCell className="font-medium dark:text-[#FAF8F0] text-[#1C1A17]">{admin.name}</TableCell>
+            <TableCell className="dark:text-[#FAF8F0] text-[#1C1A17]">{admin.email}</TableCell>
+            <TableCell className={`${admin.role === "main_admin" ? "text-warn font-bold" : admin.role === "admin" ? "text-emerald-400" : "text-gray-400"}`}>{admin.role?.toUpperCase()}</TableCell>
             <TableCell className="text-right">
               {
             
-              admin.role === "admin" ? (<Button className="cursor-pointer bg-slate-800" onClick={() => {setAdminToRemove(admin.id)}} variant="destructive">Remove</Button>) : admin.role === "inactive" ? (<Button variant="outline" onClick={() => setAdminToRestore(admin.id)}  className="text-slate-950 cursor-pointer">Restore</Button>) : null
+              admin.role === "admin" ? (<Button className="cursor-pointer hover:bg-error/80 bg-error text-[#FAF8F0]" onClick={() => {setAdminToRemove(admin.id)}}>Remove</Button>) : admin.role === "inactive" ? (<Button variant="outline" onClick={() => setAdminToRestore(admin.id)}  className=" cursor-pointer border-1 border-[#1C1A17] dark:text-[#FAF8F0] text-[#1C1A17]">Restore</Button>) : null
               
               }
            

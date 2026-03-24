@@ -10,12 +10,13 @@ import {
 } from "@/components/ui/card"
 import { Spinner } from "@/components/ui/spinner";
 import { BookCheck, BookUp, ClockAlert, Library } from "lucide-react";
+import useBrandTheme from "@/hooks/useBrandTheme";
 
 
 
 
 export default function Dashboard() {
-
+const {brandThemes} = useBrandTheme()
 const [loadStats, setLoadStats] = useState(true)
 const [stats, setStats] = useState({
   totalBooks: 0,
@@ -69,10 +70,10 @@ const [stats, setStats] = useState({
   useEffect(() => {
 showStats()
   }, [])
-  return <div >
+  return <div className="">
     <h1 className="font-bold p-4 text-2xl">Dashboard</h1>
    <div className="p-4 flex md:grid md:grid-cols-2 lg:grid-cols-4 md:place-items-center flex-col items-center gap-6 ">
-     <Card className="w-80 lg:w-50 sm:w-100  shadow-lg shadow-slate-700 md:w-50 bg-slate-900 border-0 text-slate-50">
+     <Card className={`w-80 lg:w-50 sm:w-100 md:w-50 dark:bg-surface bg-[#E6D9C0]  border-0`}>
   <CardHeader>
     <CardTitle className="text-xl">Total Books</CardTitle>
   </CardHeader>
@@ -82,7 +83,7 @@ showStats()
   </CardContent>
 
 </Card>
-     <Card className="w-80 lg:w-50 sm:w-100  shadow-lg shadow-slate-700 md:w-50 bg-slate-900 border-0 text-slate-50">
+         <Card className={`w-80 lg:w-50 sm:w-100 md:w-50 dark:bg-surface  bg-[${brandThemes["surface-light"]}] border-0`}>
   <CardHeader>
     <CardTitle className="text-xl">Avail. Copies</CardTitle>
    
@@ -94,7 +95,7 @@ showStats()
 
 </Card>
 
-     <Card className="w-80 lg:w-50 sm:w-100 shadow-lg shadow-slate-700 md:w-50 bg-slate-900 border-0 text-slate-50">
+     <Card className={`w-80 lg:w-50 sm:w-100 md:w-50 dark:bg-surface  bg-[${brandThemes["surface-light"]}] border-0`}>
   <CardHeader>
     <CardTitle className="text-xl">Active Loans</CardTitle>
    
@@ -106,7 +107,7 @@ showStats()
 
 </Card>
 
-    <Card className="w-80 lg:w-50 sm:w-100 shadow-lg shadow-slate-700 md:w-50 bg-slate-900 border-0 text-slate-50">
+         <Card className={`w-80 lg:w-50 sm:w-100 md:w-50 dark:bg-surface  bg-[${brandThemes["surface-light"]}] border-0`}>
   <CardHeader>
     <CardTitle className="text-xl">Overdue Loans</CardTitle>
    

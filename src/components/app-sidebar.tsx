@@ -10,6 +10,7 @@ import {
 
 } from "@/components/ui/sidebar"
 import StrathLogo1 from "@/img/StrathLogo.png"
+import StrathLogo2 from "@/img/strathLogo2.png"
 import {
   BookDown,
   BookUp,
@@ -19,21 +20,26 @@ import {
 } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useAuth } from "@/context/AuthContext"
+import { useTheme } from "./theme-provider"
+import useBrandTheme from "@/hooks/useBrandTheme"
 
 export function AppSidebar() {
 const {role} = useAuth()
+const {brandThemes} = useBrandTheme()
 
 
 
   return (
-    <Sidebar className="text-slate-50">
-      <SidebarHeader className="flex m-2 rounded-md flex-col justify-center items-center bg-slate-800">
+    <Sidebar className="">
+      <SidebarHeader className={`flex m-2 shadow-md bg-[${brandThemes["surface-light"]}] rounded-md flex-col justify-center items-center dark:bg-primary-background`}>
         <div >
-          <img className="w-70" src={StrathLogo1} alt="" />
+         <img className="hidden w-70 dark:block" src={ StrathLogo1} alt="" />
+         <img className="w-21 pt-5 pb-5 dark:hidden" src={StrathLogo2} alt=""/>
+
         </div>
        
        <div >
-    <p className="font-bold">Chaplaincy library system</p>
+    <p className="font-bold ">Chaplaincy library system</p>
        </div>
         
       </SidebarHeader>

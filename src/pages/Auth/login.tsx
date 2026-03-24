@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CircleX } from "lucide-react";
+import useBrandTheme from "@/hooks/useBrandTheme";
 export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -20,7 +21,7 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState("")
   const navigate = useNavigate()
   const { loading, user, setLoading } = useAuth()
-  
+  const {brandThemes} = useBrandTheme()
   const logAdminIn = async (e: any) => {
     e.preventDefault()
     
@@ -66,41 +67,43 @@ if (user && loading) {
 }
 }, [navigate, user, loading])
 
-if (loading) {
-  return <div className="flex min-h-screen justify-center items-center bg-slate-900">
-      <Spinner className="text-3xl text-slate-50"/>
-    </div>;
-}
+  if (loading) {
+    return (
+      <div className={`flex min-h-screen bg-[${brandThemes["primary-light"]}] dark:bg-primary-background justify-center items-center`} >
+        <Spinner className={`text-3xl text-[${brandThemes["sec-light"]}] dark:text-secondary-text`} />
+      </div>
+    );
+  }
 
 if (user) {
   return null
 }
   return (
     <>
-      <div className="bg-slate-950 min-h-screen justify-center flex items-center">
+      <div className={`bg-[${brandThemes["primary-light"]}] dark:bg-primary-background min-h-screen justify-center flex items-center`}>
        
         <form onSubmit={logAdminIn} className="flex flex-col items-center gap-5">
 
 
            <div className="flex items-center flex-col justify-center">
-            <img width={200} className="text-slate-50" src={StrathLogo1} alt="strathmore logo" />
+            <img width={200}  src={StrathLogo1} alt="strathmore logo" />
             <div>
-             <h1 className="text-slate-100 text-2xl">Chaplaincy Library System</h1>
+             <h1 className="text-2xl">Chaplaincy Library System</h1>
             </div>
             
            </div>
 
                    <FieldGroup>
                        <Field>
-                        <Label className="text-slate-50" htmlFor="email">Email</Label>
-                        <Input id="email" className="text-slate-50 " value={email} onChange={e => setEmail(e.target.value)} type="email" name="email" placeholder="Email" />
+                        <Label className="" htmlFor="email">Email</Label>
+                        <Input id="email" className="" value={email} onChange={e => setEmail(e.target.value)} type="email" name="email" placeholder="Email" />
                       </Field>
                       <Field>
-                        <Label className="text-slate-50" htmlFor="password">Password</Label>
-                        <Input id="password" className="text-slate-50" value={password} onChange={e => setPassword(e.target.value)} type="password" name="password" placeholder=" Password"/>
+                        <Label className="" htmlFor="password">Password</Label>
+                        <Input id="password" className="" value={password} onChange={e => setPassword(e.target.value)} type="password" name="password" placeholder=" Password"/>
                       </Field>
                     </FieldGroup>
-         <Button type="submit" variant="default" className="bg-slate-700 h-10 rounded-lg cursor-pointer font-semibold w-30 text-slate-50">Login</Button>
+         <Button type="submit" variant="default" className="h-10 rounded-lg cursor-pointer font-semibold w-30">Login</Button>
         </form>
       </div>
 
@@ -110,7 +113,7 @@ if (user) {
                 <Alert className="max-w-md">
                   <CircleX size={5} color="red"/> 
                   <AlertTitle
-                   className="text-md text-red-700">
+                   className="text-md text-error">
                    An error occured while logging in! 
                   </AlertTitle>
                   <AlertDescription>{errorMessage}</AlertDescription>

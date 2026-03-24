@@ -50,8 +50,10 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
+import useBrandTheme from "@/hooks/useBrandTheme"
 
 export default function Books() {
+  const {brandThemes} = useBrandTheme()
   const [searchTerm, setSearchTerm] = useState("");
   const {
     openBookForm,
@@ -166,7 +168,7 @@ export default function Books() {
       <div className="text-right px-2 pt-6 mb-7">
         <Button
           onClick={() => setOpenBookForm(true)}
-          className="bg-slate-800 cursor-pointer duration-1000 hover:bg-slate-700"
+          className={`bg-button-2 dark:text-[#F5F0DA] cursor-pointer duration-1000 hover:bg-button-1`}
           variant={"default"}
         >
           Add Book
@@ -187,10 +189,10 @@ export default function Books() {
         {/* Dialog */}
 
         <Dialog open={openBookForm} onOpenChange={setOpenBookForm}>
-          <DialogContent className="sm:max-w-sm bg-slate-950 border-0">
+          <DialogContent className="sm:max-w-sm dark:bg-primary-background bg-[#FAF8F0] border-0">
             <form onSubmit={handleAddBook}>
               <DialogHeader>
-                <DialogTitle className="text-slate-50">
+                <DialogTitle className="dark:text-secondary-text">
                   Fill Book Details
                 </DialogTitle>
               </DialogHeader>
@@ -199,7 +201,7 @@ export default function Books() {
               </DialogDescription>
               <FieldGroup>
                 <Field>
-                  <Label htmlFor="title" className="text-slate-50">
+                  <Label htmlFor="title" className="dark:text-secondary-text">
                     Book Title
                   </Label>
                   <Input
@@ -207,86 +209,86 @@ export default function Books() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     type="text"
-                    className={`text-slate-50 ${noTitle ? "border-red-500 focus-visible:ring-red-500 text-red-500 " : ""}`}
+                    className={`dark:text-secondary-text ${noTitle ? "border-error focus-visible:ring-error text-error " : ""}`}
                     name="title"
                     placeholder="Enter book title..."
                   />
                   {noTitle && (
-                    <p className="text-xs text-red-500">
+                    <p className="text-xs text-error">
                       Required! Please fill the title field
                     </p>
                   )}
                   {existingBook && (
-                    <p className="text-xs text-red-500">
+                    <p className="text-xs text-error">
                       Book with title "{existingBook.title}" already exists!!
                     </p>
                   )}
                 </Field>
                 <Field>
-                  <Label className="text-slate-50" htmlFor="author">
+                  <Label className="dark:text-secondary-text" htmlFor="author">
                     Author
                   </Label>
                   <Input
                     id="author"
                     value={author}
                     onChange={(e) => setAuthor(e.target.value)}
-                    className={`text-slate-50 ${noAuthor ? "border-red-500 focus-visible:ring-red-500 text-red-500 " : ""}`}
+                    className={`dark:text-secondary-text ${noAuthor ? "border-error focus-visible:ring-error text-error " : ""}`}
                     type="text"
                     name="author"
                     placeholder="Enter book author..."
                   />
                   {noAuthor && (
-                    <p className="text-red-500 text-xs">
+                    <p className="text-error text-xs">
                       Required! Please fill the author field
                     </p>
                   )}
                 </Field>
                 <Field>
-                  <Label className="text-slate-50" htmlFor="total-copies">
+                  <Label className="dark:text-secondary-text" htmlFor="total-copies">
                     Total Copies
                   </Label>
                   <Input
                     id="total-copies"
                     onChange={(e) => setTotalCopies(Number(e.target.value))}
-                    className={`text-slate-50 ${totalLessEqualZero || noTotalCopies ? "border-red-500 focus-visible:ring-red-500 text-red-500 " : ""}`}
+                    className={`dark:text-secondary-text ${totalLessEqualZero || noTotalCopies ? "border-error focus-visible:ring-error text-error " : ""}`}
                     type="number"
                     placeholder="Total copies..."
                   />
                   {totalLessEqualZero && (
-                    <p className="text-red-500 text-xs">
+                    <p className="text-error text-xs">
                       Total copies can't be less or equal to 0
                     </p>
                   )}
                   {noTotalCopies && (
-                    <p className="text-red-500 text-xs">
+                    <p className="text-error text-xs">
                       Required! Please include the total number of copies
                     </p>
                   )}
                 </Field>
                 <Field>
-                  <Label className="text-slate-50" htmlFor="available-copies">
+                  <Label className="dark:text-secondary-text" htmlFor="available-copies">
                     Available Copies
                   </Label>
                   <Input
                     id="available-copies"
                     onChange={(e) => setAvailableCopies(Number(e.target.value))}
-                    className={`text-slate-50 ${availGreatTotal || availLessZero || noAvailableCopies ? "border-red-500 text-red-500 focus-visible:ring-red-500" : ""}`}
+                    className={`dark:text-secondary-text ${availGreatTotal || availLessZero || noAvailableCopies ? "border-error text-error focus-visible:ring-error" : ""}`}
                     type="number"
                     name="available-copies"
                     placeholder="Available copies..."
                   />
                   {availGreatTotal && (
-                    <p className="text-red-500 text-xs">
+                    <p className="text-error text-xs">
                       Available copies can't be greater than total copies
                     </p>
                   )}
                   {availLessZero && (
-                    <p className="text-red-500 text-xs">
+                    <p className="text-error text-xs">
                       Available copies can't be less than 0
                     </p>
                   )}
                   {noAvailableCopies && (
-                    <p className="text-red-500 text-xs">
+                    <p className="text-error text-xs">
                       Required! Please include the available number of copies
                     </p>
                   )}
@@ -294,11 +296,11 @@ export default function Books() {
               </FieldGroup>
               <DialogFooter>
                 <DialogClose asChild>
-                  <Button className="cursor-pointer mt-3" variant="default">
+                  <Button className={`bg-warn font-bold text-[#F5F0DA] cursor-pointer duration-1000 hover:bg-highlights mt-3`} >
                     Cancel
                   </Button>
                 </DialogClose>
-                <Button className="cursor-pointer mt-3" type="submit">
+                <Button  className={`bg-button-2 font-bold dark:text-[#F5F0DA] cursor-pointer duration-1000 hover:bg-button-1 mt-3`} type="submit" >
                   Add
                 </Button>
               </DialogFooter>
@@ -308,7 +310,7 @@ export default function Books() {
       </div>
 
       {/* List of Books */}
-      <div className="pt-5 text-white overflow-y-auto pb-10">
+      <div className="pt-5 dark:text-secondary-text text-[#1C1A17] overflow-y-auto pb-10">
         {booksLoad ? (
           <div className="flex w-full p-4 flex-col gap-2">
             {Array.from({ length: 100 }).map((_, index) => (
@@ -324,13 +326,13 @@ export default function Books() {
           <div className="flex flex-col justify-center gap-5 items-center">
             <Button
               onClick={() => setOpenBookForm(true)}
-              className="bg-slate-800 cursor-pointer w-70 h-20 duration-1000 hover:bg-slate-700"
+              className="bg-button-2 text-[#F5F0DA] font-bold text-lg hover:bg-button-1 cursor-pointer w-70 h-20 duration-1000"
               variant={"default"}
             >
               Add Book
             </Button>
             <div>
-              <p className="text-slate-50 text-2xl">
+              <p className="text-[#1C1A17] dark:text-[#FAF8F0] text-md  sm:text-xl md:text-2xl">
                 There are no books currently!! Please click the "Add Book"
                 button
               </p>
@@ -341,17 +343,17 @@ export default function Books() {
             <TableCaption>List Of All Books</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-white">Book Title</TableHead>
-                <TableHead className="text-white">Book Author</TableHead>
-                <TableHead className="text-white">Total Copies</TableHead>
-                <TableHead className=" text-white">Available Copies</TableHead>
+                <TableHead className="text-warn font-bold md:text-lg text-md ">Book Title</TableHead>
+                <TableHead className="text-warn font-bold md:text-lg text-md ">Book Author</TableHead>
+                <TableHead className="text-warn font-bold md:text-lg text-md ">Total Copies</TableHead>
+                <TableHead className=" text-warn font-bold md:text-lg text-md ">Available Copies</TableHead>
 
-                <TableHead className="text-white text-left">Action</TableHead>
+                <TableHead className="text-warn font-bold md:text-lg text-md  text-left">Action</TableHead>
 
-                <TableHead className="text-white text-right">Issue</TableHead>
+                <TableHead className="text-warn font-bold md:text-lg text-md  text-right">Issue</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="dark:text-[#F5F0DA] text-[#1C1A17]">
               {filteredBooks.map((book) => (
                 <TableRow key={book.id}>
                   <TableCell>{book.title}</TableCell>
@@ -361,7 +363,7 @@ export default function Books() {
 
                   <TableCell className="">
                     <Button
-                      className="cursor-pointer text-slate-950"
+                      className="cursor-pointer bg-warn hover:bg-warn hover:opacity-80"
                       onClick={() => setBookToEdit(book.id)}
                       variant="outline"
                     >
@@ -370,7 +372,7 @@ export default function Books() {
                     {role === "main_admin" && (
                       <Button
                         onClick={() => setBookToDelete(book.id)}
-                        className="ml-4 cursor-pointer"
+                        className="ml-4 cursor-pointer dark:bg-[#FAF8F0] bg-[#1C1A17] hover:bg-[#1C1A17] dark:hover:bg-[#FAF8F0] hover:opacity-80"
                       >
                         Delete
                       </Button>
@@ -379,7 +381,7 @@ export default function Books() {
                   <TableCell className="text-right">
                     <Button
                       onClick={() => setBookToIssue(book.id)}
-                      className="text-slate-950 cursor-pointer border-none hover:bg-amber-500 bg-amber-600"
+                      className=" cursor-pointer dark:text-primary-background dark:bg-button-1 dark:hover:bg-button-1 bg-button-1 font-bold hover:bg-button-1 hover:opacity-90 border-none "
                       variant="outline"
                     >
                       Issue Book
@@ -397,7 +399,7 @@ export default function Books() {
         {/* Dialog */}
 
         <Dialog open={!!bookToEdit} onOpenChange={() => setBookToEdit(null)}>
-          <DialogContent className="sm:max-w-sm bg-slate-950 border-0">
+          <DialogContent className="sm:max-w-sm 0 bg-[#FAF8F0] dark:bg-primary-background dark:text-secondary-text border-0">
             <form
               onSubmit={(e) => {
                 if (bookToEdit !== null) {
@@ -406,16 +408,16 @@ export default function Books() {
               }}
             >
               <DialogHeader>
-                <DialogTitle className="text-slate-50">
+                <DialogTitle>
                   Edit Book Details
                 </DialogTitle>
               </DialogHeader>
-              <DialogDescription>
+              <DialogDescription className="p-3">
                 Enter details you want to edit the book to.
               </DialogDescription>
               <FieldGroup>
                 <Field>
-                  <Label htmlFor="title" className="text-slate-50">
+                  <Label htmlFor="title" className="pt-2 ">
                     Book Title
                   </Label>
                   <Input
@@ -423,60 +425,60 @@ export default function Books() {
                     value={editTitle}
                     onChange={(e) => setEditTitle(e.target.value)}
                     type="text"
-                    className={`text-slate-50 ${noEditTitle ? "border-red-500 focus-visible:ring-red-500 text-red-500 " : ""}`}
+                    className={` ${noEditTitle ? "border-error focus-visible:ring-error text-error " : ""}`}
                     name="title"
                     placeholder="Enter book title..."
                   />
                   {noEditTitle && (
-                    <p className="text-xs text-red-500">
+                    <p className="text-xs text-error">
                       Required! Please fill the title field
                     </p>
                   )}
                 </Field>
                 <Field>
-                  <Label className="text-slate-50" htmlFor="author">
+                  <Label htmlFor="author">
                     Author
                   </Label>
                   <Input
                     id="author"
                     value={editAuthor}
                     onChange={(e) => setEditAuthor(e.target.value)}
-                    className={`text-slate-50 ${noEditAuthor ? "border-red-500 focus-visible:ring-red-500 text-red-500 " : ""}`}
+                    className={` ${noEditAuthor ? "border-error focus-visible:ring-error text-error " : ""}`}
                     type="text"
                     name="author"
                     placeholder="Enter book author..."
                   />
                   {noEditAuthor && (
-                    <p className="text-red-500 text-xs">
+                    <p className="text-error text-xs">
                       Required! Please fill the author field
                     </p>
                   )}
                 </Field>
                 <Field>
-                  <Label className="text-slate-50" htmlFor="total-copies">
+                  <Label htmlFor="total-copies">
                     Total Copies
                   </Label>
                   <Input
                     id="total-copies"
                     value={editTotalCopies}
                     onChange={(e) => setEditTotalCopies(Number(e.target.value))}
-                    className={`text-slate-50 ${editTotalLessEqualZero ? "focus-visible:ring-red-500 text-red-500 border-red-500" : ""}`}
+                    className={`${editTotalLessEqualZero ? "focus-visible:ring-error text-error border-error" : ""}`}
                     type="number"
                     placeholder="Total copies..."
                   />
                   {editTotalLessEqualZero && (
-                    <p className="text-red-500 text-xs">
+                    <p className="text-error text-xs">
                       Total copies can't be less or equal to 0
                     </p>
                   )}
                 </Field>
                 <Field>
-                  <Label className="text-slate-50" htmlFor="available-copies">
+                  <Label  htmlFor="available-copies">
                     Available Copies
                   </Label>
                   <Input
                     id="available-copies"
-                    className={`text-slate-50 ${editAvailGreatTotal ? "border-red-500 focus-visible:ring-red-500 text-red-500" : ""}`}
+                    className={`${editAvailGreatTotal ? "border-error focus-visible:ring-error text-error" : ""}`}
                     value={editAvailableCopies}
                     onChange={(e) =>
                       setEditAvailableCopies(Number(e.target.value))
@@ -486,12 +488,12 @@ export default function Books() {
                     placeholder="Available copies..."
                   />
                   {editAvailGreatTotal && (
-                    <p className="text-red-500 text-xs">
+                    <p className="text-error text-xs">
                       Available copies can't be greater than total copies
                     </p>
                   )}
                   {editAvailLessZero && (
-                    <p className="text-red-500 text-xs">
+                    <p className="text-error text-xs">
                       Available copies can't be less than 0
                     </p>
                   )}
@@ -499,11 +501,11 @@ export default function Books() {
               </FieldGroup>
               <DialogFooter>
                 <DialogClose asChild>
-                  <Button className="cursor-pointer mt-3" variant="default">
+                  <Button className="cursor-pointer bg-primary-background hover:bg-primary-backgroud hover:opacity-80 font-bold  mt-3" variant="outline">
                     Cancel
                   </Button>
                 </DialogClose>
-                <Button className="cursor-pointer mt-3" type="submit">
+                <Button className="cursor-pointer font-bold bg-button-2 hover:bg-button-1  dark:bg-[#FAF8F0] mt-3" type="submit">
                   Save
                 </Button>
               </DialogFooter>
@@ -550,7 +552,7 @@ export default function Books() {
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
-              className="cursor-pointer"
+              className="cursor-pointer  hover:opacity-80 dark:bg-[#FAF8F0]"
               onClick={() => {
                 if (bookToDelete !== null) {
                   handleDeleteBook(bookToDelete);
@@ -579,7 +581,7 @@ export default function Books() {
         {/* Dialog */}
 
         <Dialog open={!!bookToIssue} onOpenChange={() => setBookToIssue(null)}>
-          <DialogContent className="sm:max-w-sm bg-slate-950 border-0">
+          <DialogContent className="sm:max-w-sm bg-[#FAF8F0]  text-[#1C1A17] dark:bg-primary-background dark:text-[#FAF8F0] border-0">
             <form
               onSubmit={(e) => {
                 if (bookToIssue !== null) {
@@ -588,8 +590,8 @@ export default function Books() {
               }}
             >
               <DialogHeader>
-                <DialogTitle className="text-slate-50">
-                  Edit Book Details
+                <DialogTitle className="p-3">
+                  Borrower's Details
                 </DialogTitle>
               </DialogHeader>
               <DialogDescription>
@@ -597,7 +599,7 @@ export default function Books() {
               </DialogDescription>
               <FieldGroup>
                 <Field>
-                  <Label htmlFor="borrower-name" className="text-slate-50">
+                  <Label htmlFor="borrower-name" className="p-2">
                     Borower's Name
                   </Label>
                   <Input
@@ -605,31 +607,30 @@ export default function Books() {
                     value={borrowerName}
                     onChange={(e) => setBorrowerName(e.target.value)}
                     type="text"
-                    className={`text-slate-50`}
                     name="name"
                     placeholder="eg.John Doe ...."
                   />
                 </Field>
 
                 <Field>
-                  <Label className="text-slate-50" htmlFor="s-no">
+                  <Label  htmlFor="s-no">
                     Student/Staff No.
                   </Label>
                   <Input
                     id="s-no"
                     onChange={(e) => setStuOrStaffNo(Number(e.target.value))}
-                    className={`text-slate-50`}
+                   
                     type="number"
                     placeholder="eg.123456..."
                   />
                 </Field>
                 <Field>
-                  <Label className="text-slate-50" htmlFor="contact">
+                  <Label htmlFor="contact">
                     Borrower's Contact
                   </Label>
                   <Input
                     id="contact"
-                    className={`text-slate-50`}
+                  
                     onChange={(e) => setBorrowerContact(Number(e.target.value))}
                     type="number"
                     name="available-copies"
@@ -638,7 +639,7 @@ export default function Books() {
                 </Field>
 
                 <Field>
-                  <Label className="text-slate-50" htmlFor="date-due">
+                  <Label htmlFor="date-due">
                     Date Due
                   </Label>
                   <Popover>
@@ -675,7 +676,7 @@ export default function Books() {
               </FieldGroup>
               <DialogFooter>
                 <DialogClose asChild>
-                  <Button className="cursor-pointer mt-3" variant="default">
+                  <Button className="cursor-pointer border-2 border-[#1C1A17] mt-3" variant="outline">
                     Cancel
                   </Button>
                 </DialogClose>
