@@ -50,10 +50,9 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
-import useBrandTheme from "@/hooks/useBrandTheme"
+
 
 export default function Books() {
-  const {brandThemes} = useBrandTheme()
   const [searchTerm, setSearchTerm] = useState("");
   const {
     openBookForm,
@@ -102,8 +101,6 @@ export default function Books() {
   const {
     handleBookIssuance,
     borrowerName,
-    borrowerContact,
-    stuOrStaffNo,
     dueDate,
     setBorrowerContact,
     setStuOrStaffNo,
@@ -647,7 +644,7 @@ export default function Books() {
                       <Button
                         variant="outline"
                         data-empty={!dueDate}
-                        className="w-[280px] justify-start text-left font-normal data-[empty=true]:text-muted-foreground"
+                        className="w-70 justify-start text-left font-normal data-[empty=true]:text-muted-foreground"
                       >
                         <CalendarIcon />
                         {dueDate ? (

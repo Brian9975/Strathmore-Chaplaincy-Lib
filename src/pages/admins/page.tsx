@@ -63,7 +63,6 @@ export default function Admins() {
 
  const noEmail = !adminEmail
  const noName = !adminName
- const noPassword = !adminPassword
 
  const passRequirement = adminPassword.length < 8
  const existingAdmin = admins.find((admin) => admin.email === adminEmail);
@@ -187,7 +186,7 @@ export default function Admins() {
             <TableCell className="text-right">
               {
             
-              admin.role === "admin" ? (<Button className="cursor-pointer hover:bg-error/80 bg-error text-[#FAF8F0]" onClick={() => {setAdminToRemove(admin.id)}}>Remove</Button>) : admin.role === "inactive" ? (<Button variant="outline" onClick={() => setAdminToRestore(admin.id)}  className=" cursor-pointer border-1 border-[#1C1A17] dark:text-[#FAF8F0] text-[#1C1A17]">Restore</Button>) : null
+              admin.role === "admin" ? (<Button className="cursor-pointer hover:bg-error/80 bg-error text-[#FAF8F0]" onClick={() => {setAdminToRemove(admin.id)}}>Remove</Button>) : admin.role === "inactive" ? (<Button variant="outline" onClick={() => setAdminToRestore(admin.id)}  className=" cursor-pointer  border-[#1C1A17] dark:text-[#FAF8F0] text-[#1C1A17]">Restore</Button>) : null
               
               }
            

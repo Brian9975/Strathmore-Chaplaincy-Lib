@@ -7,12 +7,13 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAqF5fDT2OVj92HK1LZLkBlEeyb4irbn4Q",
-  authDomain: "strathmore-chaplaincy-library.firebaseapp.com",
-  projectId: "strathmore-chaplaincy-library",
-  storageBucket: "strathmore-chaplaincy-library.firebasestorage.app",
-  messagingSenderId: "12340744601",
-  appId: "1:12340744601:web:1d055bd958d78920204308",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
+
 };
 
 // Initialize Firebase
