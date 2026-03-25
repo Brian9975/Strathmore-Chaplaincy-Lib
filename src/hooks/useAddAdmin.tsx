@@ -75,7 +75,6 @@ export default function useAddAdmin() {
         setOpen,
         setLoading,
         setAlert,
-        admins,
       );
       setAdminEmail("");
       setAdminName("");

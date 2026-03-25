@@ -2,7 +2,6 @@
 import { initializeApp, deleteApp } from "firebase/app";
 import { getFirestore, setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { getAuth, signOut, createUserWithEmailAndPassword } from "firebase/auth";
-import type { UserInfo } from "@/types/userInfo";
 import { toast } from "sonner";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -19,7 +18,7 @@ const firebaseConfig = {
 
 // Function to add new admins
 let secApp;
- export const addNewAdmin = async (email: string, pass:string, name: string, setOpen: React.Dispatch<React.SetStateAction<boolean>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>, setAlert: React.Dispatch<React.SetStateAction<boolean>>, admins: UserInfo[]) => {
+ export const addNewAdmin = async (email: string, pass:string, name: string, setOpen: React.Dispatch<React.SetStateAction<boolean>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>, setAlert: React.Dispatch<React.SetStateAction<boolean>>) => {
 setLoading(true)
     secApp = initializeApp(firebaseConfig, "SecondaryAppInstance");
 

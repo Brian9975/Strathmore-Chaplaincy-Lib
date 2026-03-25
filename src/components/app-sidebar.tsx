@@ -20,7 +20,6 @@ import {
 } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useAuth } from "@/context/AuthContext"
-import { useTheme } from "./theme-provider"
 import useBrandTheme from "@/hooks/useBrandTheme"
 
 export function AppSidebar() {

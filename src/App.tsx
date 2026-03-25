@@ -2,10 +2,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Dashboard from "./pages/Dashboard/page";
 import Admins from "./pages/admins/page";
 import Books from "./pages/Books/page";
-import Borrow from "./pages/activeTransactions/page";
 import Login from "./pages/Auth/login";
 import TransactionsHistory from "./pages/transactionsHistory/page";
-import BookInfo from "./pages/BookInfo/page";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 import ActiveTransactions from "./pages/activeTransactions/page";
 
@@ -21,7 +19,6 @@ function App() {
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/admins" element={<ProtectedRoute><Admins /></ProtectedRoute>} />
         <Route path="/books" element={<ProtectedRoute><Books/></ProtectedRoute>} />
-        <Route path="/books/:id" element={<ProtectedRoute><BookInfo /></ProtectedRoute>} />
         <Route path="/activeTransactions" element={<ProtectedRoute><ActiveTransactions /></ProtectedRoute>} />
         <Route path="/transactionsHistory" element={<ProtectedRoute><TransactionsHistory /></ProtectedRoute>} />
         <Route path="/" element={<Navigate to="/dashboard" replace/>} />
