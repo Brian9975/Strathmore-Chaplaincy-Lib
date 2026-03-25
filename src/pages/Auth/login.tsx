@@ -9,11 +9,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import StrathLogo1 from "@/img/StrathLogo.png"
+
+import StrathLogo2 from "@/img/strathLogo2.png"
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CircleX } from "lucide-react";
 import useBrandTheme from "@/hooks/useBrandTheme";
+import { ModeToggle } from "@/components/themeToggle";
 export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -80,13 +83,19 @@ if (user) {
 }
   return (
     <>
-      <div className={`bg-[${brandThemes["primary-light"]}] dark:bg-primary-background min-h-screen justify-center flex items-center`}>
-       
+      <div className={`bg-[${brandThemes["primary-light"]}] dark:bg-primary-background min-h-screen`}>
+       <div className="mb-7 p-4 flex justify-end">
+        <ModeToggle/>
+       </div>
+
+       <div className="justify-center flex items-center">
         <form onSubmit={logAdminIn} className="flex flex-col items-center gap-5">
 
 
            <div className="flex items-center flex-col justify-center">
-            <img width={200}  src={StrathLogo1} alt="strathmore logo" />
+            <img width={200} className="hidden py-3 dark:block"  src={StrathLogo1} alt="strathmore logo" />
+
+            <img className="dark:hidden py-3 block" src={StrathLogo2} width={74}  alt="" />
             <div>
              <h1 className="text-2xl">Chaplaincy Library System</h1>
             </div>
@@ -96,15 +105,16 @@ if (user) {
                    <FieldGroup>
                        <Field>
                         <Label className="" htmlFor="email">Email</Label>
-                        <Input id="email" className="" value={email} onChange={e => setEmail(e.target.value)} type="email" name="email" placeholder="Email" />
+                        <Input id="email" className=" border-[#1C1A17] dark:border-[#FAF8F0]" value={email} onChange={e => setEmail(e.target.value)} type="email" name="email" placeholder="Email" />
                       </Field>
                       <Field>
                         <Label className="" htmlFor="password">Password</Label>
-                        <Input id="password" className="" value={password} onChange={e => setPassword(e.target.value)} type="password" name="password" placeholder=" Password"/>
+                        <Input id="password" className="border-[#1C1A17] dark:border-[#FAF8F0]" value={password} onChange={e => setPassword(e.target.value)} type="password" name="password" placeholder=" Password"/>
                       </Field>
                     </FieldGroup>
-         <Button type="submit" variant="default" className="h-10 rounded-lg cursor-pointer font-semibold w-30">Login</Button>
+         <Button type="submit" variant="default" className="h-10 rounded-lg bg-[#1C1A17] dark:bg-[#FAF8F0] cursor-pointer font-semibold w-30">Login</Button>
         </form>
+        </div>
       </div>
 
             <div className="fixed -translate-x-1/2 left-1/2 top-2">

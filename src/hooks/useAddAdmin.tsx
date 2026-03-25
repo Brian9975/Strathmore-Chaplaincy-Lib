@@ -17,7 +17,7 @@ export default function useAddAdmin() {
     e.preventDefault();
     const existingAdmin = admins.find((admin) => admin.email === adminEmail);
 
-    const passRequirement = adminPassword.length < 6
+    const passRequirement = adminPassword.length < 8
 
 
 
@@ -64,7 +64,7 @@ export default function useAddAdmin() {
       return;
     }
     if (passRequirement) {
-  toast.warning(`Password length should be at least 6 characters`, {position: "top-center"})
+  toast.warning(`Password length should be at least 8 characters`, {position: "top-center"})
  return
     }
     try {

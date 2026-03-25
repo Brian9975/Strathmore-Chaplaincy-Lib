@@ -381,7 +381,7 @@ export default function Books() {
                   <TableCell className="text-right">
                     <Button
                       onClick={() => setBookToIssue(book.id)}
-                      className=" cursor-pointer dark:text-primary-background dark:bg-button-1 dark:hover:bg-button-1 bg-button-1 font-bold hover:bg-button-1 hover:opacity-90 border-none "
+                      className=" cursor-pointer hover:text-[#1C1A17] dark:text-[#1C1A17] dark:bg-button-1 dark:hover:bg-button-1 bg-button-1 font-bold hover:bg-button-1 hover:opacity-95 border-none "
                       variant="outline"
                     >
                       Issue Book

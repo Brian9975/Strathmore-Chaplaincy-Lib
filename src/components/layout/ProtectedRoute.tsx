@@ -54,7 +54,7 @@ export default function ProtectedRoute({
               <Avatar className="w-9 h-9 cursor-pointer">
                 <AvatarImage />
                 <AvatarFallback
-                  className={`dark:text-primary-background font-bold text-md  ${role === "main_admin" ? "bg-highlights text-secondary-text" : role === "admin" ? "bg-button-2 text-secondary-text" : null}`}
+                  className={`dark:text-primary-background font-bold text-md  ${role === "main_admin" ? "bg-highlights text-secondary-text" : role === "admin" ? "bg-button-2 dark:text-[#FAF8F0] text-[#FAF8F0]" : null}`}
                 >
                   {user.email !== null && user.email[0].toUpperCase()}
                 </AvatarFallback>

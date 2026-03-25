@@ -147,8 +147,8 @@ export default function ActiveTransactions() {
                 className="text-right"
               >
                 <Button
-                  className="bg-highlights cursor-pointer text-[#1C1A17]"
-                  variant={"default"}
+                  className="bg-highlights hover:bg-warn cursor-pointer text-[#1C1A17]"
+                  
                 >
                   Return
                 </Button>

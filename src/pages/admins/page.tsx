@@ -65,7 +65,7 @@ export default function Admins() {
  const noName = !adminName
  const noPassword = !adminPassword
 
- const passRequirement = adminPassword.length < 6
+ const passRequirement = adminPassword.length < 8
  const existingAdmin = admins.find((admin) => admin.email === adminEmail);
 
 
@@ -127,19 +127,19 @@ export default function Admins() {
           <FieldGroup>
             <Field>
               <Label htmlFor="name" className="pt-2">Name</Label>
-              <Input id="name" type="text" value={adminName} onChange={e => setAdminName(e.target.value)} className={`text-slate-50`} name="name" placeholder="Admin's Name" />
+              <Input id="name" type="text" value={adminName} onChange={e => setAdminName(e.target.value)} name="name" placeholder="Admin's Name" required/>
               {noName && <p className="text-error text-xs">Required! Please Fill This Field</p>}
             </Field>
             <Field>
               <Label className="" htmlFor="email">Email</Label>
-              <Input id="email" className="" value={adminEmail} onChange={e => setAdminEmail(e.target.value)} type="email" name="email" placeholder="Admin's Email" />
+              <Input id="email" className="" value={adminEmail} onChange={e => setAdminEmail(e.target.value)} type="email" name="email" placeholder="Admin's Email" required/>
               {noEmail && <p className="text-error text-xs">Required! Please Fill This Field</p>}
-              {existingAdmin && <p className="text-error text-xs">This Admin Already exists check the list</p>}
+              {existingAdmin && <p className="text-error text-xs">This Admin Already exists, check the list</p>}
             </Field>
             <Field>
               <Label className="" htmlFor="password">Password</Label>
-              <Input id="password" className="" value={adminPassword} onChange={e => setAdminPassword(e.target.value)} type="password" name="password" placeholder="Admin's New Password"/>
-              {passRequirement && <p className="text-error text-xs">Required! Password length should be at least six characters</p>}
+              <Input id="password" className="" value={adminPassword} onChange={e => setAdminPassword(e.target.value)} type="password" name="password" placeholder="Admin's New Password" required/>
+              {passRequirement && <p className="text-error text-xs">Required! Password length should be at least 8 characters</p>}
             </Field>
           </FieldGroup>
           <DialogFooter>
@@ -183,7 +183,7 @@ export default function Admins() {
           <TableRow key={admin.id}>
             <TableCell className="font-medium dark:text-[#FAF8F0] text-[#1C1A17]">{admin.name}</TableCell>
             <TableCell className="dark:text-[#FAF8F0] text-[#1C1A17]">{admin.email}</TableCell>
-            <TableCell className={`${admin.role === "main_admin" ? "text-warn font-bold" : admin.role === "admin" ? "text-emerald-400" : "text-gray-400"}`}>{admin.role?.toUpperCase()}</TableCell>
+            <TableCell className={`${admin.role === "main_admin" ? "text-warn font-bold" : admin.role === "admin" ? "text-button-2 font-bold" : "text-gray-400"}`}>{admin.role?.toUpperCase()}</TableCell>
             <TableCell className="text-right">
               {
             
@@ -251,7 +251,7 @@ This will immediately restore permission of logging in with {adminToResInfo?.ema
       {
          alert &&
         <Alert className="max-w-md">
-      <CheckCircle2Icon/>
+      <CheckCircle2Icon color="green"/>
       <AlertTitle className="text-md">New Admin Account Created Successfully</AlertTitle>
       <AlertDescription>
          
@@ -267,7 +267,7 @@ This will immediately restore permission of logging in with {adminToResInfo?.ema
       {
         accessOff &&
         <Alert className="max-w-md">
-      <CheckCircle2Icon/>
+      <CheckCircle2Icon color="green"/>
       <AlertTitle className="text-md">Admin Access Revoked Successfully</AlertTitle>
       <AlertDescription>
          
@@ -280,7 +280,7 @@ This will immediately restore permission of logging in with {adminToResInfo?.ema
       {
         accessOn &&
         <Alert className="max-w-md">
-      <CheckCircle2Icon/>
+      <CheckCircle2Icon color="green"/>
       <AlertTitle className="text-md"> Admin Access Restored Successfully</AlertTitle>
       <AlertDescription>
          
