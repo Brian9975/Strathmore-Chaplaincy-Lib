@@ -104,7 +104,7 @@ export default function ActiveTransactions() {
               </p>
             
             </div>
-            <Button onClick={() => navigate("/books")} className="cursor-pointer hover:bg-slate-900 bg-slate-800" variant={"default"}>Go To Books</Button>
+            <Button onClick={() => navigate("/books")} className="cursor-pointer" variant={"default"}>Go To Books</Button>
           </div> )  :  <Table>
         <TableCaption>List Of All Active And Overdue Loans</TableCaption>
         <TableHeader>
