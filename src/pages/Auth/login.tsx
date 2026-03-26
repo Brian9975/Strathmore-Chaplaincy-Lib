@@ -14,7 +14,7 @@ import StrathLogo2 from "@/img/strathLogo2.png"
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { CircleX } from "lucide-react";
+import { CircleX, Eye, EyeOff } from "lucide-react";
 import useBrandTheme from "@/hooks/useBrandTheme";
 import { ModeToggle } from "@/components/themeToggle";
 export default function Login() {
@@ -25,6 +25,7 @@ export default function Login() {
   const navigate = useNavigate()
   const { loading, user, setLoading } = useAuth()
   const {brandThemes} = useBrandTheme()
+  const[showPassword, setShowPassword] = useState(false)
   const logAdminIn = async (e: any) => {
     e.preventDefault()
     
@@ -93,7 +94,7 @@ if (user) {
 
 
            <div className="flex items-center flex-col justify-center">
-            <img width={200} className="hidden py-3 dark:block"  src={StrathLogo1} alt="strathmore logo" />
+            <img width={200} className="hidden  dark:block"  src={StrathLogo1} alt="strathmore logo" />
 
             <img className="dark:hidden py-3 block" src={StrathLogo2} width={74}  alt="" />
             <div>
@@ -107,9 +108,14 @@ if (user) {
                         <Label className="" htmlFor="email">Email</Label>
                         <Input id="email" className=" border-[#1C1A17] dark:border-[#FAF8F0]" value={email} onChange={e => setEmail(e.target.value)} type="email" name="email" placeholder="Email" />
                       </Field>
-                      <Field>
-                        <Label className="" htmlFor="password">Password</Label>
-                        <Input id="password" className="border-[#1C1A17] dark:border-[#FAF8F0]" value={password} onChange={e => setPassword(e.target.value)} type="password" name="password" placeholder=" Password"/>
+                      <Field >
+                        <Label  htmlFor="password">Password</Label>
+                        <div className="relative">
+                        <Input id="password" className="border-[#1C1A17] dark:border-[#FAF8F0]" value={password} onChange={e => setPassword(e.target.value)} type={showPassword ? "text" : "password"} name="password" placeholder=" Password"/>
+                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute  top-1/2 right-2 -translate-y-1/2 hover:opacity-80  cursor-pointer ">
+                         {showPassword ? <Eye/> : <EyeOff/>}
+                        </button>
+                        </div>
                       </Field>
                     </FieldGroup>
          <Button type="submit" variant="default" className="h-10 rounded-lg bg-[#1C1A17] dark:bg-[#FAF8F0] cursor-pointer font-semibold w-30">Login</Button>
