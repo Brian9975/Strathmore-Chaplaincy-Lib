@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import type { UserInfo } from "@/types/userInfo";
 import { collection, onSnapshot, orderBy, query} from "firebase/firestore";
 import { db } from "@/lib/firebase-config";
-import { CheckCircle2Icon } from "lucide-react";
+import { CheckCircle2Icon, Eye, EyeClosed, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import {
@@ -51,7 +51,7 @@ import useBrandTheme from "@/hooks/useBrandTheme";
 
 export default function Admins() {
   const {handleForm, adminName, adminEmail, adminPassword, setAdminName, setAdminEmail, setAdminPassword, removeAccess, restoreAccess} = useAddAdmin()
-
+  const [showPassword, setShowPassword] = useState(false)
   const { role, loading } = useAuth();
   const navigate = useNavigate();
   const { open, setOpen, alert, adminToRemove, setAdminToRemove, accessOff, accessOn, adminToRestore, setAdminToRestore, admins, setAdmins} = useStates()
@@ -137,7 +137,10 @@ export default function Admins() {
             </Field>
             <Field>
               <Label className="" htmlFor="password">Password</Label>
-              <Input id="password" className="" value={adminPassword} onChange={e => setAdminPassword(e.target.value)} type="password" name="password" placeholder="Admin's New Password" required/>
+              <div className="relative">
+              <Input id="password" className="" value={adminPassword} onChange={e => setAdminPassword(e.target.value)} type={showPassword ? "text" : "password"} name="password" placeholder="Admin's New Password" required/>
+              <button onClick={() => setShowPassword(!showPassword)} className="absolute top-1/2 right-2 cursor-pointer hover:opacity-80 -translate-y-1/2" type="button">{showPassword ? <Eye/> : <EyeOff/>}</button>
+              </div>
               {passRequirement && <p className="text-error text-xs">Required! Password length should be at least 8 characters</p>}
             </Field>
           </FieldGroup>
