@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import type { UserInfo } from "@/types/userInfo";
 import { collection, onSnapshot, orderBy, query} from "firebase/firestore";
 import { db } from "@/lib/firebase-config";
-import { CheckCircle2Icon, Eye, EyeClosed, EyeOff } from "lucide-react";
+import { CheckCircle2Icon, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import {
