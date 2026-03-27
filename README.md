@@ -1,73 +1,111 @@
-# React + TypeScript + Vite
+# Strathmore University Chaplaincy Library System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**A simple, secure, and real-time library management system built for Strathmore University Chaplaincy.**
 
-Currently, two official plugins are available:
+This system replaces the old Excel sheet with a modern web application for managing books, issuing/returning books, tracking active loans, viewing history, and managing admins.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🌐 Live Application
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+**[Open the Library System →](https://strathmore-chaplaincy-library-syste.vercel.app/)**  
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## How to Login
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1. Open the link above in any browser.
+2. Login using the **Main Admin** account:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+   - **Email**
+   - **Password**
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**Note**: The first login should be done by the Main Admin. You can then create accounts for other admins from the "Admins" page.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Key Features
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Dashboard
+- Quick overview with important statistics:
+  - Total Books
+  - Available Copies
+  - Active Loans
+  - Overdue Loans
+
+### Books Page
+- View all books with search functionality
+- Add new books
+- Edit existing books
+- **Issue Book** button on each book (opens a form to record borrower details, due date by default is 7 days)
+- Delete books (Main Admin only)
+
+### Active Transactions
+- View all currently issued books with search functionality
+- See borrower details, due date, and status
+- **Return** button for each transaction
+- Overdue loans are highlighted in red
+
+### Transactions History
+- Complete record of all returned loans
+
+### Manage Admins (Main Admin only)
+- Add new admin users
+- View list of all admins
+- Remove access of added admin
+- Restore access of removed admins 
+
+---
+
+## How to Use the System
+
+### 1. Dashboard
+See important numbers at a glance after logging in.
+
+### 2. Books Page
+- Browse or search for books
+- Click **"Issue Book"** on any book → fill borrower name, contact, student number, and due date → submit
+- Available copies are automatically reduced when a book is issued
+
+### 3. Active Transactions
+- See all books currently on loan
+- Click **"Return"** when a book is brought back
+- Confirmation appears → book is marked as returned and available copies increase
+
+### 4. Transactions History
+- View all previously returned loans with full details
+
+### 5. Manage Admins (Main Admin only)
+- Add new staff members as admins
+- Can remove access of logging in 
+- Can Restore access of logging in  
+- View all current admins
+
+---
+
+## Important Notes
+
+- Only the **Main Admin** can delete books and manage other admins.
+- Regular admins can add/edit books and manage borrowings/returns.
+- All data updates in real-time — no need to refresh the page.
+- The system works smoothly on computers, tablets, and mobile phones.
+
+---
+
+## Need Help?
+
+If you face any difficulty or need assistance:
+- Contact: **Brian Kariuki**  
+  Email: [briankariuki9975@gmail.com]  
+  WhatsApp/Phone: [0759126313]
+
+
+---
+
+## Thank You
+
+Thank you for trusting me with this project.  
+I hope this system makes library management easier and more efficient for the Chaplaincy team.
+
+Built with care — Brian 
+March 2026
