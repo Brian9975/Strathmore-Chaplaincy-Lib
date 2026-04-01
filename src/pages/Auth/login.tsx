@@ -110,10 +110,11 @@ if (user) {
                       </Field>
                       <Field >
                         <Label  htmlFor="password">Password</Label>
-                        <div className="relative">
+                        <div className="relative
+                        ">
                         <Input id="password" className="border-[#1C1A17] dark:border-[#FAF8F0]" value={password} onChange={e => setPassword(e.target.value)} type={showPassword ? "text" : "password"} name="password" placeholder=" Password"/>
-                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute  top-1/2 right-2 -translate-y-1/2 hover:opacity-80  cursor-pointer ">
-                         {showPassword ? <Eye/> : <EyeOff/>}
+                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute  top-1/2 right-3 -translate-y-1/2 hover:opacity-80  cursor-pointer ">
+                         {showPassword ? <EyeOff/> : <Eye/>}
                         </button>
                         </div>
                       </Field>
