@@ -21,7 +21,7 @@ export default function useAddNewBook() {
     book.title.toLowerCase() === title.toLowerCase()
  )
  if (existingBook) {
-   alert(`Book with title "${existingBook.title}" already exists`)
+   toast.warning(`Book with title "${existingBook.title}" already exists`)
 return
  }
 
