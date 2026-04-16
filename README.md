@@ -1,111 +1,39 @@
-# Strathmore University Chaplaincy Library System
+# Strathmore Chaplaincy Library System
 
-**A simple, secure, and real-time library management system built for Strathmore University Chaplaincy.**
+A full-stack web application built for Strathmore University Chaplaincy for managing library operations including books, admins, and book issuing.
 
-This system replaces the old Excel sheet with a modern web application for managing books, issuing/returning books, tracking active loans, viewing history, and managing admins.
+## Live Demo
+[strathmore-chaplaincy-library-system.vercel.app]
 
----
+## Features
+- Role-based access control (Admin and Main Admin)
+- Main Admin can manage admins and delete books
+- Full book management with CRUD operations
+- Issue and return book functionality
+- Firebase authentication with protected routes
 
-## 🌐 Live Application
+## Tech Stack
+React, TypeScript, Tailwind CSS, ShadCN UI, Firebase
 
-**[Open the Library System →](https://strathmore-chaplaincy-library-syste.vercel.app/)**  
+## Screenshots
+<img width="1365" height="665" alt="Screenshot 2026-04-16 13 51 36" src="https://github.com/user-attachments/assets/17035d38-2368-4cdf-a00e-136ed0a276bb" />
 
----
+<img width="1365" height="665" alt="Screenshot 2026-04-16 13 51 58" src="https://github.com/user-attachments/assets/157fce72-d0c8-4182-9472-7e1977c43dab" />
+<img width="1365" height="665" alt="Screenshot 2026-04-16 13 54 51" src="https://github.com/user-attachments/assets/a18dc3f4-3553-494d-a7f5-859635e0a6d7" />
 
-## How to Login
+<img width="1365" height="665" alt="Screenshot 2026-04-16 13 57 40" src="https://github.com/user-attachments/assets/95f4987b-1428-463e-a72e-28975fc37f79" />
 
-1. Open the link above in any browser.
-2. Login using the **Main Admin** account:
+<img width="1365" height="665" alt="Screenshot 2026-04-16 13 58 43" src="https://github.com/user-attachments/assets/7a76db07-cdf6-437e-96a6-7bdb75fd122e" />
+<img width="1365" height="665" alt="Screenshot 2026-04-16 13 58 56" src="https://github.com/user-attachments/assets/be9caf88-8255-46eb-ac52-55b660fd133f" />
 
-   - **Email**
-   - **Password**
+<img width="1365" height="665" alt="Screenshot 2026-04-16 13 59 16" src="https://github.com/user-attachments/assets/d8ac6464-6ae0-4f36-8563-dd0a678ef6eb" />
 
-**Note**: The first login should be done by the Main Admin. You can then create accounts for other admins from the "Admins" page.
-
----
-
-## Key Features
-
-### Dashboard
-- Quick overview with important statistics:
-  - Total Books
-  - Available Copies
-  - Active Loans
-  - Overdue Loans
-
-### Books Page
-- View all books with search functionality
-- Add new books
-- Edit existing books
-- **Issue Book** button on each book (opens a form to record borrower details, due date by default is 7 days)
-- Delete books (Main Admin only)
-
-### Active Transactions
-- View all currently issued books with search functionality
-- See borrower details, due date, and status
-- **Return** button for each transaction
-- Overdue loans are highlighted in red
-
-### Transactions History
-- Complete record of all returned loans
-
-### Manage Admins (Main Admin only)
-- Add new admin users
-- View list of all admins
-- Remove access of added admin
-- Restore access of removed admins 
-
----
-
-## How to Use the System
-
-### 1. Dashboard
-See important numbers at a glance after logging in.
-
-### 2. Books Page
-- Browse or search for books
-- Click **"Issue Book"** on any book → fill borrower name, contact, student number, and due date → submit
-- Available copies are automatically reduced when a book is issued
-
-### 3. Active Transactions
-- See all books currently on loan
-- Click **"Return"** when a book is brought back
-- Confirmation appears → book is marked as returned and available copies increase
-
-### 4. Transactions History
-- View all previously returned loans with full details
-
-### 5. Manage Admins (Main Admin only)
-- Add new staff members as admins
-- Can remove access of logging in 
-- Can Restore access of logging in  
-- View all current admins
-
----
-
-## Important Notes
-
-- Only the **Main Admin** can delete books and manage other admins.
-- Regular admins can add/edit books and manage borrowings/returns.
-- All data updates in real-time — no need to refresh the page.
-- The system works smoothly on computers, tablets, and mobile phones.
-
----
-
-## Need Help?
-
-If you face any difficulty or need assistance:
-- Contact: **Brian Kariuki**  
-  Email: [briankariuki9975@gmail.com]  
-  WhatsApp/Phone: [0759126313]
+<img width="1365" height="665" alt="Screenshot 2026-04-16 13 59 25" src="https://github.com/user-attachments/assets/78eb4413-481e-471e-b32e-ac08248ec5b8" />
 
 
----
+<img width="1365" height="662" alt="Screenshot 2026-04-16 14 00 00" src="https://github.com/user-attachments/assets/34a11003-d891-4af5-92cd-9ebf02dca52d" />
 
-## Thank You
+<img width="1365" height="662" alt="Screenshot 2026-04-16 14 00 43" src="https://github.com/user-attachments/assets/dc63b52d-c19e-4a92-a458-72223108b0bb" />
 
-Thank you for trusting me with this project.  
-I hope this system makes library management easier and more efficient for the Chaplaincy team.
 
-Built with care — Brian 
-March 2026
+
