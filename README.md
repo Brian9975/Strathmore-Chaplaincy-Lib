@@ -3,7 +3,7 @@
 A full-stack web application built for Strathmore University Chaplaincy for managing library operations including books, admins, and book issuing.
 
 ## Live Demo
-https//strathmore-chaplaincy-library-system.vercel.app
+https://strathmore-chaplaincy-library-system.vercel.app
 
 ## Features
 - Role-based access control (Admin and Main Admin)
