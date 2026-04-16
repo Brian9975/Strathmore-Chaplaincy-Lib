@@ -84,13 +84,13 @@ if (user) {
 }
   return (
     <>
-      <div className={`bg-[${brandThemes["primary-light"]}] dark:bg-primary-background min-h-screen`}>
-       <div className="mb-7 p-4 flex justify-end">
+      <div className={`bg-[${brandThemes["primary-light"]}] overflow-hidden dark:bg-primary-background min-h-screen`}>
+       <div className="mb-3 p-4 flex justify-end">
         <ModeToggle/>
        </div>
 
        <div className="justify-center flex  items-center">
-        <form onSubmit={logAdminIn} className="flex border rounded-lg shadow-xs dark:shadow-white py-2 px-6 md:px-25 flex-col items-center gap-5">
+        <form onSubmit={logAdminIn} className="flex border mb-4  rounded-lg shadow-xs dark:shadow-white py-2 px-6 md:px-25 flex-col items-center gap-5">
 
 
            <div className="flex items-center flex-col justify-center">
@@ -119,7 +119,7 @@ if (user) {
                         </div>
                       </Field>
                     </FieldGroup>
-         <Button type="submit" variant="default" className="h-10 mb-5 rounded-lg bg-[#1C1A17] dark:bg-[#FAF8F0] cursor-pointer font-semibold w-30">Login</Button>
+         <Button type="submit" variant="default" className="h-10 mb-5 mt-4 hover:opacity-80 shadow-md text-lg  shadow-gray-700 rounded-lg bg-[#1C1A17] dark:bg-[#FAF8F0] cursor-pointer font-bold w-full">Login</Button>
         </form>
         </div>
       </div>
