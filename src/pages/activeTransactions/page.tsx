@@ -13,7 +13,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebase-config";
 import { useStates } from "@/context/StatesContext";
 import type { Transaction } from "@/types/transaction";
-import { CheckCircle2 } from "lucide-react";
+import { BookX, CheckCircle2 } from "lucide-react";
 import useDateFormatter from "@/hooks/useDateFormatter";
 import {
   AlertDialog,
@@ -97,11 +97,15 @@ export default function ActiveTransactions() {
               </div>
             ))}
           </div>  : transactions.length === 0 ? 
-          (<div className="flex flex-col justify-center gap-5 items-center">
-            <div>
-              <p className="dark:text-[#FAF8F0] text-[#1C1A17] text-center pt-20 text-2xl">
-                There are no transactions currently!! Active and Overdue Transactions will appear here.
-              </p>
+          (<div className="text-center">
+            <div className="border shadow-xs dark:shadow-white rounded-lg mx-4 mb-5 py-7">
+            <div className="flex justify-center mb-2">
+               <BookX size={35}/>
+               </div>
+              <h1 className="dark:text-[#FAF8F0] font-bold text-[#1C1A17] text-center text-lg  sm:text-2xl">
+                There are no transactions at the moment.
+              </h1>
+              <p className="mx-2">Active and Overdue Transactions will appear here.</p>
             
             </div>
             <Button onClick={() => navigate("/books")} className="cursor-pointer" variant={"default"}>Go To Books</Button>

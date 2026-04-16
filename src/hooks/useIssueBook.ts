@@ -13,7 +13,7 @@ export default function useIssueBook() {
     const [borrowerContact, setBorrowerContact] = useState(0)
     const [dueDate, setDueDate] = useState<Date>(() => { 
        const date = new Date()
-       date.setDate(date.getDate() + 7)
+       date.setDate(date.getDate() + 31)
        return date
     })
 

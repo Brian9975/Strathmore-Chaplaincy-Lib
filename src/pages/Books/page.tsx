@@ -29,7 +29,13 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import useEditBook from "@/hooks/useEditBook";
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import { Edit, CheckCircleIcon, CalendarIcon, CheckCircle2 } from "lucide-react";
+import {
+  Edit,
+  CheckCircleIcon,
+  CalendarIcon,
+  CheckCircle2,
+  Library,
+} from "lucide-react";
 import {
   AlertDialog,
   AlertDialogHeader,
@@ -51,7 +57,6 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 
-
 export default function Books() {
   const [searchTerm, setSearchTerm] = useState("");
   const {
@@ -68,7 +73,7 @@ export default function Books() {
     bookToDelete,
     setBookToDelete,
     alertDel,
-    alertIssue
+    alertIssue,
   } = useStates();
   const {
     handleAddBook,
@@ -173,15 +178,17 @@ export default function Books() {
       </div>
 
       {/* Search Filter For Books */}
-     { books.length !== 0 && <div className="flex mb-4 justify-center">
-        <Input
-          type="text"
-          value={searchTerm}
-          className="w-xl"
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search book by title/author..."
-        />
-      </div>}
+      {books.length !== 0 && (
+        <div className="flex mb-4 justify-center">
+          <Input
+            type="text"
+            value={searchTerm}
+            className="w-xl"
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search book by title/author..."
+          />
+        </div>
+      )}
       <div>
         {/* Dialog */}
 
@@ -241,7 +248,10 @@ export default function Books() {
                   )}
                 </Field>
                 <Field>
-                  <Label className="dark:text-secondary-text" htmlFor="total-copies">
+                  <Label
+                    className="dark:text-secondary-text"
+                    htmlFor="total-copies"
+                  >
                     Total Copies
                   </Label>
                   <Input
@@ -263,7 +273,10 @@ export default function Books() {
                   )}
                 </Field>
                 <Field>
-                  <Label className="dark:text-secondary-text" htmlFor="available-copies">
+                  <Label
+                    className="dark:text-secondary-text"
+                    htmlFor="available-copies"
+                  >
                     Available Copies
                   </Label>
                   <Input
@@ -293,11 +306,16 @@ export default function Books() {
               </FieldGroup>
               <DialogFooter>
                 <DialogClose asChild>
-                  <Button className={`bg-warn font-bold text-[#F5F0DA] cursor-pointer duration-1000 hover:bg-highlights mt-3`} >
+                  <Button
+                    className={`bg-warn font-bold text-[#F5F0DA] cursor-pointer duration-1000 hover:bg-highlights mt-3`}
+                  >
                     Cancel
                   </Button>
                 </DialogClose>
-                <Button  className={`bg-button-2 font-bold dark:text-[#F5F0DA] cursor-pointer duration-1000 hover:bg-button-1 mt-3`} type="submit" >
+                <Button
+                  className={`bg-button-2 font-bold dark:text-[#F5F0DA] cursor-pointer duration-1000 hover:bg-button-1 mt-3`}
+                  type="submit"
+                >
                   Add
                 </Button>
               </DialogFooter>
@@ -320,7 +338,7 @@ export default function Books() {
             ))}
           </div>
         ) : books.length === 0 ? (
-          <div className="flex flex-col justify-center gap-5 items-center">
+          <div className="flex flex-col text-center justify-center gap-5 items-center">
             <Button
               onClick={() => setOpenBookForm(true)}
               className="bg-button-2 text-[#F5F0DA] font-bold text-lg hover:bg-button-1 cursor-pointer w-70 h-20 duration-1000"
@@ -329,10 +347,18 @@ export default function Books() {
               Add Book
             </Button>
             <div>
-              <p className="text-[#1C1A17] dark:text-[#FAF8F0] text-md  sm:text-xl md:text-2xl">
-                There are no books currently!! Please click the "Add Book"
-                button
-              </p>
+              <div className="border text-center shadow-xs dark:shadow-white rounded-lg mx-4 mb-5 py-7">
+                <div className="flex justify-center mb-2">
+                  <Library size={35} />
+                </div>
+                <h1 className="dark:text-[#FAF8F0] font-bold text-[#1C1A17] text-center text-lg  sm:text-2xl">
+                  There are no books at the moment.
+                </h1>
+                <p className="mx-2">
+                  All books will appear here when added.Please click the add
+                  book button to add book.
+                </p>
+              </div>
             </div>
           </div>
         ) : (
@@ -340,14 +366,26 @@ export default function Books() {
             <TableCaption>List Of All Books</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-warn font-bold md:text-lg text-md ">Book Title</TableHead>
-                <TableHead className="text-warn font-bold md:text-lg text-md ">Book Author</TableHead>
-                <TableHead className="text-warn font-bold md:text-lg text-md ">Total Copies</TableHead>
-                <TableHead className=" text-warn font-bold md:text-lg text-md ">Available Copies</TableHead>
+                <TableHead className="text-warn font-bold md:text-lg text-md ">
+                  Book Title
+                </TableHead>
+                <TableHead className="text-warn font-bold md:text-lg text-md ">
+                  Book Author
+                </TableHead>
+                <TableHead className="text-warn font-bold md:text-lg text-md ">
+                  Total Copies
+                </TableHead>
+                <TableHead className=" text-warn font-bold md:text-lg text-md ">
+                  Available Copies
+                </TableHead>
 
-                <TableHead className="text-warn font-bold md:text-lg text-md  text-left">Action</TableHead>
+                <TableHead className="text-warn font-bold md:text-lg text-md  text-left">
+                  Action
+                </TableHead>
 
-                <TableHead className="text-warn font-bold md:text-lg text-md  text-right">Issue</TableHead>
+                <TableHead className="text-warn font-bold md:text-lg text-md  text-right">
+                  Issue
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="dark:text-[#F5F0DA] text-[#1C1A17]">
@@ -405,9 +443,7 @@ export default function Books() {
               }}
             >
               <DialogHeader>
-                <DialogTitle>
-                  Edit Book Details
-                </DialogTitle>
+                <DialogTitle>Edit Book Details</DialogTitle>
               </DialogHeader>
               <DialogDescription className="p-3">
                 Enter details you want to edit the book to.
@@ -433,9 +469,7 @@ export default function Books() {
                   )}
                 </Field>
                 <Field>
-                  <Label htmlFor="author">
-                    Author
-                  </Label>
+                  <Label htmlFor="author">Author</Label>
                   <Input
                     id="author"
                     value={editAuthor}
@@ -452,9 +486,7 @@ export default function Books() {
                   )}
                 </Field>
                 <Field>
-                  <Label htmlFor="total-copies">
-                    Total Copies
-                  </Label>
+                  <Label htmlFor="total-copies">Total Copies</Label>
                   <Input
                     id="total-copies"
                     value={editTotalCopies}
@@ -470,9 +502,7 @@ export default function Books() {
                   )}
                 </Field>
                 <Field>
-                  <Label  htmlFor="available-copies">
-                    Available Copies
-                  </Label>
+                  <Label htmlFor="available-copies">Available Copies</Label>
                   <Input
                     id="available-copies"
                     className={`${editAvailGreatTotal ? "border-error focus-visible:ring-error text-error" : ""}`}
@@ -498,11 +528,17 @@ export default function Books() {
               </FieldGroup>
               <DialogFooter>
                 <DialogClose asChild>
-                  <Button className="cursor-pointer bg-primary-background hover:bg-primary-backgroud hover:opacity-80 font-bold  mt-3" variant="outline">
+                  <Button
+                    className="cursor-pointer bg-primary-background hover:bg-primary-backgroud hover:opacity-80 font-bold  mt-3"
+                    variant="outline"
+                  >
                     Cancel
                   </Button>
                 </DialogClose>
-                <Button className="cursor-pointer font-bold bg-button-2 hover:bg-button-1  dark:bg-[#FAF8F0] mt-3" type="submit">
+                <Button
+                  className="cursor-pointer font-bold bg-button-2 hover:bg-button-1  dark:bg-[#FAF8F0] mt-3"
+                  type="submit"
+                >
                   Save
                 </Button>
               </DialogFooter>
@@ -587,9 +623,7 @@ export default function Books() {
               }}
             >
               <DialogHeader>
-                <DialogTitle className="p-3">
-                  Borrower's Details
-                </DialogTitle>
+                <DialogTitle className="p-3">Borrower's Details</DialogTitle>
               </DialogHeader>
               <DialogDescription>
                 Fill The Following Fields To Issue Book
@@ -610,24 +644,18 @@ export default function Books() {
                 </Field>
 
                 <Field>
-                  <Label  htmlFor="s-no">
-                    Student/Staff No.
-                  </Label>
+                  <Label htmlFor="s-no">Student/Staff No.</Label>
                   <Input
                     id="s-no"
                     onChange={(e) => setStuOrStaffNo(Number(e.target.value))}
-                   
                     type="number"
                     placeholder="eg.123456..."
                   />
                 </Field>
                 <Field>
-                  <Label htmlFor="contact">
-                    Borrower's Contact
-                  </Label>
+                  <Label htmlFor="contact">Borrower's Contact</Label>
                   <Input
                     id="contact"
-                  
                     onChange={(e) => setBorrowerContact(Number(e.target.value))}
                     type="number"
                     name="available-copies"
@@ -636,9 +664,7 @@ export default function Books() {
                 </Field>
 
                 <Field>
-                  <Label htmlFor="date-due">
-                    Date Due
-                  </Label>
+                  <Label htmlFor="date-due">Date Due</Label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
@@ -659,12 +685,11 @@ export default function Books() {
                         mode="single"
                         selected={dueDate}
                         onSelect={(date) => setDueDate(date as Date)}
-                        disabled={(date) => { 
-                          let today = new Date()
-                          today.setHours(0, 0, 0, 0)
-                          return date < today
-                        }
-                        }
+                        disabled={(date) => {
+                          let today = new Date();
+                          today.setHours(0, 0, 0, 0);
+                          return date < today;
+                        }}
                         required
                       />
                     </PopoverContent>
@@ -673,11 +698,18 @@ export default function Books() {
               </FieldGroup>
               <DialogFooter>
                 <DialogClose asChild>
-                  <Button className="cursor-pointer border-2 border-[#1C1A17] mt-3" variant="outline">
+                  <Button
+                    className="cursor-pointer border-2 border-[#1C1A17] mt-3"
+                    variant="outline"
+                  >
                     Cancel
                   </Button>
                 </DialogClose>
-                <Button variant={"default"} className="cursor-pointer mt-3" type="submit">
+                <Button
+                  variant={"default"}
+                  className="cursor-pointer mt-3"
+                  type="submit"
+                >
                   Issue Book
                 </Button>
               </DialogFooter>
