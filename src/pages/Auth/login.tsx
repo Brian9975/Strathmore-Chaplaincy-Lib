@@ -53,7 +53,7 @@ export default function Login() {
         await signInWithEmailAndPassword(auth, email, password)
         navigate("/dashboard")
     } catch (error: any) {
-      console.log(error.code)
+      
      handleLoginError(error.code)
      
     } finally{
@@ -89,8 +89,8 @@ if (user) {
         <ModeToggle/>
        </div>
 
-       <div className="justify-center flex items-center">
-        <form onSubmit={logAdminIn} className="flex flex-col items-center gap-5">
+       <div className="justify-center flex  items-center">
+        <form onSubmit={logAdminIn} className="flex border rounded-lg shadow-xs dark:shadow-white py-2 px-6 md:px-25 flex-col items-center gap-5">
 
 
            <div className="flex items-center flex-col justify-center">
@@ -103,9 +103,9 @@ if (user) {
             
            </div>
 
-                   <FieldGroup>
-                       <Field>
-                        <Label className="" htmlFor="email">Email</Label>
+                   <FieldGroup className="md:w-100">
+                       <Field className="">
+                        <Label htmlFor="email">Email</Label>
                         <Input id="email" className=" border-[#1C1A17] dark:border-[#FAF8F0]" value={email} onChange={e => setEmail(e.target.value)} type="email" name="email" placeholder="Email" />
                       </Field>
                       <Field >
@@ -119,7 +119,7 @@ if (user) {
                         </div>
                       </Field>
                     </FieldGroup>
-         <Button type="submit" variant="default" className="h-10 rounded-lg bg-[#1C1A17] dark:bg-[#FAF8F0] cursor-pointer font-semibold w-30">Login</Button>
+         <Button type="submit" variant="default" className="h-10 mb-5 rounded-lg bg-[#1C1A17] dark:bg-[#FAF8F0] cursor-pointer font-semibold w-30">Login</Button>
         </form>
         </div>
       </div>

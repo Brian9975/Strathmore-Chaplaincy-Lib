@@ -67,7 +67,7 @@ return () => unsubscribe()
                           <h1 className="dark:text-[#FAF8F0] font-bold text-[#1C1A17] text-center text-lg  sm:text-2xl">
                             No transaction history at the moment.
                           </h1>
-                          <p className="mx-2">All transaction history will appear here when books are returned</p>
+                          <p className="mx-2">All transaction history will appear here when books are returned.</p>
                         
                         </div>
             
