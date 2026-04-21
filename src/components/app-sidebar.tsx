@@ -6,7 +6,8 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
-  SidebarMenuButton
+  SidebarMenuButton,
+  useSidebar
 
 } from "@/components/ui/sidebar"
 import StrathLogo1 from "@/img/StrathLogo.png"
@@ -26,6 +27,7 @@ export function AppSidebar() {
 const {role} = useAuth()
 const {brandThemes} = useBrandTheme()
 
+  const {isMobile, setOpenMobile} = useSidebar()
 
 
   return (
@@ -49,25 +51,41 @@ const {brandThemes} = useBrandTheme()
           <SidebarMenuItem>
              
             <SidebarMenuButton asChild>
-              <Link to="/dashboard"><LayoutDashboard/>Dashboard</Link>
+              <Link onClick={() => {
+                if(isMobile) {
+                  setOpenMobile(false)
+                }
+              }} to="/dashboard"><LayoutDashboard/>Dashboard</Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
 
-              <Link to="/books"><LibrarySquare/>Books</Link>
+              <Link onClick={() => {
+                if(isMobile) {
+                  setOpenMobile(false)
+                }
+              }} to="/books"><LibrarySquare/>Books</Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
 
-              <Link to="/activeTransactions"><BookUp/>Active & Overdue Transactions</Link>
+              <Link onClick={() => {
+                if(isMobile) {
+                  setOpenMobile(false)
+                }
+              }} to="/activeTransactions"><BookUp/>Active & Overdue Transactions</Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
 
-              <Link to="/transactionsHistory"><BookDown/>Transaction History</Link>
+              <Link onClick={() => {
+                if(isMobile) {
+                  setOpenMobile(false)
+                }
+              }} to="/transactionsHistory"><BookDown/>Transaction History</Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
           {
@@ -75,7 +93,11 @@ const {brandThemes} = useBrandTheme()
               <SidebarMenuItem>
             <SidebarMenuButton asChild>
 
-              <Link to="/admins"><ShieldCheck/>Admins</Link>
+              <Link onClick={() => {
+                if(isMobile) {
+                  setOpenMobile(false)
+                }
+              }} to="/admins"><ShieldCheck/>Admins</Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
           }

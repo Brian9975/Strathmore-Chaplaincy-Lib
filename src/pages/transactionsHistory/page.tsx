@@ -60,7 +60,7 @@ return () => unsubscribe()
                      </div>
                    ) : loansHandled.length === 0 ? <div className="flex text-center flex-col justify-center gap-5 items-center">
             <div>
-             <div className="border shadow-xs dark:shadow-white rounded-lg mx-4 mb-5 py-7">
+             <div className="border shadow-xs mt-10 dark:shadow-white rounded-lg mx-4 mb-5 py-7">
                         <div className="flex justify-center  mb-2">
                            <ClipboardX size={35}/>
                            </div>

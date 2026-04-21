@@ -98,7 +98,7 @@ export default function ActiveTransactions() {
             ))}
           </div>  : transactions.length === 0 ? 
           (<div className="text-center">
-            <div className="border shadow-xs dark:shadow-white rounded-lg mx-4 mb-5 py-7">
+            <div className="border mt-10 shadow-xs dark:shadow-white rounded-lg mx-4 mb-5 py-7">
             <div className="flex justify-center mb-2">
                <BookX size={35}/>
                </div>

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "@/components/ui/spinner";
-import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
+import { SidebarProvider, SidebarTrigger} from "../ui/sidebar";
 import { AppSidebar } from "../app-sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Toaster } from "../ui/sonner";
@@ -21,6 +21,8 @@ export default function ProtectedRoute({
 }: {
   children: React.ReactNode;
 }) {
+
+
   const { user, loading, role, logout } = useAuth();
   const navigate = useNavigate();
   const {brandThemes} = useBrandTheme()
