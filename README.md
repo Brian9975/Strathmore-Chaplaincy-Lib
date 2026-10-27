@@ -44,23 +44,22 @@ The system supports over 166 books across three administrator accounts, with per
 
 ![Book details](https://github.com/user-attachments/assets/95f4987b-1428-463e-a72e-28975fc37f79)
 
-### 6. Return Management
+###5. Return Management
 
 ![Return management](https://github.com/user-attachments/assets/be9caf88-8255-46eb-ac52-55b660fd133f)
 
-### 7. Search Functionality
+### 6. Transaction History
 
-![Search functionality](https://github.com/user-attachments/assets/d8ac6464-6ae0-4f36-8563-dd0a678ef6eb)
+![Transaction History](https://github.com/user-attachments/assets/d8ac6464-6ae0-4f36-8563-dd0a678ef6eb)
 
-### 8. Administrator Interface
+### 7. Administrator Interface
 
-![Administrator interface](https://github.com/user-attachments/assets/78eb4413-481e-471e-b32e-ac08248ec5b8)
+![Administrator interface](https://github.com/user-attachments/assets/1fe11f4c-d8e0-4c9d-9e3a-558d55c93aef)
 
-### 9. Additional Library View
-
+### 8. Additional library view
 ![Additional library view](https://github.com/user-attachments/assets/34a11003-d891-4af5-92cd-9ebf02dca52d)
 
-### 10. Application Interface
+### 10. Light Mode
 
 ![Application interface](https://github.com/user-attachments/assets/dc63b52d-c19e-4a92-a458-72223108b0bb)
 
