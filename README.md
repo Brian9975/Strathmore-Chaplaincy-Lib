@@ -36,17 +36,13 @@ The system supports over 166 books across three administrator accounts, with per
 
 ![Dashboard](https://github.com/user-attachments/assets/157fce72-d0c8-4182-9472-7e1977c43dab)
 
-### 3. Library Records
+### 3. Book Details
 
 ![Library records](https://github.com/user-attachments/assets/a18dc3f4-3553-494d-a7f5-859635e0a6d7)
 
-### 4. Book Details
+### 4. Library Records
 
 ![Book details](https://github.com/user-attachments/assets/95f4987b-1428-463e-a72e-28975fc37f79)
-
-### 5. Borrowing Management
-
-![Borrowing management](https://github.com/user-attachments/assets/7a76db07-cdf6-437e-96a6-7bdb75fd122e)
 
 ### 6. Return Management
 
