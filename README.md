@@ -111,7 +111,35 @@ The application initializes Firebase through:
 
 Both configurations use the environment variables above.
 
-### 4. Create the first administrator
+
+### 4. Configure Firestore Security Rules
+
+By default, Firestore may deny all database access. To allow the application to work with your Firebase database:
+
+1. Open the [Firebase Console](https://console.firebase.google.com/).
+2. Select your Firebase project.
+3. Navigate to **Firestore Database → Rules**.
+4. Replace the default rules with the following:
+
+```javascript
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+```
+
+5. Click **Publish** to apply the rules.
+
+These rules allow authenticated users to read and write Firestore documents. Make sure Firebase Authentication is enabled and users sign in before accessing the application.
+
+**Note:** These rules are suitable for getting a development copy running, but they do not enforce the application's different administrator roles at the database level. Do not use them as a production security configuration for sensitive data.
+
+### 6. Create the first administrator
 
 The initial main administrator must be created manually before accessing the dashboard.
 
@@ -138,7 +166,7 @@ The application uses the authenticated user's UID to retrieve their Firestore do
 
 After signing in as `main_admin`, additional administrator accounts can be created through the application's interface.
 
-### 5. Start the development server
+### 7. Start the development server
 
 ```bash
 npm run dev
