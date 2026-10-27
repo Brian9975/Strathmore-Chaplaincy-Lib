@@ -1,39 +1,177 @@
-# Strathmore Chaplaincy Library System
 
-A full-stack web application built for Strathmore University Chaplaincy for managing library operations including books, admins, and book issuing.
+# Strathmore Chaplaincy Library Management System
 
-## Live Demo
-https://strathmore-chaplaincy-library-system.vercel.app
+A web-based library management system built for Strathmore University Chaplaincy to simplify book management, borrowing, returns, and availability tracking.
+
+**[View Live Application](https://strathmore-chaplaincy-library-system.vercel.app/)**
+
+> Access is restricted to authorized administrators. Public registration is not available.
+
+## Overview
+
+The Strathmore Chaplaincy Library Management System helps administrators manage library books and track borrowing activity through a centralized dashboard. It provides a structured way to maintain book records, monitor availability, and manage library operations.
+
+The system supports over 166 books across three administrator accounts, with permissions designed around different administrative responsibilities.
 
 ## Features
-- Role-based access control (Admin and Main Admin)
-- Main Admin can manage admins and delete books
-- Full book management with CRUD operations
-- Issue and return book functionality
-- Firebase authentication with protected routes
 
-## Tech Stack
-React, TypeScript, Tailwind CSS, ShadCN UI, Firebase
+- **Book Management:** Add, view, and update book records.
+- **Borrowing and Returns:** Record borrowing activity and manage book returns.
+- **Availability Tracking:** Monitor which books are available and which are borrowed.
+- **Search:** Find books quickly using the search functionality.
+- **Role-Based Access:** Different permissions for main administrators and ordinary administrators.
+- **Administrator Management:** The main administrator can create and manage administrator accounts.
+- **Protected Routes:** Restrict access to authorized administrators.
+- **Firebase Authentication:** Authenticate administrators.
+- **Cloud Database:** Store and retrieve library data using Cloud Firestore.
 
 ## Screenshots
-<img width="1365" height="665" alt="Screenshot 2026-04-16 13 51 36" src="https://github.com/user-attachments/assets/17035d38-2368-4cdf-a00e-136ed0a276bb" />
 
-<img width="1365" height="665" alt="Screenshot 2026-04-16 13 51 58" src="https://github.com/user-attachments/assets/157fce72-d0c8-4182-9472-7e1977c43dab" />
-<img width="1365" height="665" alt="Screenshot 2026-04-16 13 54 51" src="https://github.com/user-attachments/assets/a18dc3f4-3553-494d-a7f5-859635e0a6d7" />
+### 1. Dashboard
 
-<img width="1365" height="665" alt="Screenshot 2026-04-16 13 57 40" src="https://github.com/user-attachments/assets/95f4987b-1428-463e-a72e-28975fc37f79" />
+![Library dashboard](https://github.com/user-attachments/assets/17035d38-2368-4cdf-a00e-136ed0a276bb)
 
-<img width="1365" height="665" alt="Screenshot 2026-04-16 13 58 43" src="https://github.com/user-attachments/assets/7a76db07-cdf6-437e-96a6-7bdb75fd122e" />
-<img width="1365" height="665" alt="Screenshot 2026-04-16 13 58 56" src="https://github.com/user-attachments/assets/be9caf88-8255-46eb-ac52-55b660fd133f" />
+### 2. Book Management
 
-<img width="1365" height="665" alt="Screenshot 2026-04-16 13 59 16" src="https://github.com/user-attachments/assets/d8ac6464-6ae0-4f36-8563-dd0a678ef6eb" />
+![Book management](https://github.com/user-attachments/assets/157fce72-d0c8-4182-9472-7e1977c43dab)
 
-<img width="1365" height="665" alt="Screenshot 2026-04-16 13 59 25" src="https://github.com/user-attachments/assets/78eb4413-481e-471e-b32e-ac08248ec5b8" />
+### 3. Library Records
 
+![Library records](https://github.com/user-attachments/assets/a18dc3f4-3553-494d-a7f5-859635e0a6d7)
 
-<img width="1365" height="662" alt="Screenshot 2026-04-16 14 00 00" src="https://github.com/user-attachments/assets/34a11003-d891-4af5-92cd-9ebf02dca52d" />
+### 4. Book Details
 
-<img width="1365" height="662" alt="Screenshot 2026-04-16 14 00 43" src="https://github.com/user-attachments/assets/dc63b52d-c19e-4a92-a458-72223108b0bb" />
+![Book details](https://github.com/user-attachments/assets/95f4987b-1428-463e-a72e-28975fc37f79)
 
+### 5. Borrowing Management
 
+![Borrowing management](https://github.com/user-attachments/assets/7a76db07-cdf6-437e-96a6-7bdb75fd122e)
 
+### 6. Return Management
+
+![Return management](https://github.com/user-attachments/assets/be9caf88-8255-46eb-ac52-55b660fd133f)
+
+### 7. Search Functionality
+
+![Search functionality](https://github.com/user-attachments/assets/d8ac6464-6ae0-4f36-8563-dd0a678ef6eb)
+
+### 8. Administrator Interface
+
+![Administrator interface](https://github.com/user-attachments/assets/78eb4413-481e-471e-b32e-ac08248ec5b8)
+
+### 9. Additional Library View
+
+![Additional library view](https://github.com/user-attachments/assets/34a11003-d891-4af5-92cd-9ebf02dca52d)
+
+### 10. Application Interface
+
+![Application interface](https://github.com/user-attachments/assets/dc63b52d-c19e-4a92-a458-72223108b0bb)
+
+## Tech Stack
+
+- **Frontend:** React, TypeScript, Vite
+- **Styling:** Tailwind CSS
+- **UI Components:** shadcn/ui
+- **Icons:** Lucide React
+- **Routing:** React Router DOM
+- **Authentication:** Firebase Authentication
+- **Database:** Cloud Firestore
+
+## Getting Started
+
+Follow these steps to run the project locally.
+
+### Prerequisites
+
+- Node.js and npm
+- A Firebase project
+- Basic knowledge of React and TypeScript
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Brian9975/Strathmore-Chaplaincy-Lib.git
+cd Strathmore-Chaplaincy-Lib
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure Firebase
+
+Create or use a Firebase project that you control. Enable **Email/Password Authentication** and **Cloud Firestore** in the Firebase Console.
+
+Create a `.env.local` file in the root directory and add your Firebase web app configuration:
+
+```env
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+```
+
+Replace the placeholder values with the configuration from your own Firebase project. Do not commit your local environment file.
+
+The application uses Firebase configuration files for its primary and secondary Firebase instances. Configure both instances according to the project's existing setup, using your own Firebase project configuration.
+
+### 4. Create the Main Administrator
+
+The application does not provide public administrator registration. To configure your own test environment:
+
+1. Open Firebase Console and navigate to **Authentication**.
+2. Create an administrator account using the Email/Password provider.
+3. Copy the new user's UID.
+4. Open **Firestore Database** and create a collection named `users`.
+5. Create a document whose document ID exactly matches the administrator's UID.
+6. Add the following fields:
+
+| Field | Type | Value |
+|---|---|---|
+| `createdAt` | Timestamp | Current timestamp |
+| `email` | String | Administrator's email |
+| `name` | String | Administrator's name |
+| `role` | String | `main_admin` |
+
+The application uses the corresponding user document to identify the administrator's role.
+
+### 5. Run the Development Server
+
+```bash
+npm run dev
+```
+
+Open the local URL displayed in your terminal to access the application.
+
+## Project Structure
+
+```text
+Strathmore-Chaplaincy-Lib/
+├── public/
+├── src/
+│   ├── lib/
+│   │   ├── firebase-config.ts
+│   │   └── sec-firebase-config.ts
+│   └── ...
+├── .env.local
+├── package.json
+├── vite.config.ts
+└── README.md
+```
+
+*The structure above highlights selected files and directories.*
+
+## Purpose
+
+This project was developed to support the day-to-day library operations of Strathmore University Chaplaincy by bringing book records, borrowing activity, and administrator workflows into one application.
+
+## Author
+
+**Brian Kariuki**
+
+- GitHub: [Brian9975](https://github.com/Brian9975)
+- Live Application: [Strathmore Chaplaincy Library Management System](https://strathmore-chaplaincy-library-system.vercel.app/)
