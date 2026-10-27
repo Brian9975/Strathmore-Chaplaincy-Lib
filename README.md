@@ -1,29 +1,32 @@
 
 # Strathmore Chaplaincy Library Management System
 
-A web-based library management system built for Strathmore University Chaplaincy to simplify book management, borrowing, returns, and availability tracking.
+A library management web application developed for **Strathmore University Chaplaincy** to replace manual Excel-based book tracking with a centralized digital system.
 
-**[View Live Application](https://strathmore-chaplaincy-library-system.vercel.app/)**
+The application simplifies book cataloguing, borrowing, returns, and availability tracking while providing different levels of access for library administrators.
 
-> Access is restricted to authorized administrators. Public registration is not available.
+**[Live Application](https://strathmore-chaplaincy-library-system.vercel.app/)** · **Admin Access Only**
 
-## Overview
-
-The Strathmore Chaplaincy Library Management System helps administrators manage library books and track borrowing activity through a centralized dashboard. It provides a structured way to maintain book records, monitor availability, and manage library operations.
-
-The system supports over 166 books across three administrator accounts, with permissions designed around different administrative responsibilities.
+> **Note:** This is a live internal application. Access is restricted to authorized administrators. Developers who wish to explore the system can follow the local setup instructions below using their own Firebase project and test data.
 
 ## Features
 
-- **Book Management:** Add, view, and update book records.
-- **Borrowing and Returns:** Record borrowing activity and manage book returns.
-- **Availability Tracking:** Monitor which books are available and which are borrowed.
-- **Search:** Find books quickly using the search functionality.
-- **Role-Based Access:** Different permissions for main administrators and ordinary administrators.
-- **Administrator Management:** The main administrator can create and manage administrator accounts.
-- **Protected Routes:** Restrict access to authorized administrators.
-- **Firebase Authentication:** Authenticate administrators.
-- **Cloud Database:** Store and retrieve library data using Cloud Firestore.
+- **Book Management:** Add, edit, search, and manage library books.
+- **Borrowing & Returns:** Record book checkouts, borrower information, and returns.
+- **Availability Tracking:** Monitor which books are available or borrowed.
+- **Role-Based Access:** Separate `main_admin` and `admin` roles with different permissions.
+- **Admin Management:** Main administrators can create additional administrator accounts and delete books.
+- **Authentication:** Firebase Authentication with protected application routes.
+
+## Technologies Used
+
+- **React & TypeScript** — Frontend application development
+- **Vite** — Development server and build tooling
+- **Tailwind CSS & shadcn/ui** — Styling and UI components
+- **Lucide React** — Icons
+- **React Router DOM** — Client-side navigation
+- **Firebase Authentication** — Administrator authentication
+- **Cloud Firestore** — Book, borrowing, and administrator data
 
 ## Screenshots
 
@@ -44,7 +47,7 @@ The system supports over 166 books across three administrator accounts, with per
 
 ![Book details](https://github.com/user-attachments/assets/95f4987b-1428-463e-a72e-28975fc37f79)
 
-###5. Return Management
+### 5. Return Management
 
 ![Return management](https://github.com/user-attachments/assets/be9caf88-8255-46eb-ac52-55b660fd133f)
 
@@ -63,34 +66,19 @@ The system supports over 166 books across three administrator accounts, with per
 
 ![Application interface](https://github.com/user-attachments/assets/dc63b52d-c19e-4a92-a458-72223108b0bb)
 
-## Tech Stack
-
-- **Frontend:** React, TypeScript, Vite
-- **Styling:** Tailwind CSS
-- **UI Components:** shadcn/ui
-- **Icons:** Lucide React
-- **Routing:** React Router DOM
-- **Authentication:** Firebase Authentication
-- **Database:** Cloud Firestore
 
 ## Getting Started
 
-Follow these steps to run the project locally.
+To run the application locally, you'll need Node.js, npm, and a Firebase project.
 
-### Prerequisites
-
-- Node.js and npm
-- A Firebase project
-- Basic knowledge of React and TypeScript
-
-### 1. Clone the Repository
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/Brian9975/Strathmore-Chaplaincy-Lib.git
 cd Strathmore-Chaplaincy-Lib
 ```
 
-### 2. Install Dependencies
+### 2. Install dependencies
 
 ```bash
 npm install
@@ -98,76 +86,73 @@ npm install
 
 ### 3. Configure Firebase
 
-Create or use a Firebase project that you control. Enable **Email/Password Authentication** and **Cloud Firestore** in the Firebase Console.
+Create a new project in the [Firebase Console](https://console.firebase.google.com/).
 
-Create a `.env.local` file in the root directory and add your Firebase web app configuration:
+- Register a web application.
+- Enable **Authentication** with the Email/Password sign-in provider.
+- Create a **Cloud Firestore** database.
+- Configure appropriate Firestore security rules for your test project.
+
+Create a `.env.local` file in the project's root directory and add your own Firebase configuration:
 
 ```env
-VITE_FIREBASE_API_KEY=your_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
 ```
 
-Replace the placeholder values with the configuration from your own Firebase project. Do not commit your local environment file.
+The application initializes Firebase through:
 
-The application uses Firebase configuration files for its primary and secondary Firebase instances. Configure both instances according to the project's existing setup, using your own Firebase project configuration.
+- `src/lib/firebase-config.ts` — Primary Firebase instance
+- `src/lib/sec-firebase-config.ts` — Secondary Firebase instance used for creating administrator accounts without interrupting the current session
 
-### 4. Create the Main Administrator
+Both configurations use the environment variables above.
 
-The application does not provide public administrator registration. To configure your own test environment:
+### 4. Create the first administrator
 
-1. Open Firebase Console and navigate to **Authentication**.
-2. Create an administrator account using the Email/Password provider.
-3. Copy the new user's UID.
-4. Open **Firestore Database** and create a collection named `users`.
-5. Create a document whose document ID exactly matches the administrator's UID.
-6. Add the following fields:
+The initial main administrator must be created manually before accessing the dashboard.
 
-| Field | Type | Value |
-|---|---|---|
-| `createdAt` | Timestamp | Current timestamp |
-| `email` | String | Administrator's email |
-| `name` | String | Administrator's name |
-| `role` | String | `main_admin` |
+**In Firebase Authentication:**
 
-The application uses the corresponding user document to identify the administrator's role.
+1. Open **Authentication → Users**.
+2. Add a user with an email address and password.
+3. Copy the newly created user's UID.
 
-### 5. Run the Development Server
+**In Cloud Firestore:**
+
+1. Create a collection named `users`.
+2. Add a document using the copied UID as its document ID.
+3. Add the following fields:
+
+| Field | Type | Example |
+|-------|------|---------|
+| `name` | string | Demo Admin |
+| `email` | string | admin@example.com |
+| `role` | string | main_admin |
+| `createdAt` | timestamp | Current date and time |
+
+The application uses the authenticated user's UID to retrieve their Firestore document and determine their assigned role.
+
+After signing in as `main_admin`, additional administrator accounts can be created through the application's interface.
+
+### 5. Start the development server
 
 ```bash
 npm run dev
 ```
 
-Open the local URL displayed in your terminal to access the application.
+Open the local URL displayed in your terminal, typically:
 
-## Project Structure
+`http://localhost:5173`
 
-```text
-Strathmore-Chaplaincy-Lib/
-├── public/
-├── src/
-│   ├── lib/
-│   │   ├── firebase-config.ts
-│   │   └── sec-firebase-config.ts
-│   └── ...
-├── .env.local
-├── package.json
-├── vite.config.ts
-└── README.md
-```
+Sign in using the main administrator credentials created during setup.
 
-*The structure above highlights selected files and directories.*
+Never commit `.env.local`, administrator passwords, or real institutional records to the repository.
 
-## Purpose
+---
 
-This project was developed to support the day-to-day library operations of Strathmore University Chaplaincy by bringing book records, borrowing activity, and administrator workflows into one application.
+**Developed by [Brian Kariuki](https://brian-kariuki.vercel.app/).**
 
-## Author
-
-**Brian Kariuki**
-
-- GitHub: [Brian9975](https://github.com/Brian9975)
-- Live Application: [Strathmore Chaplaincy Library Management System](https://strathmore-chaplaincy-library-system.vercel.app/)
