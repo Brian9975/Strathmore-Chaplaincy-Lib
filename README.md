@@ -27,13 +27,14 @@ The system supports over 166 books across three administrator accounts, with per
 
 ## Screenshots
 
-### 1. Dashboard
+### 1. Login Page
 
-![Library dashboard](https://github.com/user-attachments/assets/17035d38-2368-4cdf-a00e-136ed0a276bb)
 
-### 2. Book Management
+![Login Page](https://github.com/user-attachments/assets/782eb0ed-84b7-4b85-ab52-ba9ba26ab86c)
 
-![Book management](https://github.com/user-attachments/assets/157fce72-d0c8-4182-9472-7e1977c43dab)
+### 2. Dashboard
+
+![Dashboard](https://github.com/user-attachments/assets/157fce72-d0c8-4182-9472-7e1977c43dab)
 
 ### 3. Library Records
 
